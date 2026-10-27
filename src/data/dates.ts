@@ -46,15 +46,20 @@ export function formatRange(
 }
 
 /**
- * Which semester of a Brazilian two-semester degree the student is in, given
- * the first semester's start month. Semesters: Feb–Jul (.1), Aug–Jan (.2).
+ * Which curriculum period the student is in now, counted forward from a known
+ * anchor (`anchor.term` was period `anchor.period`). Semesters: Feb–Jul (.1),
+ * Aug–Jan (.2). Anchored rather than derived from the entry date because
+ * enrolment and curriculum position can drift apart (lighter semesters).
  * Computed at build time so the site never says a stale "5th semester".
  */
-export function currentSemester(degreeStart: YearMonth, now: Date = new Date()): number {
-  const [sy, sm] = degreeStart.split('-').map(Number);
-  const startIndex = sy * 2 + (sm >= 8 ? 1 : 0);
+export function currentSemester(
+  anchor: { term: YearMonth; period: number },
+  now: Date = new Date(),
+): number {
+  const [ay, am] = anchor.term.split('-').map(Number);
+  const anchorIndex = ay * 2 + (am >= 8 ? 1 : 0);
   const nowIndex = now.getFullYear() * 2 + (now.getMonth() + 1 >= 8 ? 1 : 0);
-  return nowIndex - startIndex + 1;
+  return anchor.period + (nowIndex - anchorIndex);
 }
 
 /** Ordinal suffix for the semester number: '6th' / '6º'. */

@@ -140,16 +140,7 @@ export const nodes: TimelineNode[] = [
       en: 'Currently in the {semester} semester; expected graduation Dec 2028.',
       pt: 'Atualmente no {semester} semestre; formatura prevista para dez 2028.',
     },
-    bullets: [
-      {
-        en:
-          'Six months in Insper SEC, the university’s cybersecurity club, competing in its internal CTFs to stay at the ' +
-          'top of the scoreboard — mostly web exploitation (SQLi, XSS, SSRF), with some crypto and misc.',
-        pt:
-          'Seis meses no Insper SEC, o clube de cibersegurança da faculdade, competindo nos CTFs internos para se manter ' +
-          'no topo do placar — principalmente exploração web (SQLi, XSS, SSRF), com um pouco de cripto e misc.',
-      },
-    ],
+    bullets: [],
     // Standard curriculum (Quadro de Disciplinas 2026), one row per semester.
     // `highlight` marks the courses that back the thesis; the resume prints
     // only those, the site shows all of them with the rest dimmed.
@@ -230,10 +221,10 @@ export const nodes: TimelineNode[] = [
     summary: {
       en:
         'Independent real estate asset manager in São Paulo, R$2B+ under management, with two listed funds (GGRC11, ZAGH11). ' +
-        'Internship alongside the 3rd and 4th semesters; the code is internal.',
+        'Internship alongside classes in 2025; the code is internal.',
       pt:
         'Gestora independente de ativos imobiliários em São Paulo, mais de R$2B sob gestão, com dois fundos listados (GGRC11, ZAGH11). ' +
-        'Estágio em paralelo ao 3º e 4º semestres; o código é interno.',
+        'Estágio em paralelo às aulas em 2025; o código é interno.',
     },
     bullets: [
       {
@@ -263,6 +254,31 @@ export const nodes: TimelineNode[] = [
     ],
     artifacts: [],
     tags: ['Python', 'Streamlit', 'web scraping', 'Excel'],
+  },
+
+  {
+    id: 'sec',
+    kind: 'club',
+    start: '2025-08',
+    end: '2026-01',
+    org: 'Insper SEC',
+    role: { en: 'CTF competitor', pt: 'Competidor de CTF' },
+    summary: {
+      en: 'Insper’s cybersecurity club. Left to free up time for the hardware projects below.',
+      pt: 'O clube de cibersegurança do Insper. Saiu para liberar tempo para os projetos de hardware abaixo.',
+    },
+    bullets: [
+      {
+        en:
+          'Competed in the club’s internal CTFs for six months to stay at the top of the scoreboard — mostly web ' +
+          'exploitation (SQL injection, XSS, SSRF), with some crypto and misc.',
+        pt:
+          'Competiu nos CTFs internos do clube por seis meses para se manter no topo do placar — principalmente ' +
+          'exploração web (SQL injection, XSS, SSRF), com um pouco de cripto e misc.',
+      },
+    ],
+    artifacts: [],
+    tags: ['CTF', 'web exploitation'],
   },
 
   {
@@ -374,7 +390,10 @@ export const nodes: TimelineNode[] = [
         src: '/media/air-mouse.mp4',
         kind: 'video',
         poster: '/media/air-mouse-poster.jpg',
-        alt: { en: 'Air Mouse demo — MPU6050 + FreeRTOS on RP2350', pt: 'Demo do Air Mouse — MPU6050 + FreeRTOS no RP2350' },
+        alt: {
+          en: 'Air Mouse in action — IMU gestures mapped to keystrokes, playing Subway Surfers (MPU6050 + FreeRTOS on RP2350)',
+          pt: 'Air Mouse em ação — gestos da IMU mapeados em teclas, jogando Subway Surfers (MPU6050 + FreeRTOS no RP2350)',
+        },
       },
     ],
     artifacts: [{ href: profile.github, label: { en: 'All repositories', pt: 'Todos os repositórios' } }],
@@ -437,26 +456,32 @@ export const nodes: TimelineNode[] = [
     ],
     bullets: [
       {
-        en: 'Designing a CPU in VHDL on an FPGA for the Computer Design course.',
-        pt: 'Projetando uma CPU em VHDL em FPGA na disciplina de Design de Computadores.',
+        en:
+          'Building a MIPS CPU in VHDL on a Terasic DE0-CV (Cyclone V) for the Computer Design course — ALU, register file, ' +
+          'control unit, instruction and data memory, R/I/J-type instructions, each block verified with its own testbench; ' +
+          'then writing assembly against it (functions, stack, load/store).',
+        pt:
+          'Construindo uma CPU MIPS em VHDL numa Terasic DE0-CV (Cyclone V) na disciplina de Design de Computadores — ULA, ' +
+          'banco de registradores, unidade de controle, memórias de instrução e dados, instruções tipo R/I/J, cada bloco ' +
+          'verificado com testbench próprio; depois, assembly rodando nela (funções, pilha, load/store).',
       },
       {
         en:
-          'Building a cloud from bare metal in the Cloud Computing course — MAAS and Juju provisioning, an OpenStack private ' +
-          'cloud, Docker/Kubernetes, then AWS (VPC, EC2, IAM, S3, Lambda); the group final project builds a scalable ' +
-          'infrastructure by hand and then automates it with Terraform and CI/CD.',
+          'Cloud Computing course, built from bare metal up: MAAS and Juju provisioning, an OpenStack private cloud, ' +
+          'Docker/Kubernetes, and the full AWS Academy track (VPC, EC2, IAM, S3, Lambda); the group final project builds a ' +
+          'scalable infrastructure by hand and then automates it with Terraform and CI/CD.',
         pt:
-          'Montando uma nuvem do bare metal na disciplina de Computação em Nuvem — provisionamento com MAAS e Juju, nuvem ' +
-          'privada OpenStack, Docker/Kubernetes e depois AWS (VPC, EC2, IAM, S3, Lambda); o projeto final em grupo constrói ' +
+          'Disciplina de Computação em Nuvem, do bare metal para cima: provisionamento com MAAS e Juju, nuvem privada OpenStack, ' +
+          'Docker/Kubernetes e a trilha completa da AWS Academy (VPC, EC2, IAM, S3, Lambda); o projeto final em grupo constrói ' +
           'uma infraestrutura escalável à mão e depois a automatiza com Terraform e CI/CD.',
       },
       {
         en:
-          'Independent FPGA project on a Terasic Spider robot, proposed by the lab professor: adding a head with facial ' +
-          'expressions and a state machine that makes it behave like a spider. Early stage.',
+          'Independent FPGA project on a Terasic Spider hexapod (DE0-Nano-SoC, Cyclone V SoC), proposed by the lab professor: ' +
+          'a head with facial expressions and a state machine that makes it behave like a spider. Just started.',
         pt:
-          'Projeto independente de FPGA com o robô Terasic Spider, proposto pelo professor do laboratório: adicionar uma cabeça ' +
-          'com expressões faciais e uma máquina de estados que a faz se comportar como uma aranha. Fase inicial.',
+          'Projeto independente de FPGA com o hexápode Terasic Spider (DE0-Nano-SoC, Cyclone V SoC), proposto pelo professor do ' +
+          'laboratório: uma cabeça com expressões faciais e uma máquina de estados que a faz se comportar como uma aranha. Recém-começado.',
       },
     ],
     media: [

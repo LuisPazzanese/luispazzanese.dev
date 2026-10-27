@@ -53,12 +53,12 @@ export interface ContentStrings {
 export type Strings = Translations & ContentStrings;
 
 export function semesterLabel(lang: LangCode, now?: Date): string {
-  const n = currentSemester(profile.degree.start, now);
+  const n = currentSemester(profile.degree.anchor, now);
   return `${ordinal(n, lang)} ${lang === 'pt' ? 'semestre' : 'semester'}`;
 }
 
 export function deriveContent(lang: LangCode): ContentStrings {
-  const semester = ordinal(currentSemester(profile.degree.start), lang);
+  const semester = ordinal(currentSemester(profile.degree.anchor), lang);
   const chrome = lang === 'pt' ? pt : en;
 
   const timeline: Record<string, TimelineNodeStrings> = {};

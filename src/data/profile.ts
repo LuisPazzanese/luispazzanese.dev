@@ -35,8 +35,10 @@ export const profile = {
     school: 'Insper',
     schoolHref: 'https://www.insper.edu.br',
     title: { en: 'BSc in Computer Engineering', pt: 'Bacharelado em Engenharia da Computação' } satisfies L,
-    /** First month of the first semester. Drives the computed "Nth semester". */
-    start: '2024-02' as YearMonth,
+    /** First month of the first semester (entered Aug 2023). */
+    start: '2023-08' as YearMonth,
+    /** Known curriculum position: period 6 in 2026.2. Drives the computed "Nth semester". */
+    anchor: { term: '2026-08' as YearMonth, period: 6 },
     /** Expected graduation month. */
     graduation: '2028-12' as YearMonth,
   },
