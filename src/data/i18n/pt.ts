@@ -9,7 +9,6 @@ export const pt: Translations = {
     description:
       'Luis Fernando Pazzanese Pinheiro, estudante de Engenharia da Computação no Insper — sistemas embarcados, hardware em FPGA/VHDL e infraestrutura em nuvem. Firmware para microcontroladores ARM, CPU MIPS em VHDL, ferramentas de automação que as pessoas usam.',
     skipLink: 'Pular para o conteúdo',
-    langToggleAria: 'Trocar idioma',
   },
   nav: {
     primary: 'Principal',

@@ -12,8 +12,7 @@
     "resume": "astro build && node scripts/generate-resume.mjs"
   },
   "dependencies": {
-    "astro": "^4.16.18",
-    "three": "^0.169.0"
+    "astro": "^4.16.18"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

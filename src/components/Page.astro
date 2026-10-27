@@ -1,0 +1,63 @@
+---
+// The whole single-page site for one language. `/` renders <Page lang="en" />,
+// `/pt/` renders <Page lang="pt" />. Switching language is a plain link to the
+// other route — no client script.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import Timeline from './Timeline.astro';
+import Skills from './Skills.astro';
+import Contact from './Contact.astro';
+import { translations, type LangCode } from '../data/i18n';
+
+interface Props {
+  lang: LangCode;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+const path = lang === 'pt' ? '/pt/' : '/';
+
+// The one link to the other language, labelled in that language.
+const other =
+  lang === 'pt'
+    ? { href: '/', hreflang: 'en', label: 'English' }
+    : { href: '/pt/', hreflang: 'pt-BR', label: 'Português' };
+---
+
+<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description} path={path}>
+  <a class="skip-link" href="#timeline">{t.meta.skipLink}</a>
+
+  <nav class="lang" aria-label="Language">
+    <a href={other.href} hreflang={other.hreflang} lang={other.hreflang}>{other.label}</a>
+  </nav>
+
+  <Hero lang={lang} />
+
+  <main>
+    <Timeline lang={lang} />
+    <Skills lang={lang} />
+    <Contact lang={lang} />
+  </main>
+</BaseLayout>
+
+<style>
+  /* Keyboard-only skip link — visible on focus, otherwise off-screen. */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    padding: 0.5rem 0.75rem;
+    z-index: 100;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Language switch: a single static, right-aligned text link. */
+  .lang {
+    text-align: right;
+    font-size: 13px;
+    padding: 0.5rem 1rem;
+  }
+</style>

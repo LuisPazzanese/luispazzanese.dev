@@ -1,19 +1,23 @@
 ---
 // Trajectory: one vertical rail, oldest node at the top, "now" at the bottom.
-// Every string comes from src/data/timeline.ts via translations.en; the
-// data-i18n keys mirror the record shape (timeline.<id>.bullets.0, ...).
+// Every string comes from src/data/timeline.ts via translations[lang].
 // To change content, edit the data file — this component only lays it out.
 //
 // Layout: ≥900px a two-column grid per node (date gutter | content) with the
 // rail between them; below that, a single column with the rail on the left and
-// the date above the role. The marker on the rail encodes `kind`.
+// the date above the role.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { nodes, archive, repoHref, type Media } from '../data/timeline';
 import { translations } from '../data/i18n';
 
-const en = translations.en;
+interface Props {
+  lang: 'en' | 'pt';
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
 
 // Media files are dropped into public/media/ by hand (see public/media/README.md).
 // Render only what exists so a missing photo produces nothing, not a broken image.
@@ -23,29 +27,29 @@ const available = (media: Media[] | undefined) =>
   (media ?? []).map((m, i) => ({ m, i })).filter(({ m }) => exists(m.src));
 ---
 
-<section id="timeline" class="reveal" aria-labelledby="timeline-heading">
+<section id="timeline" aria-labelledby="timeline-heading">
   <div class="container">
-    <h2 id="timeline-heading" data-i18n="sections.timeline">{en.sections.timeline}</h2>
+    <h2 id="timeline-heading">{t.sections.timeline}</h2>
 
     <ol class="rail">
       {
         nodes.map((node) => {
-          const t = en.timeline[node.id];
+          const n = t.timeline[node.id];
           const featured = (node.projects ?? []).filter((p) => p.featured);
           const rest = (node.projects ?? []).filter((p) => !p.featured);
           const media = available(node.media);
           return (
             <li class={`node node--${node.kind}`}>
               <div class="node__meta">
-                <span class="node__date" data-i18n={`timeline.${node.id}.date`}>{t.date}</span>
+                <span class="node__date">{n.date}</span>
                 {node.kind !== 'now' && (
-                  <span class="node__kind" data-i18n={`ui.kind.${node.kind}`}>{en.ui.kind[node.kind]}</span>
+                  <span class="node__kind">{t.ui.kind[node.kind]}</span>
                 )}
               </div>
 
               <article id={node.id} class="node__body">
                 <header class="node__head">
-                  <h3 class="node__role" data-i18n={`timeline.${node.id}.role`}>{t.role}</h3>
+                  <h3 class="node__role">{n.role}</h3>
                   {node.org && (
                     <span class="node__org">
                       {node.orgHref ? (
@@ -57,7 +61,7 @@ const available = (media: Media[] | undefined) =>
                   )}
                 </header>
 
-                {t.summary && <p class="node__summary" data-i18n={`timeline.${node.id}.summary`}>{t.summary}</p>}
+                {n.summary && <p class="node__summary">{n.summary}</p>}
 
                 {media.length > 0 && (
                   <div class="media">
@@ -69,19 +73,16 @@ const available = (media: Media[] | undefined) =>
                             preload="none"
                             playsinline
                             poster={m.poster && exists(m.poster) ? m.poster : undefined}
-                            aria-label={t.media[i]}
-                            data-i18n-aria={`timeline.${node.id}.media.${i}`}
+                            aria-label={n.media[i]}
                           >
                             <source src={m.src} type="video/mp4" />
                           </video>
                         ) : (
                           <img
                             src={m.src}
-                            alt={t.media[i]}
+                            alt={n.media[i]}
                             loading="lazy"
                             decoding="async"
-                            data-i18n={`timeline.${node.id}.media.${i}`}
-                            data-i18n-attr="alt"
                           />
                         )}
                       </figure>
@@ -89,9 +90,9 @@ const available = (media: Media[] | undefined) =>
                   </div>
                 )}
 
-                {t.bullets.length > 0 && (
+                {n.bullets.length > 0 && (
                   <ul class="node__bullets">
-                    {t.bullets.map((b, i) => <li data-i18n={`timeline.${node.id}.bullets.${i}`}>{b}</li>)}
+                    {n.bullets.map((b) => <li>{b}</li>)}
                   </ul>
                 )}
 
@@ -104,8 +105,8 @@ const available = (media: Media[] | undefined) =>
                           {term.courses.map((c, ci) => (
                             <>
                               {ci > 0 && <span aria-hidden="true"> · </span>}
-                              <span class={c.highlight ? 'hi' : undefined} data-i18n={`timeline.${node.id}.coursework.${ti}.${ci}`}>
-                                {t.coursework[ti][ci]}
+                              <span class={c.highlight ? 'hi' : undefined}>
+                                {n.coursework[ti][ci]}
                               </span>
                             </>
                           ))}
@@ -128,10 +129,8 @@ const available = (media: Media[] | undefined) =>
                               p.name
                             )}
                           </h4>
-                          <ul class="chips project__stack" aria-label="Stack">
-                            {p.stack.map((s) => <li>{s}</li>)}
-                          </ul>
-                          <p class="project__desc" data-i18n={`timeline.${node.id}.projects.${key}`}>{t.projects[key]}</p>
+                          <p class="stack project__stack">{p.stack.join(' · ')}</p>
+                          <p class="project__desc">{n.projects[key]}</p>
                         </li>
                       );
                     })}
@@ -140,7 +139,7 @@ const available = (media: Media[] | undefined) =>
 
                 {rest.length > 0 && (
                   <p class="node__also">
-                    <span class="node__also-label" data-i18n="ui.alsoLabel">{en.ui.alsoLabel}</span>:
+                    <span class="node__also-label">{t.ui.alsoLabel}</span>:
                     {rest.map((p, i) => (
                       <>
                         {i > 0 && <span class="sep" aria-hidden="true"> · </span>}
@@ -161,19 +160,14 @@ const available = (media: Media[] | undefined) =>
                         href={a.href}
                         target={a.href.startsWith('/') || a.href.startsWith('mailto:') ? undefined : '_blank'}
                         rel={a.href.startsWith('/') || a.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                        data-i18n={`timeline.${node.id}.artifacts.${i}`}
                       >
-                        {t.artifacts[i]}
+                        {n.artifacts[i]}
                       </a>
                     ))}
                   </p>
                 )}
 
-                {node.tags.length > 0 && (
-                  <ul class="chips chips--tags" aria-label="Tags">
-                    {node.tags.map((tag) => <li>{tag}</li>)}
-                  </ul>
-                )}
+                {node.tags.length > 0 && <p class="stack stack--tags">{node.tags.join(' · ')}</p>}
               </article>
             </li>
           );
@@ -181,7 +175,7 @@ const available = (media: Media[] | undefined) =>
       }
     </ol>
 
-    <h3 class="archive__title" data-i18n="sections.archive">{en.sections.archive}</h3>
+    <h3 class="archive__title">{t.sections.archive}</h3>
     <ul class="archive">
       {
         archive.map((p) => {
@@ -195,7 +189,7 @@ const available = (media: Media[] | undefined) =>
                   p.name
                 )}
               </span>
-              <span class="archive__desc" data-i18n={`archive.${key}`}>{en.archive[key]}</span>
+              <span class="archive__desc">{t.archive[key]}</span>
               <span class="archive__stack">{p.stack.join(' · ')}</span>
             </li>
           );
@@ -206,9 +200,9 @@ const available = (media: Media[] | undefined) =>
 </section>
 
 <style>
-  /* ---- Rail: `--rail-x` is the x of the 1px line inside .rail; the marker is
-     centred on it. Mobile: line on the left edge. Wide: between gutter and
-     content (see the min-width block at the end). */
+  /* ---- Rail: `--rail-x` is the x of the rail inside .rail. Mobile: on the
+     left edge. Wide: between gutter and content (see the min-width block at
+     the end). */
   .rail {
     --rail-x: 4px;
     --rail-gap: 1.5rem;
@@ -218,59 +212,12 @@ const available = (media: Media[] | undefined) =>
     position: relative;
   }
 
-  .rail::before {
-    content: '';
-    position: absolute;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    left: var(--rail-x);
-    width: 1px;
-    background: var(--line-strong);
-  }
-
   .node {
     position: relative;
     padding: 0 0 3.5rem calc(var(--rail-x) + var(--rail-gap));
   }
 
   .node:last-child { padding-bottom: 0; }
-
-  /* ---- Marker: one shape per kind. origin ○ dim · education □ · work ● ·
-     club ○ accent · project ◇ accent · now ● accent, pulsing. */
-  .node::before {
-    content: '';
-    position: absolute;
-    left: calc(var(--rail-x) - 4px);
-    top: 0.45rem;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 1px solid var(--fg-dim);
-  }
-
-  .node--origin::before { border-color: var(--line-strong); }
-  .node--education::before { border-radius: 1px; border-color: var(--fg-muted); }
-  .node--work::before { background: var(--fg-muted); border-color: var(--fg-muted); }
-  .node--club::before { border-color: var(--accent-dim); }
-
-  .node--project::before {
-    border-radius: 1px;
-    border-color: var(--accent-dim);
-    background: var(--accent-soft);
-    transform: rotate(45deg);
-  }
-
-  .node--now::before {
-    background: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-    animation: pulse 2.4s var(--ease) infinite;
-  }
-
-  @keyframes pulse {
-    50% { box-shadow: 0 0 0 7px var(--accent-soft); }
-  }
 
   /* ---- Gutter: date + kind label ---------------------------------------- */
   .node__meta {
@@ -393,28 +340,6 @@ const available = (media: Media[] | undefined) =>
   .node__org a:focus-visible,
   .project__name a:hover,
   .project__name a:focus-visible { border-bottom-color: var(--accent); }
-
-  /* ---- Chips (stack / tags) ------------------------------------------------ */
-  .chips {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-  }
-
-  .chips li {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    line-height: 1.5;
-    color: var(--fg-dim);
-    padding: 0.05rem 0.4rem;
-    border: 1px solid var(--line);
-    border-radius: 2px;
-  }
-
-  .chips--tags { margin-top: 0.9rem; }
 
   /* ---- Coursework: one row per semester, term in the left column. Courses
      that back the thesis keep contrast; the rest are dimmed, not hidden. */

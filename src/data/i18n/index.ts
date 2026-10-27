@@ -2,9 +2,8 @@
 //              + content strings derived from the data files (profile.ts,
 //                timeline.ts, skills.ts), which hold both languages per record.
 //
-// The client-side switcher (scripts/i18n-client.ts) walks dotted keys such as
-// `timeline.zagros.bullets.0` over the object built here, so content strings
-// are addressable from markup exactly like chrome strings.
+// Pages pick a language statically (`/` → en, `/pt/` → pt) and pass it down as
+// a prop; components read `translations[lang]`. No client-side switching.
 
 import { en } from './en';
 import { pt } from './pt';
@@ -111,15 +110,3 @@ export const translations: Record<LangCode, Strings> = {
   en: { ...en, ...deriveContent('en') },
   pt: { ...pt, ...deriveContent('pt') },
 };
-
-// Language the server renders into the static HTML (components import
-// `translations.en`). Crawlers and no-JS visitors see this.
-export const SSR_LANG: LangCode = 'en';
-
-// Preference applied for first-time visitors with no stored choice. English:
-// the audience is international recruiters; PT stays one click away.
-export const DEFAULT_LANG: LangCode = 'en';
-
-export function isLangCode(value: unknown): value is LangCode {
-  return value === 'en' || value === 'pt';
-}

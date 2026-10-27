@@ -1,36 +1,36 @@
 ---
-// Hero: everything here comes from src/data/profile.ts (via translations.en
+// Hero: everything here comes from src/data/profile.ts (via translations[lang]
 // for the derived strings). Edit the data file, not this component.
-import PcbBackground from './PcbBackground.astro';
 import { profile } from '../data/profile';
 import { translations } from '../data/i18n';
 
-const en = translations.en;
+interface Props {
+  lang: 'en' | 'pt';
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
 ---
 
 <header class="hero">
-  <PcbBackground />
-
   <div class="container hero__inner">
-    <p class="hero__eyebrow" data-i18n="hero.eyebrow">{en.hero.eyebrow}</p>
-
     <h1 class="hero__name">{profile.name}</h1>
 
     <!-- Thesis: the one line a recruiter reads. Sans, large, full contrast. -->
-    <p class="hero__headline" data-i18n="profile.headline">{en.profile.headline}</p>
-    <p class="hero__pitch" data-i18n="profile.pitch">{en.profile.pitch}</p>
+    <p class="hero__headline">{t.profile.headline}</p>
+    <p class="hero__pitch">{t.profile.pitch}</p>
 
     <!-- Meta bar: degree/semester/graduation on the left, links on the right.
          (profile.focus is intentionally not rendered here: the headline already
-         names the same three areas; the chips only added a block to scan.) -->
+         names the same three areas.) -->
     <div class="hero__meta">
-      <p class="hero__degree" data-i18n="profile.degreeLine">{en.profile.degreeLine}</p>
+      <p class="hero__degree">{t.profile.degreeLine}</p>
 
-      <nav class="hero__links" aria-label={en.nav.primary} data-i18n-aria="nav.primary">
-        <a href={profile.github} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkGithub">{en.hero.linkGithub}</a>
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkLinkedin">{en.hero.linkLinkedin}</a>
-        <a href={`mailto:${profile.email}`} data-i18n="hero.linkEmail">{en.hero.linkEmail}</a>
-        <a href={en.profile.resumeHref} target="_blank" rel="noopener noreferrer" data-i18n="profile.resumeHref" data-i18n-attr="href"><span data-i18n="hero.linkCV">{en.hero.linkCV}</span></a>
+      <nav class="hero__links" aria-label={t.nav.primary}>
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">{t.hero.linkGithub}</a>
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{t.hero.linkLinkedin}</a>
+        <a href={`mailto:${profile.email}`}>{t.hero.linkEmail}</a>
+        <a href={t.profile.resumeHref} target="_blank" rel="noopener noreferrer">{t.hero.linkCV}</a>
       </nav>
     </div>
   </div>
@@ -49,32 +49,9 @@ const en = translations.en;
     overflow: hidden;
   }
 
-  /* The PCB canvas stays, dimmed so it never competes with the type. */
-  .hero :global(.pcb) {
-    opacity: 0.55;
-  }
-
   .hero__inner {
     position: relative;
     z-index: 1;
-  }
-
-  .hero__eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--accent-dim);
-    margin-bottom: 2rem;
-  }
-
-  .hero__eyebrow::after {
-    content: '_';
-    display: inline-block;
-    margin-left: 2px;
-    animation: blink 1.1s steps(1) infinite;
-  }
-
-  @keyframes blink {
-    50% { opacity: 0; }
   }
 
   .hero__name {
@@ -139,10 +116,6 @@ const en = translations.en;
       min-height: 90vh;
       min-height: 90svh;
       padding: 5rem 0 3rem;
-    }
-
-    .hero__eyebrow {
-      margin-bottom: 1.5rem;
     }
 
     .hero__pitch {

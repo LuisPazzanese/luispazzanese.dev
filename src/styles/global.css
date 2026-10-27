@@ -150,28 +150,6 @@ section:first-of-type {
   }
 }
 
-/* Reveal-on-scroll: minimal fade-in.
-   Sections opt-in by adding `.reveal`; the IntersectionObserver in BaseLayout
-   toggles `.is-visible`. Respects prefers-reduced-motion. */
-.reveal {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 500ms var(--ease), transform 500ms var(--ease);
-  will-change: opacity, transform;
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* Language-switch crossfade: SWITCH_MS in i18n-client.ts must match this duration. */
-.lang-switching main,
-.lang-switching .hero__inner {
-  opacity: 0;
-  transition: opacity 180ms var(--ease);
-}
-
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -179,11 +157,6 @@ section:first-of-type {
   *::after {
     transition: none !important;
     animation: none !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
   }
 
   html {

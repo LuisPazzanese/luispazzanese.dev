@@ -6,7 +6,6 @@ export const en: Translations = {
     description:
       'Luis Fernando Pazzanese Pinheiro, Computer Engineering student at Insper — embedded systems, FPGA/VHDL hardware design and cloud infrastructure. Firmware for ARM microcontrollers, a MIPS CPU in VHDL, automation tools people use.',
     skipLink: 'Skip to content',
-    langToggleAria: 'Switch language',
   },
   nav: {
     primary: 'Primary',

@@ -1,125 +1,18 @@
 ---
+// Not-found page. Served statically by Cloudflare Pages for unknown routes;
+// rendered in English only (no language alternates for an error page).
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LangToggle from '../components/LangToggle.astro';
-import { en } from '../data/i18n';
+import { translations } from '../data/i18n';
+
+const t = translations.en.notFound;
 ---
 
-<BaseLayout title="404 — page not found" description="Route not found.">
-  <LangToggle />
-
+<BaseLayout lang="en" title="404 — page not found" description="Route not found." path="/404">
   <main class="nf">
-    <div class="container nf__inner">
-      <p class="nf__code" aria-hidden="true" data-i18n="notFound.code">{en.notFound.code}</p>
-
-      <div class="nf__line" aria-hidden="true"></div>
-
-      <h1 class="nf__heading" data-i18n="notFound.heading">{en.notFound.heading}</h1>
-
-      <p class="nf__body" data-i18n="notFound.body">{en.notFound.body}</p>
-
-      <a
-        class="nf__btn"
-        href="/"
-        aria-label={en.notFound.backHomeAria}
-        data-i18n-aria="notFound.backHomeAria"
-      >
-        <span class="nf__btn-arrow" aria-hidden="true">←</span>
-        <span data-i18n="notFound.backHome">{en.notFound.backHome}</span>
-      </a>
-    </div>
+    <p class="nf__code" aria-hidden="true">{t.code}</p>
+    <h1 class="nf__heading">{t.heading}</h1>
+    <p class="nf__body">{t.body}</p>
+    <a class="nf__btn" href="/" aria-label={t.backHomeAria}>← {t.backHome}</a>
   </main>
 </BaseLayout>
 
-<style>
-  .nf {
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5rem 0;
-  }
-
-  .nf__inner {
-    text-align: center;
-    max-width: 32rem;
-  }
-
-  .nf__code {
-    font-family: var(--font-mono);
-    font-size: clamp(5rem, 18vw, 9rem);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    color: var(--fg);
-    margin: 0;
-    /* Subtle gradient: solid in the middle, fades to the edges */
-    background: linear-gradient(
-      180deg,
-      var(--fg) 0%,
-      var(--fg) 60%,
-      var(--fg-dim) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .nf__line {
-    width: 3rem;
-    height: 1px;
-    background: var(--accent-dim);
-    margin: 2rem auto;
-  }
-
-  .nf__heading {
-    font-family: var(--font-mono);
-    font-size: clamp(1.1rem, 3vw, 1.4rem);
-    font-weight: 500;
-    color: var(--accent);
-    margin: 0 0 1rem;
-    letter-spacing: -0.01em;
-  }
-
-  .nf__body {
-    color: var(--fg-muted);
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0 0 2.5rem;
-  }
-
-  .nf__btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 1.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--fg);
-    background: var(--bg-elev);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
-    text-decoration: none;
-    transition:
-      color 150ms var(--ease),
-      border-color 150ms var(--ease),
-      background 150ms var(--ease),
-      transform 150ms var(--ease);
-  }
-
-  .nf__btn:hover,
-  .nf__btn:focus-visible {
-    color: var(--accent);
-    border-color: var(--accent);
-    transform: translateY(-1px);
-  }
-
-  .nf__btn-arrow {
-    transition: transform 150ms var(--ease);
-  }
-
-  .nf__btn:hover .nf__btn-arrow,
-  .nf__btn:focus-visible .nf__btn-arrow {
-    transform: translateX(-3px);
-  }
-</style>

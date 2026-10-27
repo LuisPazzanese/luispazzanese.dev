@@ -2,42 +2,47 @@
 import { profile } from '../data/profile';
 import { translations } from '../data/i18n';
 
-const en = translations.en;
+interface Props {
+  lang: 'en' | 'pt';
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
 const year = new Date().getFullYear();
 const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 ---
 
-<section id="contact" class="reveal" aria-labelledby="contact-heading">
+<section id="contact" aria-labelledby="contact-heading">
   <div class="container">
-    <h2 id="contact-heading" data-i18n="sections.contact">{en.sections.contact}</h2>
+    <h2 id="contact-heading">{t.sections.contact}</h2>
 
     <dl class="contact">
       <div>
-        <dt data-i18n="contact.emailLabel">{en.contact.emailLabel}</dt>
+        <dt>{t.contact.emailLabel}</dt>
         <dd><a href={`mailto:${profile.email}`}>{profile.email}</a></dd>
       </div>
       <div>
-        <dt data-i18n="contact.linkedinLabel">{en.contact.linkedinLabel}</dt>
+        <dt>{t.contact.linkedinLabel}</dt>
         <dd>
           <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{bare(profile.linkedin)}</a>
         </dd>
       </div>
       <div>
-        <dt data-i18n="contact.githubLabel">{en.contact.githubLabel}</dt>
+        <dt>{t.contact.githubLabel}</dt>
         <dd>
           <a href={profile.github} target="_blank" rel="noopener noreferrer">{bare(profile.github)}</a>
         </dd>
       </div>
       <div>
-        <dt data-i18n="contact.locationLabel">{en.contact.locationLabel}</dt>
-        <dd data-i18n="profile.location">{en.profile.location}</dd>
+        <dt>{t.contact.locationLabel}</dt>
+        <dd>{t.profile.location}</dd>
       </div>
     </dl>
 
     <footer class="footer">
       <span>© {year} {profile.shortName}</span>
       <span class="footer__sep" aria-hidden="true">·</span>
-      <span data-i18n="contact.footer">{en.contact.footer}</span>
+      <span>{t.contact.footer}</span>
     </footer>
   </div>
 </section>

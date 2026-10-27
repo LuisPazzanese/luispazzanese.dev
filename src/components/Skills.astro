@@ -4,19 +4,24 @@
 import { skills } from '../data/skills';
 import { translations } from '../data/i18n';
 
-const en = translations.en;
+interface Props {
+  lang: 'en' | 'pt';
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
 ---
 
-<section id="skills" class="reveal" aria-labelledby="skills-heading">
+<section id="skills" aria-labelledby="skills-heading">
   <div class="container">
-    <h2 id="skills-heading" data-i18n="sections.skills">{en.sections.skills}</h2>
+    <h2 id="skills-heading">{t.sections.skills}</h2>
 
     <dl class="skills">
       {
         skills.map((s) => (
           <div class="skills__row">
-            <dt data-i18n={`skills.${s.id}.label`}>{en.skills[s.id].label}</dt>
-            <dd data-i18n={`skills.${s.id}.value`}>{en.skills[s.id].value}</dd>
+            <dt>{t.skills[s.id].label}</dt>
+            <dd>{t.skills[s.id].value}</dd>
           </div>
         ))
       }

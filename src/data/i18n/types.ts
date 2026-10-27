@@ -9,7 +9,6 @@ export interface Translations {
     title: string;
     description: string;
     skipLink: string;
-    langToggleAria: string;
   };
   nav: {
     primary: string;
