@@ -43,7 +43,7 @@ const siteHost = site.host;
 const githubHandle = profile.github.replace(/^https?:\/\//, '');
 const linkedinHandle = profile.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
-/** Site-relative artifact hrefs (e.g. `/play`) must be absolute inside a PDF. */
+/** Site-relative artifact hrefs must be absolute inside a PDF. */
 const absolute = (href: string) => new URL(href, site).toString();
 
 const byNewest = (a: TimelineNode, b: TimelineNode) => (a.start < b.start ? 1 : -1);

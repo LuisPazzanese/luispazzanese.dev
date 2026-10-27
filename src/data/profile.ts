@@ -42,7 +42,7 @@ export const profile = {
   },
 
   location: { en: 'São Paulo, Brazil', pt: 'São Paulo, Brasil' } satisfies L,
-  email: 'luis@mywispy.com',
+  email: 'luispazzanese@gmail.com',
   github: 'https://github.com/LuisPazzanese',
   linkedin: 'https://www.linkedin.com/in/luis-pazzanese/',
 

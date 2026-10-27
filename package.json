@@ -9,8 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "og": "node scripts/generate-og.mjs",
-    "resume": "astro build && node scripts/generate-resume.mjs",
-    "wasm:vault": "clang --target=wasm32 -O2 -nostdlib -Wl,--no-entry -Wl,--export-all -Wl,--allow-undefined wasm/vault.c -o public/vault.wasm"
+    "resume": "astro build && node scripts/generate-resume.mjs"
   },
   "dependencies": {
     "astro": "^4.16.18",

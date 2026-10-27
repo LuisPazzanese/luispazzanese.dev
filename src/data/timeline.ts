@@ -359,42 +359,25 @@ export const nodes: TimelineNode[] = [
     end: 'present',
     org: 'luispazzanese.dev',
     orgHref: 'https://luispazzanese.dev',
-    role: { en: 'This site and a browser CTF', pt: 'Este site e um CTF no navegador' },
+    role: { en: 'This site', pt: 'Este site' },
     brief: [
       {
         en: 'Astro + Three.js site on Cloudflare Pages; the EN/PT content and this PDF are rendered from one data file.',
         pt: 'Site em Astro + Three.js no Cloudflare Pages; o conteúdo EN/PT e este PDF são renderizados de um único arquivo de dados.',
-      },
-      {
-        en: '/play: four-level reverse-engineering CTF with a C→WebAssembly checker and a Cloudflare Worker for flag validation, KV solver count and rate limiting.',
-        pt: '/play: CTF de engenharia reversa em quatro níveis com verificador C→WebAssembly e um Cloudflare Worker para validação de flag, contagem em KV e rate limiting.',
       },
     ],
     bullets: [
       {
         en:
           'Built this site with Astro and a Three.js PCB-trace hero, statically generated to Cloudflare Pages; ' +
-          'the EN/PT content and the resume PDF are rendered from one data file.',
+          'the EN/PT content and the resume PDF are rendered from one data file, so they can never disagree.',
         pt:
           'Construiu este site com Astro e um hero de trilhas de PCB em Three.js, gerado estaticamente para o Cloudflare Pages; ' +
-          'o conteúdo EN/PT e o PDF do currículo são renderizados a partir de um único arquivo de dados.',
-      },
-      {
-        en:
-          'Shipped /play, a four-level reverse-engineering challenge in a terminal UI — hidden files, base64, XOR and a ' +
-          'final checker compiled from C to WebAssembly — with a Cloudflare Worker that validates flags, counts solvers ' +
-          'in KV and rate-limits per IP.',
-        pt:
-          'Publicou o /play, um desafio de engenharia reversa em quatro níveis numa UI de terminal — arquivos ocultos, ' +
-          'base64, XOR e um verificador final compilado de C para WebAssembly — com um Cloudflare Worker que valida flags, ' +
-          'conta solvers em KV e limita requisições por IP.',
+          'o conteúdo EN/PT e o PDF do currículo são renderizados de um único arquivo de dados, então nunca divergem.',
       },
     ],
-    artifacts: [
-      { href: '/play', label: { en: 'Play the CTF', pt: 'Jogar o CTF' } },
-      { href: repoHref('mywispy.com'), label: { en: 'Source', pt: 'Código' } },
-    ],
-    tags: ['Astro', 'Three.js', 'WebAssembly', 'Cloudflare Workers'],
+    artifacts: [{ href: repoHref('luispazzanese.dev'), label: { en: 'Source', pt: 'Código' } }],
+    tags: ['Astro', 'Three.js', 'TypeScript', 'Cloudflare Pages'],
   },
 
   {
