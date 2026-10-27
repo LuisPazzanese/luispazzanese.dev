@@ -27,7 +27,7 @@ const W = 1200;
 const H = 630;
 
 // PCB-trace motif on the right side: a few dots connected by L-shaped lines,
-// echoing the Three.js background on the live hero without trying to reproduce it.
+// a nod to the hardware work; the live site itself has no decoration.
 const motif = `
   <g opacity="0.55">
     <line x1="780" y1="120" x2="900" y2="120" stroke="${TRACE}" stroke-width="1.5"/>

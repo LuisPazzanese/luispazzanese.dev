@@ -14,7 +14,7 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
 
 <section id="contact" aria-labelledby="contact-heading">
   <div class="container">
-    <h2 id="contact-heading">{t.sections.contact}</h2>
+    <h2 id="contact-heading">{t.sections.contact.toUpperCase()}</h2>
 
     <dl class="contact">
       <div>
@@ -48,65 +48,40 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
 </section>
 
 <style>
-  /* Four cards: 2×2 on anything wider than a phone, stacked below. */
+  /* Same 136px label column as Skills. */
   .contact {
-    margin: var(--space-heading) 0 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  @media (max-width: 600px) {
-    .contact {
-      grid-template-columns: 1fr;
-    }
+    grid-template-columns: 136px 1fr;
+    gap: 8px 16px;
   }
 
   .contact > div {
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--bg-elev);
+    display: contents;
   }
 
   .contact dt {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--fg-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.4rem;
+    font-weight: 700;
   }
 
   .contact dd {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 699px) {
+    .contact {
+      grid-template-columns: 1fr;
+      row-gap: 0;
+    }
+    .contact > div + div dt {
+      margin-top: 8px;
+    }
   }
 
   .footer {
-    margin-top: 4rem;
-    padding-top: 1.5rem;
+    margin-top: 32px;
+    padding: 16px 0;
     border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--fg-dim);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .footer__sep {
-    color: var(--line-strong);
-  }
-
-  @media (max-width: 600px) {
-    .footer {
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .footer__sep {
-      display: none;
-    }
+    font-size: 13px;
+    color: var(--fg-2);
   }
 </style>

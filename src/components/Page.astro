@@ -27,7 +27,7 @@ const other =
 <BaseLayout lang={lang} title={t.meta.title} description={t.meta.description} path={path}>
   <a class="skip-link" href="#timeline">{t.meta.skipLink}</a>
 
-  <nav class="lang" aria-label="Language">
+  <nav class="lang container" aria-label="Language">
     <a href={other.href} hreflang={other.hreflang} lang={other.hreflang}>{other.label}</a>
   </nav>
 
@@ -45,19 +45,18 @@ const other =
   .skip-link {
     position: absolute;
     top: -100px;
-    left: 1rem;
-    padding: 0.5rem 0.75rem;
-    z-index: 100;
+    left: 24px;
+    background: #fff;
   }
 
   .skip-link:focus {
-    top: 1rem;
+    top: 8px;
   }
 
-  /* Language switch: a single static, right-aligned text link. */
+  /* Language switch: one static text link at the top right of the column. */
   .lang {
+    padding-top: 32px;
     text-align: right;
     font-size: 13px;
-    padding: 0.5rem 1rem;
   }
 </style>

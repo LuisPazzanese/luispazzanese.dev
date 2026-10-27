@@ -13,113 +13,53 @@ const t = translations[lang];
 ---
 
 <header class="hero">
-  <div class="container hero__inner">
+  <div class="container">
     <h1 class="hero__name">{profile.name}</h1>
 
-    <!-- Thesis: the one line a recruiter reads. Sans, large, full contrast. -->
+    <!-- Thesis: the one line a recruiter reads. -->
     <p class="hero__headline">{t.profile.headline}</p>
     <p class="hero__pitch">{t.profile.pitch}</p>
 
-    <!-- Meta bar: degree/semester/graduation on the left, links on the right.
+    <!-- Degree/semester/graduation, then the links row.
          (profile.focus is intentionally not rendered here: the headline already
          names the same three areas.) -->
-    <div class="hero__meta">
-      <p class="hero__degree">{t.profile.degreeLine}</p>
+    <p class="hero__degree mono">{t.profile.degreeLine}</p>
 
-      <nav class="hero__links" aria-label={t.nav.primary}>
-        <a href={profile.github} target="_blank" rel="noopener noreferrer">{t.hero.linkGithub}</a>
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{t.hero.linkLinkedin}</a>
-        <a href={`mailto:${profile.email}`}>{t.hero.linkEmail}</a>
-        <a href={t.profile.resumeHref} target="_blank" rel="noopener noreferrer">{t.hero.linkCV}</a>
-      </nav>
-    </div>
+    <nav class="hero__links" aria-label={t.nav.primary}>
+      <a href={profile.github} target="_blank" rel="noopener noreferrer">{t.hero.linkGithub}</a>
+      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{t.hero.linkLinkedin}</a>
+      <a href={`mailto:${profile.email}`}>{t.hero.linkEmail}</a>
+      <a href={t.profile.resumeHref} target="_blank" rel="noopener noreferrer">{t.hero.linkCV}</a>
+    </nav>
   </div>
 </header>
 
 <style>
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    border-top: none;
-    /* Override section spacing inherited from global.css */
-    padding: 6rem 0 4rem;
-    overflow: hidden;
-  }
-
-  .hero__inner {
-    position: relative;
-    z-index: 1;
-  }
-
   .hero__name {
-    font-family: var(--font-mono);
-    font-size: clamp(1.9rem, 5.5vw, 3rem);
-    font-weight: 600;
-    line-height: 1.1;
-    color: var(--fg);
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-    margin-bottom: 1.25rem;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
   }
 
   .hero__headline {
-    font-family: var(--font-sans);
-    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
-    font-weight: 400;
-    line-height: 1.35;
-    color: var(--fg);
-    max-width: 42ch;
-    text-wrap: pretty;
-    margin-bottom: 1rem;
+    font-size: 17px;
+    margin-bottom: 8px;
   }
 
   .hero__pitch {
-    font-size: 0.95rem;
-    color: var(--fg-muted);
-    max-width: 52ch;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero__meta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.75rem 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--line-strong);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+    max-width: 60ch;
+    margin-bottom: 16px;
   }
 
   .hero__degree {
-    color: var(--fg-muted);
+    color: var(--fg-2);
+    margin-bottom: 8px;
   }
 
   .hero__links {
     display: flex;
-    gap: 1.25rem;
     flex-wrap: wrap;
-  }
-
-  .hero__links a {
-    color: var(--fg);
-    border-bottom: 1px solid var(--accent-dim);
-    padding-bottom: 2px;
-  }
-
-  @media (max-width: 600px) {
-    .hero {
-      min-height: 90vh;
-      min-height: 90svh;
-      padding: 5rem 0 3rem;
-    }
-
-    .hero__pitch {
-      margin-bottom: 2rem;
-    }
+    gap: 0 16px;
   }
 </style>

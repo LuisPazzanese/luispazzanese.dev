@@ -43,7 +43,7 @@ export const pt: Translations = {
     linkedinLabel: 'LinkedIn',
     githubLabel: 'GitHub',
     locationLabel: 'Localização',
-    footer: 'feito com Astro + Three.js',
+    footer: 'feito com Astro, sem JavaScript',
   },
   notFound: {
     code: '404',

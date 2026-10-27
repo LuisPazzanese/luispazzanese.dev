@@ -413,22 +413,22 @@ export const nodes: TimelineNode[] = [
     resume: false,
     brief: [
       {
-        en: 'Astro + Three.js site on Cloudflare Pages; the EN/PT content and this PDF are rendered from one data file.',
-        pt: 'Site em Astro + Three.js no Cloudflare Pages; o conteúdo EN/PT e este PDF são renderizados de um único arquivo de dados.',
+        en: 'Static Astro site on Cloudflare Pages with zero JavaScript; the EN/PT content and this PDF are rendered from one data file.',
+        pt: 'Site estático em Astro no Cloudflare Pages sem JavaScript; o conteúdo EN/PT e este PDF são renderizados de um único arquivo de dados.',
       },
     ],
     bullets: [
       {
         en:
-          'Built this site with Astro and a Three.js PCB-trace hero, statically generated to Cloudflare Pages; ' +
-          'the EN/PT content and the resume PDF are rendered from one data file, so they can never disagree.',
+          'Built this site with Astro, statically generated to Cloudflare Pages and shipped with zero JavaScript; ' +
+          'the EN/PT pages and the resume PDF are rendered from one data file, so they can never disagree.',
         pt:
-          'Construiu este site com Astro e um hero de trilhas de PCB em Three.js, gerado estaticamente para o Cloudflare Pages; ' +
-          'o conteúdo EN/PT e o PDF do currículo são renderizados de um único arquivo de dados, então nunca divergem.',
+          'Construiu este site com Astro, gerado estaticamente para o Cloudflare Pages e servido sem JavaScript; ' +
+          'as páginas EN/PT e o PDF do currículo são renderizados de um único arquivo de dados, então nunca divergem.',
       },
     ],
     artifacts: [{ href: repoHref('luispazzanese.dev'), label: { en: 'Source', pt: 'Código' } }],
-    tags: ['Astro', 'Three.js', 'TypeScript', 'Cloudflare Pages'],
+    tags: ['Astro', 'TypeScript', 'Cloudflare Pages'],
   },
 
   {

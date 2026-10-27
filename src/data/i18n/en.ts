@@ -40,7 +40,7 @@ export const en: Translations = {
     linkedinLabel: 'LinkedIn',
     githubLabel: 'GitHub',
     locationLabel: 'Location',
-    footer: 'built with Astro + Three.js',
+    footer: 'built with Astro, no JavaScript',
   },
   notFound: {
     code: '404',

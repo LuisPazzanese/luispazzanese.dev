@@ -14,7 +14,7 @@ const t = translations[lang];
 
 <section id="skills" aria-labelledby="skills-heading">
   <div class="container">
-    <h2 id="skills-heading">{t.sections.skills}</h2>
+    <h2 id="skills-heading">{t.sections.skills.toUpperCase()}</h2>
 
     <dl class="skills">
       {
@@ -30,64 +30,34 @@ const t = translations[lang];
 </section>
 
 <style>
-  /* The <dl> is the grid; each row's wrapper is `display: contents`, so the
-     label column is exactly as wide as the longest label in the active
-     language and every value starts on the same vertical line. */
+  /* The <dl> is the grid; each row's wrapper is `display: contents` so dt/dd
+     land in the label/value columns directly. */
   .skills {
-    margin: var(--space-heading) 0 0;
-    padding: 1rem 1.5rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--bg-elev);
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    line-height: 1.55;
     display: grid;
-    grid-template-columns: max-content 1fr;
-    column-gap: 1.25rem;
+    grid-template-columns: 136px 1fr;
+    gap: 8px 16px;
   }
 
   .skills__row {
     display: contents;
   }
 
-  .skills__row dt,
-  .skills__row dd {
-    padding: 0.35rem 0;
-  }
-
   .skills__row dt {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .skills__row dt::after {
-    content: ':';
-    color: var(--fg-dim);
+    font-weight: 700;
   }
 
   .skills__row dd {
-    margin: 0;
-    color: var(--fg);
     overflow-wrap: anywhere;
   }
 
-  /* Phones: label above value; a hairline between rows keeps them distinct. */
-  @media (max-width: 520px) {
+  /* Phones: label above value, 8px between rows only. */
+  @media (max-width: 699px) {
     .skills {
       grid-template-columns: 1fr;
-      padding: 0.5rem 1.1rem;
-    }
-    .skills__row dt {
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      padding: 0.6rem 0 0;
-    }
-    .skills__row dd {
-      padding: 0.1rem 0 0.6rem;
+      row-gap: 0;
     }
     .skills__row + .skills__row dt {
-      border-top: 1px solid var(--line);
+      margin-top: 8px;
     }
   }
 </style>

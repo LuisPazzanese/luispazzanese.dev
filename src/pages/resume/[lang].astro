@@ -2,8 +2,8 @@
 // Printable resume, one route per language (/resume/en/, /resume/pt/).
 //
 // Rendered entirely at build time from the same data files as the site
-// (profile.ts, timeline.ts, skills.ts) — no client i18n, no Three.js, no
-// scroll reveal. `npm run resume` prints these routes to the PDFs listed in
+// (profile.ts, timeline.ts, skills.ts) — no client code, like the site itself.
+// `npm run resume` prints these routes to the PDFs listed in
 // profile.resume via headless Chrome (scripts/generate-resume.mjs). The layout
 // must stay within ONE A4 page; the script fails the build otherwise.
 //

@@ -1,42 +1,14 @@
-/* Design tokens — dark, minimal, engineer-feel.
-   Keep this file small; component-specific styles live in their .astro files. */
+/* Base styles. White, dense, undecorated. Component layout lives in each
+   .astro file; this file owns the palette, the type scale and the column.
+   Vertical spacing is on an 8px grid (4px allowed inside a line). */
 
 :root {
-  /* Backgrounds */
-  --bg: #0a0a0a;
-  --bg-elev: #111111;
-  --bg-card: #141414;
-
-  /* Foregrounds */
-  --fg: #e6e6e6;
-  --fg-muted: #a0a0a0;
-  --fg-dim: #6b6b6b;
-
-  /* Borders / separators */
-  --line: #1f1f1f;
-  --line-strong: #2a2a2a;
-
-  /* Accent — single sutil green/cyan, used sparingly */
-  --accent: #7ee7c7;
-  --accent-dim: #4fa88d;
-  --accent-soft: rgba(126, 231, 199, 0.12);
-
-  /* Type */
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-
-  /* Layout */
-  --max-w: 880px;
-  --pad-x: clamp(1.25rem, 4vw, 2rem);
-  /* Vertical rhythm: section padding and the gap between a section's h2 and its content. */
-  --space-section: 6rem;
-  --space-heading: 2.5rem;
-  /* Timeline: width of the date gutter on wide screens. */
-  --gutter: 10rem;
-
-  /* Misc */
-  --radius: 4px;
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --fg: #1a1a1a;
+  --fg-2: #555;
+  --line: #ddd;
+  --link: #1a3d8f;
+  --link-hover: #102a66;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 *,
@@ -46,120 +18,72 @@
 }
 
 html {
-  background: var(--bg);
+  background: #fff;
   color: var(--fg);
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
-  font-weight: 400;
-  letter-spacing: 0.005em;
-  background: var(--bg);
-  color: var(--fg);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
 }
 
 h1,
 h2,
 h3,
-h4 {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+h4,
+p,
+dl,
+dd,
+figure {
   margin: 0;
 }
 
+/* Section titles: small caps-style label with a hairline beneath. */
 h2 {
-  font-size: 1rem;
-  text-transform: lowercase;
-  color: var(--fg-muted);
-  letter-spacing: 0.05em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
 }
 
-h2::before {
-  content: '// ';
-  color: var(--accent-dim);
-}
-
-p {
-  margin: 0;
-  color: var(--fg);
+h3,
+h4 {
+  font-size: 15px;
+  font-weight: 700;
 }
 
 a {
-  color: var(--fg);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line-strong);
-  transition: color 120ms var(--ease), border-color 120ms var(--ease);
+  color: var(--link);
+  text-decoration: underline;
 }
 
-a:hover,
-a:focus-visible {
-  color: var(--accent);
-  border-color: var(--accent);
+a:hover {
+  color: var(--link-hover);
 }
 
 a:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
 }
 
-code,
-kbd,
-pre,
-samp {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
+/* Mono is reserved for dates, kind labels, stack/tag lines and term labels. */
+.mono {
+  font-family: var(--mono);
+  font-size: 13px;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--bg);
-}
-
-/* Page container */
+/* The single 720px column, left-aligned. */
 .container {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--pad-x);
+  max-width: 720px;
+  padding: 0 24px;
 }
 
-/* Section spacing */
 section {
-  padding: var(--space-section) 0;
-  border-top: 1px solid var(--line);
-}
-
-section:first-of-type {
-  border-top: none;
-}
-
-@media (max-width: 600px) {
-  :root {
-    --space-section: 4rem;
-    --space-heading: 2rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
-  }
-
-  html {
-    scroll-behavior: auto;
-  }
+  padding: 32px 0 0;
 }

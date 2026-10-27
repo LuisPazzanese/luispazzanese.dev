@@ -8,11 +8,33 @@ const t = translations.en.notFound;
 ---
 
 <BaseLayout lang="en" title="404 — page not found" description="Route not found." path="/404">
-  <main class="nf">
-    <p class="nf__code" aria-hidden="true">{t.code}</p>
+  <main class="container nf">
+    <p class="mono nf__code" aria-hidden="true">{t.code}</p>
     <h1 class="nf__heading">{t.heading}</h1>
     <p class="nf__body">{t.body}</p>
-    <a class="nf__btn" href="/" aria-label={t.backHomeAria}>← {t.backHome}</a>
+    <a href="/" aria-label={t.backHomeAria}>← {t.backHome}</a>
   </main>
 </BaseLayout>
 
+<style>
+  .nf {
+    padding-top: 32px;
+  }
+
+  .nf__code {
+    color: var(--fg-2);
+    margin-bottom: 8px;
+  }
+
+  .nf__heading {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .nf__body {
+    max-width: 60ch;
+    margin-bottom: 16px;
+  }
+</style>

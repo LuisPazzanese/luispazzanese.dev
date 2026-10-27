@@ -1,11 +1,11 @@
 ---
-// Trajectory: one vertical rail, oldest node at the top, "now" at the bottom.
+// Trajectory: one list of nodes, oldest at the top, "now" at the bottom.
 // Every string comes from src/data/timeline.ts via translations[lang].
 // To change content, edit the data file — this component only lays it out.
 //
-// Layout: ≥900px a two-column grid per node (date gutter | content) with the
-// rail between them; below that, a single column with the rail on the left and
-// the date above the role.
+// Layout: ≥700px a two-column grid per node (date + kind | content); below
+// that a single column with the date above the role. Media floats right of
+// the text on ≥900px.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,9 +29,9 @@ const available = (media: Media[] | undefined) =>
 
 <section id="timeline" aria-labelledby="timeline-heading">
   <div class="container">
-    <h2 id="timeline-heading">{t.sections.timeline}</h2>
+    <h2 id="timeline-heading">{t.sections.timeline.toUpperCase()}</h2>
 
-    <ol class="rail">
+    <ol class="nodes">
       {
         nodes.map((node) => {
           const n = t.timeline[node.id];
@@ -63,32 +63,23 @@ const available = (media: Media[] | undefined) =>
 
                 {n.summary && <p class="node__summary">{n.summary}</p>}
 
-                {media.length > 0 && (
-                  <div class="media">
-                    {media.map(({ m, i }) => (
-                      <figure class={`media__item media__item--${m.kind}`}>
-                        {m.kind === 'video' ? (
-                          <video
-                            controls
-                            preload="none"
-                            playsinline
-                            poster={m.poster && exists(m.poster) ? m.poster : undefined}
-                            aria-label={n.media[i]}
-                          >
-                            <source src={m.src} type="video/mp4" />
-                          </video>
-                        ) : (
-                          <img
-                            src={m.src}
-                            alt={n.media[i]}
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        )}
-                      </figure>
-                    ))}
-                  </div>
-                )}
+                {media.map(({ m, i }) => (
+                  <figure class="media">
+                    {m.kind === 'video' ? (
+                      <video
+                        controls
+                        preload="none"
+                        playsinline
+                        poster={m.poster && exists(m.poster) ? m.poster : undefined}
+                        aria-label={n.media[i]}
+                      >
+                        <source src={m.src} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img src={m.src} alt={n.media[i]} loading="lazy" decoding="async" />
+                    )}
+                  </figure>
+                ))}
 
                 {n.bullets.length > 0 && (
                   <ul class="node__bullets">
@@ -122,15 +113,14 @@ const available = (media: Media[] | undefined) =>
                       const key = p.repo ?? p.name;
                       return (
                         <li class="project">
-                          <h4 class="project__name">
-                            {p.repo ? (
-                              <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
-                            ) : (
-                              p.name
-                            )}
-                          </h4>
-                          <p class="stack project__stack">{p.stack.join(' · ')}</p>
-                          <p class="project__desc">{n.projects[key]}</p>
+                          <h4>{p.name}</h4>
+                          <p>{n.projects[key]}</p>
+                          {p.repo && (
+                            <p class="mono stack">
+                              repo: <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.repo}</a>
+                            </p>
+                          )}
+                          <p class="mono stack">{p.stack.join(' · ')}</p>
                         </li>
                       );
                     })}
@@ -138,11 +128,11 @@ const available = (media: Media[] | undefined) =>
                 )}
 
                 {rest.length > 0 && (
-                  <p class="node__also">
-                    <span class="node__also-label">{t.ui.alsoLabel}</span>:
+                  <p>
+                    {t.ui.alsoLabel}:
                     {rest.map((p, i) => (
                       <>
-                        {i > 0 && <span class="sep" aria-hidden="true"> · </span>}
+                        {i > 0 && <span aria-hidden="true"> · </span>}
                         {p.repo ? (
                           <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
                         ) : (
@@ -167,7 +157,7 @@ const available = (media: Media[] | undefined) =>
                   </p>
                 )}
 
-                {node.tags.length > 0 && <p class="stack stack--tags">{node.tags.join(' · ')}</p>}
+                {node.tags.length > 0 && <p class="mono stack">{node.tags.join(' · ')}</p>}
               </article>
             </li>
           );
@@ -182,15 +172,13 @@ const available = (media: Media[] | undefined) =>
           const key = p.repo ?? p.name;
           return (
             <li>
-              <span class="archive__name">
-                {p.repo ? (
-                  <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
-                ) : (
-                  p.name
-                )}
-              </span>
+              {p.repo ? (
+                <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
+              ) : (
+                p.name
+              )}
               <span class="archive__desc">{t.archive[key]}</span>
-              <span class="archive__stack">{p.stack.join(' · ')}</span>
+              <span class="mono stack">{p.stack.join(' · ')}</span>
             </li>
           );
         })
@@ -200,239 +188,174 @@ const available = (media: Media[] | undefined) =>
 </section>
 
 <style>
-  /* ---- Rail: `--rail-x` is the x of the rail inside .rail. Mobile: on the
-     left edge. Wide: between gutter and content (see the min-width block at
-     the end). */
-  .rail {
-    --rail-x: 4px;
-    --rail-gap: 1.5rem;
+  .nodes {
     list-style: none;
     padding: 0;
-    margin: var(--space-heading) 0 0;
-    position: relative;
+    margin: 0;
   }
 
+  /* One node = hairline-separated row: date/kind column | content. */
   .node {
-    position: relative;
-    padding: 0 0 3.5rem calc(var(--rail-x) + var(--rail-gap));
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
   }
 
-  .node:last-child { padding-bottom: 0; }
+  .node:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
 
-  /* ---- Gutter: date + kind label ---------------------------------------- */
   .node__meta {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    line-height: 1.6;
-    margin-bottom: 0.35rem;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--fg-2);
+    margin-bottom: 4px;
   }
 
-  .node__date { color: var(--fg-muted); }
-  .node__kind { color: var(--fg-dim); font-size: 0.7rem; letter-spacing: 0.08em; }
-  .node--now .node__date,
-  .node--now .node__role { color: var(--accent); }
+  .node__date,
+  .node__kind {
+    display: block;
+  }
 
-  /* ---- Body ---------------------------------------------------------------- */
   .node__body {
-    /* Anchor offset so #zagros etc. don't hide under the browser chrome. */
-    scroll-margin-top: 2rem;
     min-width: 0;
+    scroll-margin-top: 16px;
   }
 
   .node__head {
     display: flex;
     flex-wrap: wrap;
+    gap: 0 8px;
     align-items: baseline;
-    gap: 0.25rem 0.75rem;
-    margin-bottom: 0.6rem;
   }
 
-  .node__role { font-size: 1.1rem; color: var(--fg); }
-  .node__org { font-family: var(--font-mono); font-size: 0.85rem; color: var(--fg-muted); }
-  .node__org::before { content: '@ '; color: var(--fg-dim); }
-  .node__org a { color: var(--accent); border-bottom-color: transparent; }
+  /* 8px between every block inside a node. */
+  .node__body > * + * {
+    margin-top: 8px;
+  }
+
+  .node__org::before {
+    content: '@ ';
+    color: var(--fg-2);
+  }
 
   .node__summary {
-    color: var(--fg-muted);
-    font-size: 0.95rem;
-    max-width: 62ch;
-    margin-bottom: 0.9rem;
+    max-width: 60ch;
   }
 
   .node__bullets {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 0.9rem;
-    display: grid;
-    gap: 0.4rem;
-    max-width: 68ch;
+    list-style: disc;
+    padding-left: 16px;
+    max-width: 60ch;
   }
 
-  .node__bullets li {
-    padding-left: 1.1rem;
-    position: relative;
-    font-size: 0.95rem;
-    line-height: 1.55;
-  }
-
-  .node__bullets li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--accent-dim);
-    font-family: var(--font-mono);
-  }
-
-  /* ---- Media strip: photos as a grid of 3:2 thumbs, a video full-width ---- */
+  /* Media: bordered; full width on phones but never taller than the viewport
+     half; floated right of the text on wide screens (see 900px rule). */
   .media {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.5rem;
-    max-width: 68ch;
-    margin: 0 0 1rem;
-  }
-
-  .media__item {
-    margin: 0;
-    overflow: hidden;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--bg-elev);
+    width: fit-content;
+    max-width: 100%;
   }
 
-  .media__item--video { grid-column: 1 / -1; }
-  .media__item img,
-  .media__item video { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .media__item img { aspect-ratio: 3 / 2; }
-  .media__item video { aspect-ratio: 16 / 9; background: #000; }
+  .media img,
+  .media video {
+    display: block;
+    max-width: 100%;
+    max-height: 50vh;
+    height: auto;
+  }
 
-  /* ---- Featured project cards: name | stack on one row, description below -- */
+  /* Mono secondary lines: stacks, tags, repo pointers. */
+  .stack {
+    color: var(--fg-2);
+  }
+
   .node__projects {
     list-style: none;
     padding: 0;
-    margin: 0.25rem 0 0.9rem;
-    display: grid;
-    gap: 0.6rem;
+    margin: 8px 0 0;
   }
 
-  .project {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: baseline;
-    gap: 0.4rem 1rem;
-    padding: 0.8rem 1rem;
-    border: 1px solid var(--line);
-    border-left: 2px solid var(--line-strong);
-    border-radius: var(--radius);
-    background: var(--bg-elev);
+  .project + .project {
+    margin-top: 8px;
   }
 
-  .project__name { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 600; }
-  .project__name a { border-bottom-color: transparent; }
-  .project__stack { justify-self: end; }
-  .project__desc { grid-column: 1 / -1; font-size: 0.9rem; color: var(--fg-muted); }
-
-  /* Links that hide their underline until hovered/focused. */
-  .node__org a:hover,
-  .node__org a:focus-visible,
-  .project__name a:hover,
-  .project__name a:focus-visible { border-bottom-color: var(--accent); }
-
-  /* ---- Coursework: one row per semester, term in the left column. Courses
-     that back the thesis keep contrast; the rest are dimmed, not hidden. */
+  /* Coursework: one row per term; highlighted courses keep full contrast. */
   .coursework {
     display: grid;
     grid-template-columns: max-content 1fr;
-    gap: 0.3rem 1rem;
-    margin: 0.75rem 0 0.5rem;
-    font-size: 0.8rem;
-    line-height: 1.5;
-    color: var(--fg-dim);
+    gap: 4px 16px;
+    color: var(--fg-2);
   }
 
-  .coursework dt { font-family: var(--font-mono); }
-  .coursework dd { margin: 0; }
-  .coursework .hi { color: var(--fg-muted); }
-
-  /* ---- Secondary lines: "also:" and artifacts ------------------------------ */
-  .node__also,
-  .node__artifacts {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--fg-dim);
-    margin-bottom: 0.4rem;
+  .coursework dt {
+    font-family: var(--mono);
+    font-size: 13px;
   }
 
-  .node__also a { color: var(--fg-muted); border-bottom-color: var(--line-strong); }
-  .node__artifacts a { margin-right: 1.25rem; color: var(--accent-dim); border-bottom-color: transparent; }
+  .coursework .hi {
+    color: var(--fg);
+  }
 
-  .node__also a:hover,
-  .node__also a:focus-visible,
-  .node__artifacts a:hover,
-  .node__artifacts a:focus-visible { color: var(--accent); border-bottom-color: var(--accent); }
+  .node__artifacts a {
+    margin-right: 16px;
+  }
 
-  /* ---- Archive: one row per repo, name · description · stack --------------- */
   .archive__title {
-    margin-top: 4rem;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--fg-dim);
-    text-transform: lowercase;
+    margin-top: 32px;
   }
 
   .archive {
     list-style: none;
     padding: 0;
-    margin: 1rem 0 0;
-    display: grid;
-    gap: 0.5rem;
-    font-size: 0.9rem;
+    margin: 8px 0 0;
   }
 
-  .archive li {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 0.75rem;
-    align-items: baseline;
+  .archive li + li {
+    margin-top: 8px;
   }
 
-  .archive__name { font-family: var(--font-mono); }
-  .archive__desc { color: var(--fg-muted); }
-  .archive__stack { font-family: var(--font-mono); font-size: 0.75rem; color: var(--fg-dim); }
-
-  /* ---- Phones: single-column cards and coursework -------------------------- */
-  @media (max-width: 600px) {
-    .project { grid-template-columns: 1fr; }
-    .project__stack { justify-self: start; order: 3; }
-    .coursework { grid-template-columns: 1fr; gap: 0.1rem; }
-    .coursework dd { margin-bottom: 0.4rem; }
+  .archive__desc {
+    margin-left: 8px;
   }
 
-  /* ---- Wide: date gutter | rail | content ---------------------------------- */
-  @media (min-width: 900px) {
-    .rail {
-      --rail-x: calc(var(--gutter) + 1.5rem);
-      --rail-gap: 1.75rem;
+  .archive .stack {
+    display: block;
+  }
+
+  @media (max-width: 699px) {
+    .coursework {
+      grid-template-columns: 1fr;
+      row-gap: 0;
     }
+    .coursework dd + dt {
+      margin-top: 4px;
+    }
+  }
 
+  @media (min-width: 700px) {
     .node {
       display: grid;
-      grid-template-columns: var(--gutter) 1fr;
-      column-gap: calc(var(--rail-x) + var(--rail-gap) - var(--gutter));
-      padding-left: 0;
+      grid-template-columns: 152px 1fr;
+      column-gap: 16px;
     }
-
     .node__meta {
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-      gap: 0;
-      margin: 0;
-      /* Align the date's baseline with the role's. */
-      padding-top: 0.2rem;
+      margin-bottom: 0;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .media {
+      float: right;
+      margin: 0 0 8px 16px;
+    }
+    /* Cap by height as well as width so a portrait video (474×850) does not
+       tower over the text: 320px wide for landscape, ~180px for portrait. */
+    .media img,
+    .media video {
+      max-width: 320px;
+      max-height: 320px;
+      width: auto;
     }
   }
 </style>
