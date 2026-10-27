@@ -61,7 +61,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   ${motif}
 
   <!-- prompt eyebrow -->
-  <text x="80" y="130" font-family="JetBrains Mono, monospace" font-size="22" fill="${ACCENT_DIM}">luis@mywispy:~$ whoami</text>
+  <text x="80" y="130" font-family="JetBrains Mono, monospace" font-size="22" fill="${ACCENT_DIM}">luis@luispazzanese:~$ whoami</text>
 
   <!-- name (two lines) -->
   <text x="80" y="230" font-family="JetBrains Mono, monospace" font-size="58" font-weight="500" fill="${FG}" letter-spacing="-1.2">Luis Fernando</text>
@@ -77,7 +77,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <line x1="80" y1="525" x2="135" y2="525" stroke="${ACCENT_DIM}" stroke-width="1.5"/>
 
   <!-- url -->
-  <text x="80" y="565" font-family="JetBrains Mono, monospace" font-size="22" fill="${FG_DIM}">mywispy.com</text>
+  <text x="80" y="565" font-family="JetBrains Mono, monospace" font-size="22" fill="${FG_DIM}">luispazzanese.dev</text>
 
   <!-- CTA button (bottom-right) -->
   <g>

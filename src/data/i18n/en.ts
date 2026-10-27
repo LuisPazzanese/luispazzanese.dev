@@ -12,7 +12,7 @@ export const en: Translations = {
     primary: 'Primary',
   },
   hero: {
-    eyebrow: 'luis@mywispy:~$ whoami',
+    eyebrow: 'luis@luispazzanese:~$ whoami',
     linkGithub: 'GitHub',
     linkLinkedin: 'LinkedIn',
     linkEmail: 'Email',

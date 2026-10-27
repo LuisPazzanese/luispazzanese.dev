@@ -16,7 +16,7 @@ import type { L } from './localized';
 import { isYearMonth, type YearMonth } from './dates';
 import { profile } from './profile';
 
-export type NodeKind = 'origin' | 'education' | 'work' | 'project' | 'now';
+export type NodeKind = 'origin' | 'education' | 'club' | 'work' | 'project' | 'now';
 
 export interface Artifact {
   href: string;
@@ -86,13 +86,13 @@ export const nodes: TimelineNode[] = [
     bullets: [
       {
         en:
-          'Studied abroad three times — six months at CATS College Cambridge (UK), a month at ELS Language Centers ' +
-          '(Canada) and a month at the MIT NuVu Program (USA), where I built a retractable helmet that shields the ' +
-          'wearer from acid rain. That is where the English comes from.',
+          'Studied abroad three times during the second year of high school (2019) — six months at CATS College Cambridge ' +
+          '(UK), a month at ELS Language Centers (Canada) and a month at the MIT NuVu Program (USA), where I built a ' +
+          'retractable helmet that shields the wearer from acid rain. That is where the English comes from.',
         pt:
-          'Estudou fora três vezes — seis meses no CATS College Cambridge (Reino Unido), um mês no ELS Language Centers ' +
-          '(Canadá) e um mês no MIT NuVu Program (EUA), onde construiu um capacete retrátil que protege da chuva ácida. ' +
-          'É daí que vem o inglês.',
+          'Estudou fora três vezes durante o segundo ano do ensino médio (2019) — seis meses no CATS College Cambridge ' +
+          '(Reino Unido), um mês no ELS Language Centers (Canadá) e um mês no MIT NuVu Program (EUA), onde construiu um ' +
+          'capacete retrátil que protege da chuva ácida. É daí que vem o inglês.',
       },
       {
         en:
@@ -353,12 +353,12 @@ export const nodes: TimelineNode[] = [
   },
 
   {
-    id: 'mywispy',
+    id: 'site',
     kind: 'project',
     start: '2026-05',
     end: 'present',
-    org: 'mywispy.com',
-    orgHref: 'https://mywispy.com',
+    org: 'luispazzanese.dev',
+    orgHref: 'https://luispazzanese.dev',
     role: { en: 'This site and a browser CTF', pt: 'Este site e um CTF no navegador' },
     brief: [
       {

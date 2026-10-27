@@ -38,7 +38,7 @@ const labels = {
   coursework: { en: 'Relevant coursework', pt: 'Disciplinas relevantes' },
 };
 
-const site = Astro.site ?? new URL('https://mywispy.com');
+const site = Astro.site ?? new URL('https://luispazzanese.dev');
 const siteHost = site.host;
 const githubHandle = profile.github.replace(/^https?:\/\//, '');
 const linkedinHandle = profile.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
@@ -48,6 +48,7 @@ const absolute = (href: string) => new URL(href, site).toString();
 
 const byNewest = (a: TimelineNode, b: TimelineNode) => (a.start < b.start ? 1 : -1);
 const education = nodes.find((n) => n.id === 'insper')!;
+const clubs = nodes.filter((n) => n.kind === 'club').sort(byNewest);
 const work = nodes.filter((n) => n.kind === 'work').sort(byNewest);
 const projects = nodes.filter((n) => n.kind === 'project').sort(byNewest);
 
@@ -114,6 +115,22 @@ const t = (n: TimelineNode) => content.timeline[n.id];
             </li>
           </ul>
         </article>
+        {
+          clubs.map((n) => (
+            <article class="entry">
+              <div class="entry-head">
+                <h3>
+                  {t(n).role}
+                  {n.org && <span class="org">· {n.orgHref ? <a href={n.orgHref}>{n.org}</a> : n.org}</span>}
+                </h3>
+                <span class="date">{t(n).date}</span>
+              </div>
+              {(n.brief ?? n.bullets).length > 0 && (
+                <ul>{(n.brief ?? n.bullets).map((b) => <li>{pick(b, lang)}</li>)}</ul>
+              )}
+            </article>
+          ))
+        }
       </section>
 
       <!-- Experience -->

@@ -1,4 +1,4 @@
-// Client-side language switching for mywispy.com.
+// Client-side language switching for luispazzanese.dev.
 //
 // Markup contract:
 //   <h2 data-i18n="sections.about">about</h2>

@@ -15,7 +15,7 @@ export const pt: Translations = {
     primary: 'Principal',
   },
   hero: {
-    eyebrow: 'luis@mywispy:~$ whoami',
+    eyebrow: 'luis@luispazzanese:~$ whoami',
     linkGithub: 'GitHub',
     linkLinkedin: 'LinkedIn',
     linkEmail: 'Email',

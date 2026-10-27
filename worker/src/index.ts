@@ -76,7 +76,7 @@ async function sendEmail(env: Env, record: SolverRecord): Promise<void> {
 
 export default {
   async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const origin = env.ALLOWED_ORIGIN || 'https://mywispy.com';
+    const origin = env.ALLOWED_ORIGIN || 'https://luispazzanese.dev';
     const headers = corsHeaders(origin);
 
     if (req.method === 'OPTIONS') {
