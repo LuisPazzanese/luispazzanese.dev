@@ -44,6 +44,26 @@ const en = translations.en;
                   </ul>
                 )}
 
+                {node.coursework && (
+                  <dl class="coursework">
+                    {node.coursework.map((term, ti) => (
+                      <>
+                        <dt>{term.term}</dt>
+                        <dd>
+                          {term.courses.map((c, ci) => (
+                            <>
+                              {ci > 0 && <span aria-hidden="true"> · </span>}
+                              <span class={c.highlight ? 'hi' : undefined} data-i18n={`timeline.${node.id}.coursework.${ti}.${ci}`}>
+                                {t.coursework[ti][ci]}
+                              </span>
+                            </>
+                          ))}
+                        </dd>
+                      </>
+                    ))}
+                  </dl>
+                )}
+
                 {featured.length > 0 && (
                   <ul class="node__projects">
                     {featured.map((p) => {
@@ -288,6 +308,40 @@ const en = translations.en;
 
   .chips--tags {
     margin-top: 0.75rem;
+  }
+
+  /* Coursework: one row per semester, term in the left column. Courses that
+     back the thesis keep full contrast; the rest are dimmed, not hidden. */
+  .coursework {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.35rem 1rem;
+    margin: 0.75rem 0 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .coursework dt {
+    font-family: var(--font-mono);
+    color: var(--fg-dim);
+  }
+
+  .coursework dd {
+    margin: 0;
+    color: var(--fg-dim);
+  }
+
+  .coursework .hi {
+    color: var(--fg-muted);
+  }
+
+  @media (max-width: 600px) {
+    .coursework {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+    .coursework dd {
+      margin-bottom: 0.4rem;
+    }
   }
 
   .node__also,

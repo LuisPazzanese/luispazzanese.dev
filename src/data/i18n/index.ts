@@ -26,6 +26,8 @@ export interface TimelineNodeStrings {
   artifacts: string[];
   /** keyed by repo slug (or project name when there is no repo) */
   projects: Record<string, string>;
+  /** [termIndex][courseIndex], same order as the node's `coursework` */
+  coursework: string[][];
 }
 
 export interface ContentStrings {
@@ -68,6 +70,7 @@ export function deriveContent(lang: LangCode): ContentStrings {
       bullets: n.bullets.map((b) => pick(b, lang)),
       artifacts: n.artifacts.map((a) => pick(a.label, lang)),
       projects,
+      coursework: (n.coursework ?? []).map((term) => term.courses.map((c) => pick(c.name, lang))),
     };
   }
 

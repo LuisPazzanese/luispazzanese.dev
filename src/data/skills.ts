@@ -23,6 +23,19 @@ export const skills: SkillRow[] = [
     value: 'RP2350 (ARM Cortex-M33) · FreeRTOS · Pico SDK · I2C · SPI · UART · ADC · PWM · GPIO IRQs · GDB',
   },
   {
+    id: 'hardware',
+    label: { en: 'Hardware', pt: 'Hardware' },
+    value: { en: 'VHDL · FPGA · digital logic · CPU design (in progress)', pt: 'VHDL · FPGA · lógica digital · projeto de CPU (em andamento)' },
+  },
+  {
+    id: 'cloud',
+    label: { en: 'Cloud & infra', pt: 'Nuvem & infra' },
+    value: {
+      en: 'Linux networking (TCP/IP, DHCP, NAT, DNS) · AWS (VPC, EC2, IAM, S3, Lambda) · MAAS · Juju · OpenStack · Docker · Kubernetes · Terraform (coursework, 2026.2)',
+      pt: 'Redes Linux (TCP/IP, DHCP, NAT, DNS) · AWS (VPC, EC2, IAM, S3, Lambda) · MAAS · Juju · OpenStack · Docker · Kubernetes · Terraform (disciplina, 2026.2)',
+    },
+  },
+  {
     id: 'security',
     label: { en: 'Security', pt: 'Segurança' },
     value: {
@@ -39,8 +52,8 @@ export const skills: SkillRow[] = [
     id: 'spoken',
     label: { en: 'Spoken', pt: 'Idiomas' },
     value: {
-      en: 'Portuguese (native) · English (fluent — schooled in the UK and Canada)',
-      pt: 'Português (nativo) · Inglês (fluente — estudou no Reino Unido e no Canadá)',
+      en: 'Portuguese (native) · English (C1, TOEFL — schooled in the UK, Canada and the US)',
+      pt: 'Português (nativo) · Inglês (C1, TOEFL — estudou no Reino Unido, Canadá e EUA)',
     },
   },
 ];

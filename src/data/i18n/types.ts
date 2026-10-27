@@ -24,7 +24,6 @@ export interface Translations {
   sections: {
     timeline: string;
     archive: string;
-    writeups: string;
     skills: string;
     contact: string;
   };

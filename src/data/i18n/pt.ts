@@ -24,7 +24,6 @@ export const pt: Translations = {
   sections: {
     timeline: 'trajetória',
     archive: 'também no github',
-    writeups: 'writeups de ctf',
     skills: 'habilidades',
     contact: 'contato',
   },

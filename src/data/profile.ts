@@ -11,28 +11,26 @@ export const profile = {
 
   /** One-line thesis: who, where, what. Recruiters read this and nothing else first. */
   headline: {
-    en: 'Computer Engineering student at Insper — embedded systems, cybersecurity and low-level programming.',
-    pt: 'Estudante de Engenharia da Computação no Insper — sistemas embarcados, cibersegurança e programação de baixo nível.',
+    en: 'Computer Engineering student at Insper — embedded systems, FPGA/VHDL hardware design and cloud infrastructure.',
+    pt: 'Estudante de Engenharia da Computação no Insper — sistemas embarcados, hardware em FPGA/VHDL e infraestrutura em nuvem.',
   } satisfies L,
 
   /** Two sentences max. What I build, what I'm looking for. */
   pitch: {
     en:
-      'I write real-time firmware for ARM microcontrollers, break web apps in CTF competitions ' +
-      'and ship automation tools that people actually use. Open to engineering internships now.',
+      'I write real-time firmware for ARM microcontrollers, design digital hardware in VHDL and am building cloud ' +
+      'infrastructure from bare metal to AWS. Looking for an engineering internship at a big tech company — open to relocation.',
     pt:
-      'Escrevo firmware de tempo real para microcontroladores ARM, exploro aplicações web em ' +
-      'competições de CTF e entrego ferramentas de automação que as pessoas realmente usam. ' +
-      'Aberto a estágios em engenharia agora.',
+      'Escrevo firmware de tempo real para microcontroladores ARM, projeto hardware digital em VHDL e estou montando ' +
+      'infraestrutura em nuvem do bare metal à AWS. Em busca de estágio em engenharia em uma big tech — aberto a vagas fora do Brasil.',
   } satisfies L,
 
   /** Short focus tags shown under the name. */
   focus: [
     { en: 'Embedded Systems', pt: 'Sistemas Embarcados' },
-    { en: 'Cybersecurity', pt: 'Cibersegurança' },
-    { en: 'Low-level Programming', pt: 'Programação de Baixo Nível' },
+    { en: 'FPGA & VHDL', pt: 'FPGA & VHDL' },
+    { en: 'Cloud Infrastructure', pt: 'Infraestrutura em Nuvem' },
   ] satisfies L[],
-
   degree: {
     school: 'Insper',
     schoolHref: 'https://www.insper.edu.br',
