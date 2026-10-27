@@ -20,6 +20,7 @@ export type { LangCode, Translations };
 export interface TimelineNodeStrings {
   date: string;
   role: string;
+  lead: string;
   summary?: string;
   bullets: string[];
   artifacts: string[];
@@ -34,9 +35,8 @@ export interface TimelineNodeStrings {
 export interface ContentStrings {
   profile: {
     headline: string;
-    pitch: string;
+    facts: string[];
     location: string;
-    focus: string[];
     resumeHref: string;
     degreeTitle: string;
     /** e.g. "6th semester" / "6º semestre" */
@@ -67,6 +67,7 @@ export function deriveContent(lang: LangCode): ContentStrings {
     timeline[n.id] = {
       date: n.dateLabel ? pick(n.dateLabel, lang) : formatRange(n.start, n.end, lang),
       role: pick(n.role, lang),
+      lead: pick(n.lead, lang).replace('{semester}', semester),
       summary: n.summary ? pick(n.summary, lang).replace('{semester}', semester) : undefined,
       bullets: n.bullets.map((b) => pick(b, lang)),
       artifacts: n.artifacts.map((a) => pick(a.label, lang)),
@@ -87,9 +88,8 @@ export function deriveContent(lang: LangCode): ContentStrings {
   return {
     profile: {
       headline: pick(profile.headline, lang),
-      pitch: pick(profile.pitch, lang),
+      facts: profile.facts.map((f) => pick(f, lang)),
       location: pick(profile.location, lang),
-      focus: profile.focus.map((f) => pick(f, lang)),
       resumeHref: profile.resume[lang],
       degreeTitle: pick(profile.degree.title, lang),
       semester: semesterLabel(lang),

@@ -8,7 +8,7 @@ interface Props {
   lang: LangCode;
   title: string;
   description: string;
-  /** Site-relative route of this page, e.g. '/', '/pt/', '/404' */
+  /** Site-relative route of this page, e.g. '/', '/en/', '/404' */
   path: string;
 }
 
@@ -20,10 +20,10 @@ const ogLocale = lang === 'pt' ? 'pt_BR' : 'en_US';
 const canonicalURL = new URL(path, Astro.site).toString();
 const ogImage = new URL('/og.png', Astro.site).toString();
 
-// Language alternates: EN at '/', PT at '/pt/', x-default → EN.
+// Language alternates: PT at '/', EN at '/en/', x-default → PT.
 const alternates = [
-  { hreflang: 'en', href: new URL('/', Astro.site).toString() },
-  { hreflang: 'pt-BR', href: new URL('/pt/', Astro.site).toString() },
+  { hreflang: 'pt-BR', href: new URL('/', Astro.site).toString() },
+  { hreflang: 'en', href: new URL('/en/', Astro.site).toString() },
   { hreflang: 'x-default', href: new URL('/', Astro.site).toString() },
 ];
 ---

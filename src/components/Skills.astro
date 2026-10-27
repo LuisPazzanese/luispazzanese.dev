@@ -14,7 +14,7 @@ const t = translations[lang];
 
 <section id="skills" aria-labelledby="skills-heading">
   <div class="container">
-    <h2 id="skills-heading">{t.sections.skills.toUpperCase()}</h2>
+    <h2 id="skills-heading">{t.sections.skills}</h2>
 
     <dl class="skills">
       {
@@ -51,7 +51,7 @@ const t = translations[lang];
   }
 
   /* Phones: label above value, 8px between rows only. */
-  @media (max-width: 699px) {
+  @media (max-width: 600px) {
     .skills {
       grid-template-columns: 1fr;
       row-gap: 0;

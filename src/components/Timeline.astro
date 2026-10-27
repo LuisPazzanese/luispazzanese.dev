@@ -1,16 +1,12 @@
 ---
-// Trajectory: one list of nodes, oldest at the top, "now" at the bottom.
-// Every string comes from src/data/timeline.ts via translations[lang].
-// To change content, edit the data file — this component only lays it out.
-//
-// Layout: ≥700px a two-column grid per node (date + kind | content); below
-// that a single column with the date above the role. Media floats right of
-// the text on ≥900px.
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { nodes, archive, repoHref, type Media } from '../data/timeline';
+// Trajectory: one row per node, oldest at the top. Only the year label and the
+// one-sentence `lead` are visible; everything else (role, org, summary,
+// bullets, projects, coursework, artifacts, photos) sits inside a native
+// <details>. Content comes from src/data/timeline.ts via translations[lang];
+// this component only lays it out.
+import { nodes, archive, repoHref, type TimelineNode } from '../data/timeline';
 import { translations } from '../data/i18n';
+import { availableMedia, mediaExists } from '../lib/media';
 
 interface Props {
   lang: 'en' | 'pt';
@@ -19,146 +15,159 @@ interface Props {
 const { lang } = Astro.props;
 const t = translations[lang];
 
-// Media files are dropped into public/media/ by hand (see public/media/README.md).
-// Render only what exists so a missing photo produces nothing, not a broken image.
-const publicDir = fileURLToPath(new URL('../../public/', import.meta.url));
-const exists = (src: string) => fs.existsSync(path.join(publicDir, src));
-const available = (media: Media[] | undefined) =>
-  (media ?? []).map((m, i) => ({ m, i })).filter(({ m }) => exists(m.src));
+// '2023-08' / '2028-12' → '2023–2028'; end 'present' → '2026–'; same year or no end → '2025'.
+function yearLabel(node: TimelineNode): string {
+  const startYear = node.start.slice(0, 4);
+  if (node.end === 'present') return `${startYear}–`;
+  if (node.end === null) return startYear;
+  const endYear = node.end.slice(0, 4);
+  return endYear > startYear ? `${startYear}–${endYear}` : startYear;
+}
+
+const external = (href: string) => !(href.startsWith('/') || href.startsWith('mailto:'));
 ---
 
 <section id="timeline" aria-labelledby="timeline-heading">
   <div class="container">
-    <h2 id="timeline-heading">{t.sections.timeline.toUpperCase()}</h2>
+    <h2 id="timeline-heading">{t.sections.timeline}</h2>
 
-    <ol class="nodes">
+    <ol class="rows">
       {
         nodes.map((node) => {
           const n = t.timeline[node.id];
           const featured = (node.projects ?? []).filter((p) => p.featured);
           const rest = (node.projects ?? []).filter((p) => !p.featured);
-          const media = available(node.media);
+          const media = availableMedia(node.media);
+          // Only highlighted courses, grouped by term; terms without any are dropped.
+          const coursework = (node.coursework ?? [])
+            .map((term, ti) => ({
+              term: term.term,
+              courses: term.courses.flatMap((c, ci) => (c.highlight ? [n.coursework[ti][ci]] : [])),
+            }))
+            .filter((term) => term.courses.length > 0);
           return (
-            <li class={`node node--${node.kind}`}>
-              <div class="node__meta">
-                <span class="node__date">{n.date}</span>
-                {node.kind !== 'now' && (
-                  <span class="node__kind">{t.ui.kind[node.kind]}</span>
-                )}
-              </div>
+            <li class="row" id={node.id}>
+              <span class="row__year mono">{yearLabel(node)}</span>
 
-              <article id={node.id} class="node__body">
-                <header class="node__head">
-                  <h3 class="node__role">{n.role}</h3>
-                  {node.org && (
-                    <span class="node__org">
-                      {node.orgHref ? (
-                        <a href={node.orgHref} target="_blank" rel="noopener noreferrer">{node.org}</a>
-                      ) : (
-                        node.org
-                      )}
-                    </span>
-                  )}
-                </header>
+              <div class="row__body">
+                <p class="row__lead">{n.lead}</p>
 
-                {n.summary && <p class="node__summary">{n.summary}</p>}
-
-                {media.map(({ m, i }) => (
-                  <figure class="media">
-                    {m.kind === 'video' ? (
-                      <video
-                        controls
-                        preload="none"
-                        playsinline
-                        poster={m.poster && exists(m.poster) ? m.poster : undefined}
-                        aria-label={n.media[i]}
-                      >
-                        <source src={m.src} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <img src={m.src} alt={n.media[i]} loading="lazy" decoding="async" />
-                    )}
-                  </figure>
-                ))}
-
-                {n.bullets.length > 0 && (
-                  <ul class="node__bullets">
-                    {n.bullets.map((b) => <li>{b}</li>)}
-                  </ul>
-                )}
-
-                {node.coursework && (
-                  <dl class="coursework">
-                    {node.coursework.map((term, ti) => (
-                      <>
-                        <dt>{term.term}</dt>
-                        <dd>
-                          {term.courses.map((c, ci) => (
-                            <>
-                              {ci > 0 && <span aria-hidden="true"> · </span>}
-                              <span class={c.highlight ? 'hi' : undefined}>
-                                {n.coursework[ti][ci]}
-                              </span>
-                            </>
-                          ))}
-                        </dd>
-                      </>
-                    ))}
-                  </dl>
-                )}
-
-                {featured.length > 0 && (
-                  <ul class="node__projects">
-                    {featured.map((p) => {
-                      const key = p.repo ?? p.name;
-                      return (
-                        <li class="project">
-                          <h4>{p.name}</h4>
-                          <p>{n.projects[key]}</p>
-                          {p.repo && (
-                            <p class="mono stack">
-                              repo: <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.repo}</a>
-                            </p>
+                <details>
+                  <summary>{t.ui.details}</summary>
+                  <div class="more">
+                    <p class="more__role">
+                      <strong>{n.role}</strong>
+                      {node.org && (
+                        <>
+                          {' — '}
+                          {node.orgHref ? (
+                            <a href={node.orgHref} target="_blank" rel="noopener noreferrer">{node.org}</a>
+                          ) : (
+                            node.org
                           )}
-                          <p class="mono stack">{p.stack.join(' · ')}</p>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
+                        </>
+                      )}
+                    </p>
 
-                {rest.length > 0 && (
-                  <p>
-                    {t.ui.alsoLabel}:
-                    {rest.map((p, i) => (
-                      <>
-                        {i > 0 && <span aria-hidden="true"> · </span>}
-                        {p.repo ? (
-                          <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
+                    {n.summary && <p>{n.summary}</p>}
+
+                    {n.bullets.length > 0 && (
+                      <ul class="more__bullets">
+                        {n.bullets.map((b) => <li>{b}</li>)}
+                      </ul>
+                    )}
+
+                    {featured.length > 0 && (
+                      <ul class="more__projects">
+                        {featured.map((p) => {
+                          const key = p.repo ?? p.name;
+                          return (
+                            <li>
+                              <p>
+                                {p.repo ? (
+                                  <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">
+                                    <strong>{p.name}</strong>
+                                  </a>
+                                ) : (
+                                  <strong>{p.name}</strong>
+                                )}
+                                {' — '}
+                                {n.projects[key]}
+                              </p>
+                              <p class="more__meta">
+                                {p.repo && (
+                                  <>
+                                    {t.ui.repoLabel}: <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.repo}</a>
+                                    {' · '}
+                                  </>
+                                )}
+                                {p.stack.join(' · ')}
+                              </p>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+
+                    {rest.length > 0 && (
+                      <p class="more__meta">
+                        {t.ui.alsoLabel}:{' '}
+                        {rest.map((p, i) => (
+                          <>
+                            {i > 0 && ' · '}
+                            {p.repo ? (
+                              <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
+                            ) : (
+                              p.name
+                            )}
+                          </>
+                        ))}
+                      </p>
+                    )}
+
+                    {coursework.map((term) => (
+                      <p class="more__meta">
+                        {term.term} — {term.courses.join(' · ')}
+                      </p>
+                    ))}
+
+                    {node.artifacts.length > 0 && (
+                      <p class="more__meta">
+                        {node.artifacts.map((a, i) => (
+                          <>
+                            {i > 0 && ' · '}
+                            <a
+                              href={a.href}
+                              target={external(a.href) ? '_blank' : undefined}
+                              rel={external(a.href) ? 'noopener noreferrer' : undefined}
+                            >
+                              {n.artifacts[i]}
+                            </a>
+                          </>
+                        ))}
+                      </p>
+                    )}
+
+                    {media.map(({ m, i }) => (
+                      <figure class="more__media">
+                        {m.kind === 'video' ? (
+                          <video
+                            controls
+                            preload="none"
+                            playsinline
+                            poster={m.poster && mediaExists(m.poster) ? m.poster : undefined}
+                            aria-label={n.media[i]}
+                          >
+                            <source src={m.src} type="video/mp4" />
+                          </video>
                         ) : (
-                          <span>{p.name}</span>
+                          <img src={m.src} alt={n.media[i]} loading="lazy" decoding="async" />
                         )}
-                      </>
+                      </figure>
                     ))}
-                  </p>
-                )}
-
-                {node.artifacts.length > 0 && (
-                  <p class="node__artifacts">
-                    {node.artifacts.map((a, i) => (
-                      <a
-                        href={a.href}
-                        target={a.href.startsWith('/') || a.href.startsWith('mailto:') ? undefined : '_blank'}
-                        rel={a.href.startsWith('/') || a.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                      >
-                        {n.artifacts[i]}
-                      </a>
-                    ))}
-                  </p>
-                )}
-
-                {node.tags.length > 0 && <p class="mono stack">{node.tags.join(' · ')}</p>}
-              </article>
+                  </div>
+                </details>
+              </div>
             </li>
           );
         })
@@ -177,8 +186,9 @@ const available = (media: Media[] | undefined) =>
               ) : (
                 p.name
               )}
-              <span class="archive__desc">{t.archive[key]}</span>
-              <span class="mono stack">{p.stack.join(' · ')}</span>
+              {' — '}
+              {t.archive[key]}
+              <span class="archive__stack"> · {p.stack.join(' · ')}</span>
             </li>
           );
         })
@@ -188,174 +198,94 @@ const available = (media: Media[] | undefined) =>
 </section>
 
 <style>
-  .nodes {
+  .rows {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-
-  /* One node = hairline-separated row: date/kind column | content. */
-  .node {
-    padding: 16px 0;
     border-top: 1px solid var(--line);
   }
 
-  .node:first-child {
-    border-top: none;
-    padding-top: 0;
-  }
-
-  .node__meta {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--fg-2);
-    margin-bottom: 4px;
-  }
-
-  .node__date,
-  .node__kind {
-    display: block;
-  }
-
-  .node__body {
-    min-width: 0;
-    scroll-margin-top: 16px;
-  }
-
-  .node__head {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 8px;
-    align-items: baseline;
-  }
-
-  /* 8px between every block inside a node. */
-  .node__body > * + * {
-    margin-top: 8px;
-  }
-
-  .node__org::before {
-    content: '@ ';
-    color: var(--fg-2);
-  }
-
-  .node__summary {
-    max-width: 60ch;
-  }
-
-  .node__bullets {
-    list-style: disc;
-    padding-left: 16px;
-    max-width: 60ch;
-  }
-
-  /* Media: bordered; full width on phones but never taller than the viewport
-     half; floated right of the text on wide screens (see 900px rule). */
-  .media {
-    border: 1px solid var(--line);
-    width: fit-content;
-    max-width: 100%;
-  }
-
-  .media img,
-  .media video {
-    display: block;
-    max-width: 100%;
-    max-height: 50vh;
-    height: auto;
-  }
-
-  /* Mono secondary lines: stacks, tags, repo pointers. */
-  .stack {
-    color: var(--fg-2);
-  }
-
-  .node__projects {
-    list-style: none;
-    padding: 0;
-    margin: 8px 0 0;
-  }
-
-  .project + .project {
-    margin-top: 8px;
-  }
-
-  /* Coursework: one row per term; highlighted courses keep full contrast. */
-  .coursework {
+  /* Year column | body; rows separated by hairlines. */
+  .row {
     display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 4px 16px;
+    grid-template-columns: 96px 1fr;
+    gap: 0 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row__year {
+    color: var(--fg-2);
+    line-height: 1.6;
+    padding-top: 2px; /* optical alignment with the 17px lead */
+  }
+
+  .row__lead {
+    font-size: 17px;
+  }
+
+  @media (max-width: 699px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 4px 0;
+    }
+  }
+
+  /* Everything inside <details>: 15px, 8px between blocks. */
+  .more {
+    font-size: 15px;
+  }
+
+  .more > * + * {
+    margin-top: 8px;
+  }
+
+  .more__bullets {
+    padding-left: 20px;
+    list-style: disc;
+  }
+
+  .more__projects {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .more__projects > li + li {
+    margin-top: 8px;
+  }
+
+  .more__meta {
     color: var(--fg-2);
   }
 
-  .coursework dt {
-    font-family: var(--mono);
-    font-size: 13px;
+  .more__media {
+    max-width: 320px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
   }
 
-  .coursework .hi {
-    color: var(--fg);
-  }
-
-  .node__artifacts a {
-    margin-right: 16px;
+  .more__media > img,
+  .more__media > video {
+    width: 100%;
+    height: auto;
   }
 
   .archive__title {
     margin-top: 32px;
+    margin-bottom: 8px;
   }
 
   .archive {
-    list-style: none;
-    padding: 0;
-    margin: 8px 0 0;
+    font-size: 15px;
+    padding-left: 20px;
   }
 
-  .archive li + li {
-    margin-top: 8px;
+  .archive > li + li {
+    margin-top: 4px;
   }
 
-  .archive__desc {
-    margin-left: 8px;
-  }
-
-  .archive .stack {
-    display: block;
-  }
-
-  @media (max-width: 699px) {
-    .coursework {
-      grid-template-columns: 1fr;
-      row-gap: 0;
-    }
-    .coursework dd + dt {
-      margin-top: 4px;
-    }
-  }
-
-  @media (min-width: 700px) {
-    .node {
-      display: grid;
-      grid-template-columns: 152px 1fr;
-      column-gap: 16px;
-    }
-    .node__meta {
-      margin-bottom: 0;
-    }
-  }
-
-  @media (min-width: 900px) {
-    .media {
-      float: right;
-      margin: 0 0 8px 16px;
-    }
-    /* Cap by height as well as width so a portrait video (474×850) does not
-       tower over the text: 320px wide for landscape, ~180px for portrait. */
-    .media img,
-    .media video {
-      max-width: 320px;
-      max-height: 320px;
-      width: auto;
-    }
+  .archive__stack {
+    color: var(--fg-2);
   }
 </style>

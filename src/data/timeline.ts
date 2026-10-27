@@ -16,7 +16,7 @@ import type { L } from './localized';
 import { isYearMonth, type YearMonth } from './dates';
 import { profile } from './profile';
 
-export type NodeKind = 'origin' | 'education' | 'club' | 'work' | 'project' | 'now';
+export type NodeKind = 'origin' | 'education' | 'club' | 'work' | 'project';
 
 export interface Artifact {
   href: string;
@@ -71,6 +71,8 @@ export interface TimelineNode {
   org?: string;
   orgHref?: string;
   role: L;
+  /** One plain-language sentence, the only thing visible before "details" is opened. `{semester}` is substituted. */
+  lead: L;
   /** One or two sentences of context. `{semester}` is replaced by the computed current semester. */
   summary?: L;
   bullets: L[];
@@ -97,6 +99,10 @@ export const nodes: TimelineNode[] = [
     end: '2023-12',
     dateLabel: { en: 'until 2023', pt: 'até 2023' },
     role: { en: 'Before university', pt: 'Antes da faculdade' },
+    lead: {
+      en: 'Exchange programmes in Cambridge, Canada and at MIT NuVu (2019); a year in Poliedro’s ITA-track class.',
+      pt: 'Intercâmbios em Cambridge, no Canadá e no MIT NuVu (2019); um ano de turma ITA no Poliedro.',
+    },
     bullets: [
       {
         en:
@@ -117,15 +123,7 @@ export const nodes: TimelineNode[] = [
           'mais seletiva do país — antes de entrar no Insper.',
       },
     ],
-    media: [
-      {
-        src: '/media/nuvu-helmet.jpg',
-        kind: 'image',
-        alt: { en: 'Retractable acid-rain helmet built at MIT NuVu', pt: 'Capacete retrátil contra chuva ácida feito no MIT NuVu' },
-      },
-      { src: '/media/cats-cambridge.jpg', kind: 'image', alt: { en: 'CATS College Cambridge, 2019', pt: 'CATS College Cambridge, 2019' } },
-      { src: '/media/els-canada.jpg', kind: 'image', alt: { en: 'ELS Language Centers, Canada', pt: 'ELS Language Centers, Canadá' } },
-    ],
+    media: [{ src: '/media/nuvu-2019.jpg', kind: 'image', alt: { en: 'Luis at the MIT NuVu studio, 2019', pt: 'Luis no estúdio do MIT NuVu, 2019' } }],
     artifacts: [],
     tags: [],
   },
@@ -138,6 +136,10 @@ export const nodes: TimelineNode[] = [
     org: profile.degree.school,
     orgHref: profile.degree.schoolHref,
     role: profile.degree.title,
+    lead: {
+      en: 'Computer Engineering at Insper — {semester} semester, graduating in December 2028.',
+      pt: 'Engenharia da Computação no Insper — {semester} semestre, formatura em dezembro de 2028.',
+    },
     summary: {
       en: 'Currently in the {semester} semester; expected graduation Dec 2028.',
       pt: 'Atualmente no {semester} semestre; formatura prevista para dez 2028.',
@@ -220,6 +222,10 @@ export const nodes: TimelineNode[] = [
     org: 'Zagros Capital',
     orgHref: 'https://www.zagroscapital.com.br',
     role: { en: 'Technology Intern (Back Office)', pt: 'Estagiário de Tecnologia (Back Office)' },
+    lead: {
+      en: 'Technology intern at Zagros Capital: automated report consolidation and built the fund dashboard used by the firm’s president and vice-president.',
+      pt: 'Estagiário de tecnologia na Zagros Capital: automatizou a consolidação de relatórios e construiu o painel de cotas usado pelo presidente e pelo vice da gestora.',
+    },
     summary: {
       en:
         'Independent real estate asset manager in São Paulo, R$2B+ under management, with two listed funds (GGRC11, ZAGH11). ' +
@@ -264,6 +270,10 @@ export const nodes: TimelineNode[] = [
     end: '2026-01',
     org: 'Insper SEC',
     role: { en: 'CTF competitor', pt: 'Competidor de CTF' },
+    lead: {
+      en: 'CTF competitor at Insper SEC, the university’s cybersecurity club.',
+      pt: 'Competidor de CTF no Insper SEC, o clube de cibersegurança do Insper.',
+    },
     summary: {
       en: 'Insper’s cybersecurity club. Left to free up time for the hardware projects below.',
       pt: 'O clube de cibersegurança do Insper. Saiu para liberar tempo para os projetos de hardware abaixo.',
@@ -292,6 +302,10 @@ export const nodes: TimelineNode[] = [
     role: {
       en: 'Embedded Systems — six open-source firmware projects',
       pt: 'Sistemas Embarcados — seis projetos de firmware open source',
+    },
+    lead: {
+      en: 'Six firmware projects in C with FreeRTOS; the Air Mouse controls a computer by gestures.',
+      pt: 'Seis projetos de firmware em C com FreeRTOS; o Air Mouse controla o computador por gestos.',
     },
     summary: {
       en: 'Course projects on the RP2350 (dual Cortex-M33), all in C with the Pico SDK. The three below are the ones worth reading.',
@@ -402,42 +416,16 @@ export const nodes: TimelineNode[] = [
   },
 
   {
-    id: 'site',
-    kind: 'project',
-    start: '2026-05',
-    end: 'present',
-    org: 'luispazzanese.dev',
-    orgHref: 'https://luispazzanese.dev',
-    role: { en: 'This site', pt: 'Este site' },
-    /** Visible on the site, omitted from the one-page PDF (lowest-value entry there). */
-    resume: false,
-    brief: [
-      {
-        en: 'Static Astro site on Cloudflare Pages with zero JavaScript; the EN/PT content and this PDF are rendered from one data file.',
-        pt: 'Site estático em Astro no Cloudflare Pages sem JavaScript; o conteúdo EN/PT e este PDF são renderizados de um único arquivo de dados.',
-      },
-    ],
-    bullets: [
-      {
-        en:
-          'Built this site with Astro, statically generated to Cloudflare Pages and shipped with zero JavaScript; ' +
-          'the EN/PT pages and the resume PDF are rendered from one data file, so they can never disagree.',
-        pt:
-          'Construiu este site com Astro, gerado estaticamente para o Cloudflare Pages e servido sem JavaScript; ' +
-          'as páginas EN/PT e o PDF do currículo são renderizados de um único arquivo de dados, então nunca divergem.',
-      },
-    ],
-    artifacts: [{ href: repoHref('luispazzanese.dev'), label: { en: 'Source', pt: 'Código' } }],
-    tags: ['Astro', 'TypeScript', 'Cloudflare Pages'],
-  },
-
-  {
     id: 'hacklastro',
     kind: 'project',
     start: '2026-06',
     end: null,
     org: 'Hackathon Lastro',
     role: { en: 'AI sales assistant for a proptech — built in one day', pt: 'Assistente de vendas com IA para uma proptech — feito em um dia' },
+    lead: {
+      en: 'In one day, built an AI assistant that qualifies home buyers and hands them to brokers.',
+      pt: 'Em um dia, construiu um assistente com IA que qualifica compradores de imóveis e os encaminha a corretores.',
+    },
     brief: [
       {
         en: 'Next.js app with an Anthropic-powered chat that qualifies real-estate leads, a map of listings and an internal lead board for brokers; solo, one-day hackathon.',
@@ -468,6 +456,10 @@ export const nodes: TimelineNode[] = [
     org: 'Insper',
     orgHref: profile.degree.schoolHref,
     role: { en: 'Hardware design and cloud infrastructure — in progress', pt: 'Projeto de hardware e infraestrutura em nuvem — em andamento' },
+    lead: {
+      en: 'Designing a CPU in VHDL, building a cloud from scratch (OpenStack → AWS) and giving a robot spider a head.',
+      pt: 'Projeta uma CPU em VHDL, monta uma nuvem do zero (OpenStack → AWS) e está dando uma cabeça a um robô-aranha.',
+    },
     summary: {
       en: 'What this semester is producing. The stepper IP is done; the CPU and the spider are in progress.',
       pt: 'O que este semestre está produzindo. O IP do motor de passo está pronto; a CPU e a aranha estão em andamento.',
@@ -555,26 +547,6 @@ export const nodes: TimelineNode[] = [
     artifacts: [{ href: 'https://github.com/FelipeSuarez1/aracno_jorge', label: { en: 'Spider repo', pt: 'Repo da aranha' } }],
     tags: ['VHDL', 'FPGA', 'OpenStack', 'AWS', 'Terraform', 'Embedded Linux'],
   },
-
-  {
-    id: 'now',
-    kind: 'now',
-    start: '2026-10',
-    end: 'present',
-    dateLabel: { en: 'now', pt: 'agora' },
-    role: { en: 'Looking for an internship at a big tech company', pt: 'Em busca de estágio em uma big tech' },
-    summary: {
-      en:
-        'Embedded, hardware, software or cloud engineering. 30 h/week during the semester (the standard São Paulo internship), ' +
-        'available to start immediately, open to relocation.',
-      pt:
-        'Engenharia embarcada, de hardware, de software ou de nuvem. 30 h/semana durante o semestre (padrão de estágio em São Paulo), ' +
-        'disponível para começar imediatamente, aberto a vagas fora do Brasil.',
-    },
-    bullets: [],
-    artifacts: [{ href: `mailto:${profile.email}`, label: { en: 'Email me', pt: 'Me mande um email' } }],
-    tags: [],
-  },
 ];
 
 /** Repos that are real but not part of the story. Rendered as a compact list after the timeline. */
@@ -628,7 +600,7 @@ export function validateTimeline(list: TimelineNode[] = nodes): void {
     if (n.bullets.length > 3) throw new Error(`${where}: max 3 bullets — cut, don't pile`);
     if (n.tags.length > 6) throw new Error(`${where}: max 6 tags`);
 
-    const strings: L[] = [n.role, ...n.bullets, ...n.artifacts.map((a) => a.label), ...(n.media ?? []).map((m) => m.alt)];
+    const strings: L[] = [n.role, n.lead, ...n.bullets, ...n.artifacts.map((a) => a.label), ...(n.media ?? []).map((m) => m.alt)];
     if (n.summary) strings.push(n.summary);
     if (n.dateLabel) strings.push(n.dateLabel);
     for (const p of n.projects ?? []) {

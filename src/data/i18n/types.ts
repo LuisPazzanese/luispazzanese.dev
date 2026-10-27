@@ -14,33 +14,37 @@ export interface Translations {
     primary: string;
   };
   hero: {
-    eyebrow: string;
     linkGithub: string;
     linkLinkedin: string;
     linkEmail: string;
     linkCV: string;
+    photoAlt: string;
   };
   sections: {
+    highlights: string;
     timeline: string;
     archive: string;
     skills: string;
     contact: string;
   };
-  /** Small chrome words used by the hero / timeline markup. (Not `timeline`:
-      that key is taken by the derived per-node content strings.) */
+  /** Small chrome words used by the markup. (Not `timeline`: that key is
+      taken by the derived per-node content strings.) */
   ui: {
     /** Prefix of the compact non-featured project line: "also: a · b · c". */
     alsoLabel: string;
-    /** Prefix of the expected graduation month in the hero degree line. */
+    /** Prefix of the expected graduation month in the degree line. */
     gradLabel: string;
-    /** Short lowercase label printed in the timeline gutter under the date, one per NodeKind. */
+    /** Summary text of the <details> disclosure under leads and highlights. */
+    details: string;
+    /** Prefix before a repository link. */
+    repoLabel: string;
+    /** Short lowercase label per NodeKind. */
     kind: {
       origin: string;
       education: string;
       club: string;
       work: string;
       project: string;
-      now: string;
     };
   };
   contact: {
@@ -49,6 +53,8 @@ export interface Translations {
     githubLabel: string;
     locationLabel: string;
     footer: string;
+    /** Footer note after the build credit. */
+    references: string;
   };
   notFound: {
     code: string;

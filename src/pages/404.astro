@@ -1,13 +1,13 @@
 ---
 // Not-found page. Served statically by Cloudflare Pages for unknown routes;
-// rendered in English only (no language alternates for an error page).
+// rendered in Portuguese only, like the root route (no alternates for an error page).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { translations } from '../data/i18n';
 
-const t = translations.en.notFound;
+const t = translations.pt.notFound;
 ---
 
-<BaseLayout lang="en" title="404 — page not found" description="Route not found." path="/404">
+<BaseLayout lang="pt" title="404 — página não encontrada" description="Rota não encontrada." path="/404">
   <main class="container nf">
     <p class="mono nf__code" aria-hidden="true">{t.code}</p>
     <h1 class="nf__heading">{t.heading}</h1>
@@ -27,7 +27,7 @@ const t = translations.en.notFound;
   }
 
   .nf__heading {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 8px;

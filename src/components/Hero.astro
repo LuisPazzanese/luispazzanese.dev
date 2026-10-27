@@ -1,6 +1,7 @@
 ---
-// Hero: everything here comes from src/data/profile.ts (via translations[lang]
-// for the derived strings). Edit the data file, not this component.
+// Card: photo + name + headline + facts + buttons. Everything comes from
+// src/data/profile.ts (via translations[lang] for the localized strings).
+// Edit the data file, not this component.
 import { profile } from '../data/profile';
 import { translations } from '../data/i18n';
 
@@ -12,54 +13,114 @@ const { lang } = Astro.props;
 const t = translations[lang];
 ---
 
-<header class="hero">
-  <div class="container">
-    <h1 class="hero__name">{profile.name}</h1>
+<header class="card container">
+  <img
+    class="card__photo"
+    src={profile.photo}
+    alt={t.hero.photoAlt}
+    width="128"
+    height="128"
+    decoding="async"
+  />
 
-    <!-- Thesis: the one line a recruiter reads. -->
-    <p class="hero__headline">{t.profile.headline}</p>
-    <p class="hero__pitch">{t.profile.pitch}</p>
+  <div class="card__text">
+    <h1 class="card__name">{profile.name}</h1>
 
-    <!-- Degree/semester/graduation, then the links row.
-         (profile.focus is intentionally not rendered here: the headline already
-         names the same three areas.) -->
-    <p class="hero__degree mono">{t.profile.degreeLine}</p>
+    <!-- The one sentence a recruiter reads. -->
+    <p class="card__headline">{t.profile.headline}</p>
 
-    <nav class="hero__links" aria-label={t.nav.primary}>
-      <a href={profile.github} target="_blank" rel="noopener noreferrer">{t.hero.linkGithub}</a>
+    <!-- What / how much / where / when / English. -->
+    <p class="card__facts">{t.profile.facts.join(' · ')}</p>
+
+    <nav class="card__actions" aria-label={t.nav.primary}>
+      <a class="button" href={t.profile.resumeHref} download>{t.hero.linkCV}</a>
       <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{t.hero.linkLinkedin}</a>
+      <a href={profile.github} target="_blank" rel="noopener noreferrer">{t.hero.linkGithub}</a>
       <a href={`mailto:${profile.email}`}>{t.hero.linkEmail}</a>
-      <a href={t.profile.resumeHref} target="_blank" rel="noopener noreferrer">{t.hero.linkCV}</a>
     </nav>
   </div>
 </header>
 
 <style>
-  .hero__name {
-    font-size: 28px;
+  .card {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding-top: 24px;
+  }
+
+  .card__photo {
+    flex: 0 0 128px;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .card__name {
+    font-size: 32px;
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 8px;
   }
 
-  .hero__headline {
-    font-size: 17px;
+  .card__headline {
+    font-size: 19px;
+    line-height: 1.5;
     margin-bottom: 8px;
   }
 
-  .hero__pitch {
-    max-width: 60ch;
-    margin-bottom: 16px;
-  }
-
-  .hero__degree {
+  .card__facts {
+    font-size: 15px;
     color: var(--fg-2);
-    margin-bottom: 8px;
+    margin-bottom: 24px;
   }
 
-  .hero__links {
+  .card__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 16px;
+    align-items: center;
+    gap: 8px 24px;
+  }
+
+  /* The only button on the page: white on accent, 44px tall. */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .button:hover {
+    background: var(--accent-hover);
+    color: #fff;
+  }
+
+  /* Phones: photo above the text, centred; buttons stacked full width. */
+  @media (max-width: 600px) {
+    .card {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .card__photo {
+      flex-basis: 96px;
+      width: 96px;
+      height: 96px;
+    }
+
+    .card__actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
   }
 </style>

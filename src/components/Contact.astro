@@ -1,4 +1,5 @@
 ---
+// Contact block + footer line. Values come from src/data/profile.ts.
 import { profile } from '../data/profile';
 import { translations } from '../data/i18n';
 
@@ -14,7 +15,7 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
 
 <section id="contact" aria-labelledby="contact-heading">
   <div class="container">
-    <h2 id="contact-heading">{t.sections.contact.toUpperCase()}</h2>
+    <h2 id="contact-heading">{t.sections.contact}</h2>
 
     <dl class="contact">
       <div>
@@ -40,9 +41,7 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
     </dl>
 
     <footer class="footer">
-      <span>© {year} {profile.shortName}</span>
-      <span class="footer__sep" aria-hidden="true">·</span>
-      <span>{t.contact.footer}</span>
+      © {year} {profile.shortName} · {t.contact.footer} · {t.contact.references}
     </footer>
   </div>
 </section>
@@ -67,7 +66,7 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
     overflow-wrap: anywhere;
   }
 
-  @media (max-width: 699px) {
+  @media (max-width: 600px) {
     .contact {
       grid-template-columns: 1fr;
       row-gap: 0;
@@ -78,8 +77,8 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
   }
 
   .footer {
-    margin-top: 32px;
-    padding: 16px 0;
+    margin-top: 56px;
+    padding: 16px 0 32px;
     border-top: 1px solid var(--line);
     font-size: 13px;
     color: var(--fg-2);

@@ -9,27 +9,22 @@ export const profile = {
   name: 'Luis Fernando Pazzanese Pinheiro',
   shortName: 'Luis Pazzanese',
 
-  /** One-line thesis: who, where, what. Recruiters read this and nothing else first. */
+  /** Photo shown on the card. Square, 800×800, in public/media. */
+  photo: '/media/luis.jpg',
+
+  /** The one sentence a non-technical recruiter reads first. */
   headline: {
-    en: 'Computer Engineering student at Insper — embedded systems, FPGA/VHDL hardware design and cloud infrastructure.',
-    pt: 'Estudante de Engenharia da Computação no Insper — sistemas embarcados, hardware em FPGA/VHDL e infraestrutura em nuvem.',
+    en: 'Computer Engineering student at Insper, graduating in December 2028. I build embedded systems, cloud infrastructure and tools with AI.',
+    pt: 'Estudante de Engenharia da Computação no Insper, formando em dezembro de 2028. Construo sistemas embarcados, infraestrutura em nuvem e ferramentas com IA.',
   } satisfies L,
 
-  /** Two sentences max. What I build, what I'm looking for. */
-  pitch: {
-    en:
-      'I write real-time firmware for ARM microcontrollers, design digital hardware in VHDL and am building cloud ' +
-      'infrastructure from bare metal to AWS. Looking for an engineering internship at a big tech company — open to relocation.',
-    pt:
-      'Escrevo firmware de tempo real para microcontroladores ARM, projeto hardware digital em VHDL e estou montando ' +
-      'infraestrutura em nuvem do bare metal à AWS. Em busca de estágio em engenharia em uma big tech — aberto a vagas fora do Brasil.',
-  } satisfies L,
-
-  /** Short focus tags shown under the name. */
-  focus: [
-    { en: 'Embedded Systems', pt: 'Sistemas Embarcados' },
-    { en: 'FPGA & VHDL', pt: 'FPGA & VHDL' },
-    { en: 'Cloud Infrastructure', pt: 'Infraestrutura em Nuvem' },
+  /** Facts line under the headline: what, how much, where, when, English. */
+  facts: [
+    { en: 'Internship', pt: 'Estágio' },
+    { en: '30 h/week', pt: '30 h/semana' },
+    { en: 'São Paulo or abroad', pt: 'São Paulo ou exterior' },
+    { en: 'available now', pt: 'início imediato' },
+    { en: 'English C1', pt: 'inglês C1' },
   ] satisfies L[],
   degree: {
     school: 'Insper',

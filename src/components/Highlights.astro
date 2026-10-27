@@ -1,0 +1,138 @@
+---
+// Highlights: the three cards under the hero. Content lives in
+// src/data/highlights.ts; this component only lays it out. Each item is
+// media → title → plain blurb → optional note → <details> with the technical
+// bullets → link. Media whose file is missing under public/ is skipped.
+import { highlights } from '../data/highlights';
+import { translations } from '../data/i18n';
+import { pick } from '../data/localized';
+import { mediaExists } from '../lib/media';
+
+interface Props {
+  lang: 'en' | 'pt';
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section id="highlights" aria-labelledby="highlights-heading">
+  <div class="container">
+    <h2 id="highlights-heading">{t.sections.highlights}</h2>
+
+    <ul class="grid">
+      {
+        highlights.map((h) => {
+          const m = h.media;
+          const isSvg = m.src.endsWith('.svg');
+          return (
+            <li class="item">
+              {mediaExists(m.src) && (
+                <figure class:list={['media', { 'media--diagram': isSvg }]}>
+                  {m.kind === 'video' ? (
+                    <video
+                      controls
+                      preload="none"
+                      playsinline
+                      poster={m.poster && mediaExists(m.poster) ? m.poster : undefined}
+                      aria-label={pick(m.alt, lang)}
+                    >
+                      <source src={m.src} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img src={m.src} alt={pick(m.alt, lang)} loading="lazy" decoding="async" />
+                  )}
+                </figure>
+              )}
+              {m.note && <p class="item__note">{pick(m.note, lang)}</p>}
+
+              <h3 class="item__title">{pick(h.title, lang)}</h3>
+              <p class="item__blurb">{pick(h.blurb, lang)}</p>
+
+              <details>
+                <summary>{t.ui.details}</summary>
+                <ul class="item__details">
+                  {h.details.map((d) => <li>{pick(d, lang)}</li>)}
+                </ul>
+              </details>
+
+              {h.link && (
+                <p class="item__link">
+                  <a href={h.link.href} target="_blank" rel="noopener noreferrer">{pick(h.link.label, lang)}</a>
+                </p>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* 16:10 media box; photos cover, the diagram fits on white. */
+  .media {
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 16px;
+  }
+
+  .media > img,
+  .media > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .media--diagram > img {
+    object-fit: contain;
+    padding: 8px;
+  }
+
+  .item__title {
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+
+  .item__blurb {
+    font-size: 16px;
+  }
+
+  /* Caption directly under the media box (e.g. "simulated screenshot"). */
+  .item__note {
+    font-size: 13px;
+    color: var(--fg-2);
+    margin: -8px 0 16px;
+  }
+
+  .item__details {
+    font-size: 15px;
+    padding-left: 20px;
+    list-style: disc;
+  }
+
+  .item__details li + li {
+    margin-top: 4px;
+  }
+
+  .item__link {
+    margin-top: 8px;
+  }
+</style>
