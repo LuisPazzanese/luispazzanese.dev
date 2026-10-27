@@ -63,6 +63,8 @@ export interface TimelineNode {
   kind: NodeKind;
   start: YearMonth;
   end: YearMonth | 'present' | null;
+  /** Set to false to keep a node off the one-page PDF. Defaults to true. */
+  resume?: boolean;
   /** Optional override for the rendered date, e.g. "until 2023" for the origin node. */
   dateLabel?: L;
   /** Organisation name; language-neutral. Omit for origin/now nodes. */
@@ -223,8 +225,8 @@ export const nodes: TimelineNode[] = [
         'Independent real estate asset manager in São Paulo, R$2B+ under management, with two listed funds (GGRC11, ZAGH11). ' +
         'Internship alongside classes in 2025; the code is internal.',
       pt:
-        'Gestora independente de ativos imobiliários em São Paulo, mais de R$2B sob gestão, com dois fundos listados (GGRC11, ZAGH11). ' +
-        'Estágio em paralelo às aulas em 2025; o código é interno.',
+        'Gestora independente de ativos imobiliários (R$2B+ sob gestão; fundos listados GGRC11 e ZAGH11), São Paulo. ' +
+        'Estágio em paralelo às aulas em 2025; código interno.',
     },
     bullets: [
       {
@@ -232,24 +234,23 @@ export const nodes: TimelineNode[] = [
           'Replaced the manual consolidation of fund reports with Python scrapers that pull every quarterly report ' +
           'since each fund’s inception and merge the metrics into Excel sheets grouped by fund type (CRI-backed REITs, FIDCs and others).',
         pt:
-          'Substituiu a consolidação manual dos informes dos fundos por scrapers em Python que baixam todos os informes ' +
-          'trimestrais desde a criação de cada fundo e consolidam as métricas em planilhas Excel por tipo de fundo (FIIs de CRI, FIDCs e outros).',
+          'Substituiu a consolidação manual dos informes por scrapers em Python que baixam todos os informes trimestrais ' +
+          'desde a criação de cada fundo e consolidam as métricas em Excel por tipo de fundo (FIIs de CRI, FIDCs e outros).',
       },
       {
         en:
           'Built the Streamlit dashboard the firm’s president and vice-president used to follow fund values: a long-polling ' +
           'job captures the previous day’s NAV PDF every morning and updates the figures with no manual steps.',
         pt:
-          'Construiu o dashboard em Streamlit que o presidente e o vice-presidente da gestora usavam para acompanhar as cotas: ' +
-          'um job de long-polling captura o PDF da cota do dia anterior toda manhã e atualiza os números sem intervenção manual.',
+          'Construiu o dashboard em Streamlit usado pelo presidente e pelo vice da gestora para acompanhar as cotas: um job ' +
+          'de long-polling captura o PDF da cota do dia anterior toda manhã e atualiza os números sem passo manual.',
       },
       {
         en:
           'Gave the team a single always-current view of holdings by building interactive per-asset charts and ' +
           'replicating them across the firm’s entire fund portfolio.',
         pt:
-          'Deu ao time uma visão única e sempre atual das posições, com gráficos interativos por ativo replicados ' +
-          'para toda a carteira de fundos da gestora.',
+          'Deu ao time uma visão única e sempre atual das posições: gráficos interativos por ativo replicados para toda a carteira.',
       },
     ],
     artifacts: [],
@@ -408,6 +409,8 @@ export const nodes: TimelineNode[] = [
     org: 'luispazzanese.dev',
     orgHref: 'https://luispazzanese.dev',
     role: { en: 'This site', pt: 'Este site' },
+    /** Visible on the site, omitted from the one-page PDF (lowest-value entry there). */
+    resume: false,
     brief: [
       {
         en: 'Astro + Three.js site on Cloudflare Pages; the EN/PT content and this PDF are rendered from one data file.',
@@ -429,6 +432,35 @@ export const nodes: TimelineNode[] = [
   },
 
   {
+    id: 'hacklastro',
+    kind: 'project',
+    start: '2026-06',
+    end: null,
+    org: 'Hackathon Lastro',
+    role: { en: 'AI sales assistant for a proptech — built in one day', pt: 'Assistente de vendas com IA para uma proptech — feito em um dia' },
+    brief: [
+      {
+        en: 'Next.js app with an Anthropic-powered chat that qualifies real-estate leads, a map of listings and an internal lead board for brokers; solo, one-day hackathon.',
+        pt: 'App Next.js com chat baseado na API da Anthropic que qualifica leads imobiliários, mapa de imóveis e painel interno de leads para corretores; solo, hackathon de um dia.',
+      },
+    ],
+    bullets: [
+      {
+        en:
+          'Shipped, solo and in one day, a Next.js app for Lastro’s hackathon: an Anthropic-powered chat that qualifies leads ' +
+          'by asking the right questions, a map of matching listings, and an internal board that routes each lead to a broker. ' +
+          'Did not place; the code is public.',
+        pt:
+          'Entregou, sozinho e em um dia, um app Next.js para o hackathon da Lastro: um chat baseado na API da Anthropic que ' +
+          'qualifica leads fazendo as perguntas certas, um mapa dos imóveis compatíveis e um painel interno que encaminha cada ' +
+          'lead a um corretor. Não ficou entre os premiados; o código é público.',
+      },
+    ],
+    artifacts: [{ href: repoHref('hacklastro'), label: { en: 'Source', pt: 'Código' } }],
+    tags: ['TypeScript', 'Next.js', 'Anthropic API', 'Vercel'],
+  },
+
+  {
     id: 'hardware',
     kind: 'project',
     start: '2026-08',
@@ -437,8 +469,8 @@ export const nodes: TimelineNode[] = [
     orgHref: profile.degree.schoolHref,
     role: { en: 'Hardware design and cloud infrastructure — in progress', pt: 'Projeto de hardware e infraestrutura em nuvem — em andamento' },
     summary: {
-      en: 'Three things being built this semester. Repositories go public as each one reaches a working state.',
-      pt: 'Três coisas sendo construídas neste semestre. Os repositórios ficam públicos conforme cada uma chega a um estado funcional.',
+      en: 'What this semester is producing. The stepper IP is done; the CPU and the spider are in progress.',
+      pt: 'O que este semestre está produzindo. O IP do motor de passo está pronto; a CPU e a aranha estão em andamento.',
     },
     brief: [
       {
@@ -450,20 +482,20 @@ export const nodes: TimelineNode[] = [
           'Kubernetes, Terraform) com projeto final automatizado via CI/CD.',
       },
       {
-        en: 'Independent FPGA project: a Terasic Spider robot gaining a head with facial expressions and a spider-behaviour state machine.',
-        pt: 'Projeto independente de FPGA: um robô Terasic Spider ganhando uma cabeça com expressões faciais e uma máquina de estados de comportamento de aranha.',
+        en: 'Terasic Spider hexapod with Felipe Suarez — AI-generated code run with CLAUDE.md rules, ADRs and a knowledge vault; we decide, measure on the bench and review.',
+        pt: 'Hexápode Terasic Spider com Felipe Suarez — código gerado por IA conduzido com regras em CLAUDE.md, ADRs e vault de conhecimento; nós decidimos, medimos na bancada e revisamos.',
       },
     ],
     bullets: [
       {
         en:
-          'Building a MIPS CPU in VHDL on a Terasic DE0-CV (Cyclone V) for the Computer Design course — ALU, register file, ' +
-          'control unit, instruction and data memory, R/I/J-type instructions, each block verified with its own testbench; ' +
-          'then writing assembly against it (functions, stack, load/store).',
+          'Building a MIPS CPU in VHDL on a Terasic DE0-CV (Cyclone V) for the Computer Design course, with Lenny Wajcberg — ALU, ' +
+          'register file, control unit, instruction and data memory, R/I/J-type instructions, each block verified with its own ' +
+          'testbench; then writing assembly against it (functions, stack, load/store). Repo goes public when the course ends (Dec 2026).',
         pt:
-          'Construindo uma CPU MIPS em VHDL numa Terasic DE0-CV (Cyclone V) na disciplina de Design de Computadores — ULA, ' +
-          'banco de registradores, unidade de controle, memórias de instrução e dados, instruções tipo R/I/J, cada bloco ' +
-          'verificado com testbench próprio; depois, assembly rodando nela (funções, pilha, load/store).',
+          'Construindo uma CPU MIPS em VHDL numa Terasic DE0-CV (Cyclone V) na disciplina de Design de Computadores, com Lenny ' +
+          'Wajcberg — ULA, banco de registradores, unidade de controle, memórias de instrução e dados, instruções tipo R/I/J, cada ' +
+          'bloco verificado com testbench próprio; depois, assembly rodando nela (funções, pilha, load/store). Repo fica público ao fim da disciplina (dez 2026).',
       },
       {
         en:
@@ -477,18 +509,50 @@ export const nodes: TimelineNode[] = [
       },
       {
         en:
-          'Independent FPGA project on a Terasic Spider hexapod (DE0-Nano-SoC, Cyclone V SoC), proposed by the lab professor: ' +
-          'a head with facial expressions and a state machine that makes it behave like a spider. Just started.',
+          'Independent project with Felipe Suarez on a Terasic Spider hexapod (DE0-Nano-SoC, Cyclone V SoC), proposed by the ' +
+          'lab professor: a pan/tilt head with a face display, light/distance/presence sensors and a behaviour policy running on ' +
+          'the ARM HPS. The code is AI-generated on purpose — we run it the way Anthropic documents for Claude Code: a CLAUDE.md ' +
+          'rulebook, architecture decision records and an Obsidian knowledge vault the model reads every session; we decide, ' +
+          'measure on the bench and review. Just started.',
         pt:
-          'Projeto independente de FPGA com o hexápode Terasic Spider (DE0-Nano-SoC, Cyclone V SoC), proposto pelo professor do ' +
-          'laboratório: uma cabeça com expressões faciais e uma máquina de estados que a faz se comportar como uma aranha. Recém-começado.',
+          'Projeto independente com Felipe Suarez num hexápode Terasic Spider (DE0-Nano-SoC, Cyclone V SoC), proposto pelo ' +
+          'professor do laboratório: cabeça pan/tilt com display de rosto, sensores de luz/distância/presença e uma política de ' +
+          'comportamento rodando no ARM (HPS). O código é gerado por IA de propósito — conduzido do jeito que a Anthropic documenta ' +
+          'para o Claude Code: um CLAUDE.md com as regras, registros de decisão de arquitetura (ADRs) e um vault Obsidian que o ' +
+          'modelo lê a cada sessão; nós decidimos, medimos na bancada e revisamos. Recém-começado.',
+      },
+    ],
+    projects: [
+      {
+        name: 'Stepper motor IP core',
+        repo: 'vhdl-stepper-ip',
+        featured: true,
+        brief: {
+          en: 'VHDL IP for a unipolar stepper on a DE10-Standard: phase-accumulator step rate, trapezoidal ramp without multipliers or dividers, self-checking testbench (7 cases), +13 ns setup slack at 50 MHz.',
+          pt: 'IP em VHDL para motor de passo unipolar numa DE10-Standard: taxa por acumulador de fase, rampa trapezoidal sem multiplicador nem divisor, testbench auto-verificável (7 casos), +13 ns de slack a 50 MHz.',
+        },
+        description: {
+          en:
+            'Elective deliverable (Embedded Linux and SoC): a VHDL IP core driving a unipolar stepper from a DE10-Standard ' +
+            '(Cyclone V). Step rate comes from a phase accumulator (DDS-style), so a trapezoidal acceleration ramp costs one ' +
+            'adder and no divider; braking distance is found by mirroring the ramp instead of computing v²/2a. Single 50 MHz ' +
+            'clock domain with clock enables, two-flop synchronisers, a self-checking testbench with 7 cases, and +13 ns setup ' +
+            'slack / 168 ALMs after synthesis. The README explains every decision.',
+          pt:
+            'Entrega da eletiva (Embedded Linux and SoC): um IP core em VHDL controlando um motor de passo unipolar a partir de ' +
+            'uma DE10-Standard (Cyclone V). A taxa de passos vem de um acumulador de fase (estilo DDS), então a rampa trapezoidal ' +
+            'custa um somador e nenhum divisor; a distância de frenagem é obtida espelhando a rampa em vez de calcular v²/2a. ' +
+            'Domínio único de 50 MHz com clock enables, sincronizadores de dois flip-flops, testbench auto-verificável com 7 casos ' +
+            'e +13 ns de slack / 168 ALMs após síntese. O README explica cada decisão.',
+        },
+        stack: ['VHDL', 'Cyclone V', 'Quartus', 'ModelSim'],
       },
     ],
     media: [
-      { src: '/media/spider-fpga.jpg', kind: 'image', alt: { en: 'Terasic Spider robot on a DE0-Nano-SoC', pt: 'Robô Terasic Spider em uma DE0-Nano-SoC' } },
+      { src: '/media/spider-fpga.jpg', kind: 'image', alt: { en: 'Terasic Spider hexapod on a DE0-Nano-SoC', pt: 'Hexápode Terasic Spider em uma DE0-Nano-SoC' } },
       { src: '/media/vhdl-cpu.jpg', kind: 'image', alt: { en: 'MIPS CPU in VHDL on a DE0-CV', pt: 'CPU MIPS em VHDL numa DE0-CV' } },
     ],
-    artifacts: [],
+    artifacts: [{ href: 'https://github.com/FelipeSuarez1/aracno_jorge', label: { en: 'Spider repo', pt: 'Repo da aranha' } }],
     tags: ['VHDL', 'FPGA', 'OpenStack', 'AWS', 'Terraform', 'Embedded Linux'],
   },
 

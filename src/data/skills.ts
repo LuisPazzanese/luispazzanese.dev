@@ -46,7 +46,10 @@ export const skills: SkillRow[] = [
   {
     id: 'tools',
     label: { en: 'Tools & web', pt: 'Ferramentas & web' },
-    value: 'Git · Linux · Python automation · Streamlit · FastAPI · Astro · TypeScript · Cloudflare Pages',
+    value: {
+      en: 'Git · Linux · Python automation · Streamlit · FastAPI · Astro · TypeScript · Cloudflare Pages · AI-assisted development (Claude Code with CLAUDE.md rulebooks and ADRs)',
+      pt: 'Git · Linux · automação em Python · Streamlit · FastAPI · Astro · TypeScript · Cloudflare Pages · desenvolvimento assistido por IA (Claude Code com regras em CLAUDE.md e ADRs)',
+    },
   },
   {
     id: 'spoken',

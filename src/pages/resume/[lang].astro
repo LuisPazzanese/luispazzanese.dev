@@ -48,9 +48,9 @@ const absolute = (href: string) => new URL(href, site).toString();
 
 const byNewest = (a: TimelineNode, b: TimelineNode) => (a.start < b.start ? 1 : -1);
 const education = nodes.find((n) => n.id === 'insper')!;
-const clubs = nodes.filter((n) => n.kind === 'club').sort(byNewest);
-const work = nodes.filter((n) => n.kind === 'work').sort(byNewest);
-const projects = nodes.filter((n) => n.kind === 'project').sort(byNewest);
+const clubs = nodes.filter((n) => n.kind === 'club' && n.resume !== false).sort(byNewest);
+const work = nodes.filter((n) => n.kind === 'work' && n.resume !== false).sort(byNewest);
+const projects = nodes.filter((n) => n.kind === 'project' && n.resume !== false).sort(byNewest);
 
 const t = (n: TimelineNode) => content.timeline[n.id];
 ---
@@ -335,7 +335,7 @@ const t = (n: TimelineNode) => content.timeline[n.id];
   .contact {
     margin-top: 4pt;
     font-family: var(--font-mono);
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: var(--ink-muted);
   }
 
@@ -345,7 +345,7 @@ const t = (n: TimelineNode) => content.timeline[n.id];
 
   /* Sections */
   section {
-    margin-top: 7pt;
+    margin-top: 5pt;
     break-inside: avoid;
   }
 
