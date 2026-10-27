@@ -24,7 +24,10 @@ export const skills: SkillRow[] = [
   {
     id: 'cloud',
     label: { en: 'Cloud', pt: 'Nuvem' },
-    value: 'AWS · OpenStack · Docker · Kubernetes · Terraform',
+    value: {
+      en: 'AWS (Cloud Practitioner certification — exam by Dec 2026) · OpenStack · Docker · Kubernetes · Terraform',
+      pt: 'AWS (certificação Cloud Practitioner — prova até dez 2026) · OpenStack · Docker · Kubernetes · Terraform',
+    },
   },
   {
     id: 'ai',

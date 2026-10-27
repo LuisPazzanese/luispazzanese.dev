@@ -40,6 +40,12 @@ export interface Translations {
     repoLabel: string;
     /** Tooltip on highlight images that open full-size. */
     zoom: string;
+    /** Label of the JS-only button that opens every timeline <details>. */
+    openAll: string;
+    /** Same button once everything is open. */
+    closeAll: string;
+    /** aria-label of the lightbox close button. */
+    close: string;
     /** Short lowercase label per NodeKind. */
     kind: {
       origin: string;

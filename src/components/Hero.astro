@@ -13,7 +13,9 @@ const { lang } = Astro.props;
 const t = translations[lang];
 ---
 
-<header class="card container">
+<!-- data-card: enhance.ts watches this element to show the sticky bar once
+     the card has scrolled out of view. -->
+<header class="card container" data-card>
   <img
     class="card__photo"
     src={profile.photo}

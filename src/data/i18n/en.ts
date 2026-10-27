@@ -30,6 +30,9 @@ export const en: Translations = {
     details: 'Technical details',
     repoLabel: 'repo',
     zoom: 'Open full size',
+    openAll: 'Open all technical details',
+    closeAll: 'Close all',
+    close: 'Close',
     kind: {
       origin: 'origin',
       education: 'education',

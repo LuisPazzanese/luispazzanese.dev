@@ -27,9 +27,20 @@ function yearLabel(node: TimelineNode): string {
 const external = (href: string) => !(href.startsWith('/') || href.startsWith('mailto:'));
 ---
 
-<section id="timeline" aria-labelledby="timeline-heading">
+<!-- data-timeline + the two labels are hooks for the JS-only "open all"
+     button (src/scripts/enhance.ts); without JS nothing is rendered in .head
+     besides the heading. -->
+<section
+  id="timeline"
+  aria-labelledby="timeline-heading"
+  data-timeline
+  data-open-all={t.ui.openAll}
+  data-close-all={t.ui.closeAll}
+>
   <div class="container">
-    <h2 id="timeline-heading">{t.sections.timeline}</h2>
+    <div class="head">
+      <h2 id="timeline-heading">{t.sections.timeline}</h2>
+    </div>
 
     <ol class="rows">
       {
@@ -198,6 +209,36 @@ const external = (href: string) => !(href.startsWith('/') || href.startsWith('ma
 </section>
 
 <style>
+  /* Heading row; the JS-added toggle sits at its right end. */
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .head :global(.toggle-all) {
+    flex-shrink: 0;
+    margin-bottom: 16px; /* same as h2 */
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 15px;
+    color: var(--accent);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .head :global(.toggle-all:hover) {
+    color: var(--accent-hover);
+  }
+
+  .head :global(.toggle-all:focus-visible) {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+
   .rows {
     list-style: none;
     padding: 0;

@@ -130,3 +130,79 @@ summary:hover {
 details > summary + * {
   margin-top: 8px;
 }
+
+/* Lightbox (JS-only, built by src/scripts/enhance.ts — styled here because it
+   has no component to be scoped to). Backdrop, centred media, ✕ at the top
+   right, title at the bottom. 120 ms fade, none under reduced motion. */
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+
+.lb--in {
+  opacity: 1;
+}
+
+.lb__media {
+  max-width: 92vw;
+  max-height: 90vh;
+}
+
+.lb__media > img,
+.lb__media > video {
+  max-width: 92vw;
+  max-height: 90vh;
+  background: #fff;
+}
+
+.lb__media > video {
+  background: #000;
+}
+
+.lb__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lb__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.lb__close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.lb__title {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 12px;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb {
+    transition: none;
+  }
+}

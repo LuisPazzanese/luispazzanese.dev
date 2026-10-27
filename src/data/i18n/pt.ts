@@ -33,6 +33,9 @@ export const pt: Translations = {
     details: 'Detalhes técnicos',
     repoLabel: 'repositório',
     zoom: 'Abrir em tamanho real',
+    openAll: 'Abrir todos os detalhes técnicos',
+    closeAll: 'Fechar todos',
+    close: 'Fechar',
     kind: {
       origin: 'origem',
       education: 'formação',

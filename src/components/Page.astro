@@ -9,6 +9,7 @@ import Timeline from './Timeline.astro';
 import Skills from './Skills.astro';
 import Contact from './Contact.astro';
 import { translations, type LangCode } from '../data/i18n';
+import { profile } from '../data/profile';
 
 interface Props {
   lang: LangCode;
@@ -28,6 +29,16 @@ const other =
 <BaseLayout lang={lang} title={t.meta.title} description={t.meta.description} path={path}>
   <a class="skip-link" href="#highlights">{t.meta.skipLink}</a>
 
+  <!-- Sticky bar: name + resume link, fixed at the top once the card is out
+       of view. Rendered `hidden`; only src/scripts/enhance.ts ever shows it,
+       so pages without JS carry it inert. -->
+  <div class="bar" data-bar hidden>
+    <div class="bar__inner container">
+      <span class="bar__name">{profile.shortName}</span>
+      <a href={t.profile.resumeHref} download>{t.hero.linkCV}</a>
+    </div>
+  </div>
+
   <nav class="lang container" aria-label="Language">
     <a href={other.href} hreflang={other.hreflang} lang={other.hreflang}>{other.label}</a>
   </nav>
@@ -41,6 +52,10 @@ const other =
     <Contact lang={lang} />
   </main>
 </BaseLayout>
+
+<!-- The only client script: lightbox, video autoplay, "open all" toggle and
+     the sticky bar. Every feature is additive; see the file header. -->
+<script src="../scripts/enhance.ts"></script>
 
 <style>
   /* Keyboard-only skip link — visible on focus, otherwise off-screen. */
@@ -60,5 +75,38 @@ const other =
     padding-top: 24px;
     text-align: right;
     font-size: 15px;
+  }
+
+  /* Sticky bar, 48px, white on a hairline. Hidden via the `hidden` attribute
+     (display: none from the UA stylesheet — do not set `display` on .bar). */
+  .bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 48px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 100%;
+    font-size: 15px;
+  }
+
+  .bar__name {
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bar__inner > a {
+    flex-shrink: 0;
   }
 </style>

@@ -16,21 +16,28 @@ const { lang } = Astro.props;
 const t = translations[lang];
 ---
 
-<section id="highlights" aria-labelledby="highlights-heading">
+<!-- data-close / data-zoom: labels read by src/scripts/enhance.ts for the
+     JS-only lightbox; the markup itself works without them. -->
+<section id="highlights" aria-labelledby="highlights-heading" data-close={t.ui.close} data-zoom={t.ui.zoom}>
   <div class="container">
     <h2 id="highlights-heading">{t.sections.highlights}</h2>
 
     <ul class="grid">
       {
-        highlights.map((h) => {
+        highlights.map((h, i) => {
           const m = h.media;
           const isSvg = m.src.endsWith('.svg');
           return (
             <li class="item">
               {mediaExists(m.src) && (
-                <figure class:list={['media', { 'media--diagram': isSvg }]}>
+                <figure
+                  class:list={['media', { 'media--diagram': isSvg }]}
+                  data-lightbox={i}
+                  data-title={pick(h.title, lang)}
+                >
                   {m.kind === 'video' ? (
                     <video
+                      data-autoplay
                       controls
                       preload="none"
                       playsinline
@@ -72,6 +79,15 @@ const t = translations[lang];
 </section>
 
 <style>
+  /* Full-width tinted band: the most important block gets visual weight.
+     Top padding comes from the global `section` rule; the margin keeps the
+     card's breathing room white. */
+  #highlights {
+    margin-top: 40px;
+    padding-bottom: 56px;
+    background: #f6f7f9;
+  }
+
   .grid {
     list-style: none;
     padding: 0;
@@ -87,14 +103,44 @@ const t = translations[lang];
   }
 
   /* 16:10 media box. Photos cover; the diagram and the (portrait) video fit
-     whole on a neutral background so nothing is cropped. */
+     whole on a neutral background so nothing is cropped. `position: relative`
+     anchors the JS-added open button over the video. */
   .media {
+    position: relative;
     aspect-ratio: 16 / 10;
     border: 1px solid var(--line);
     border-radius: 4px;
     overflow: hidden;
     background: #f4f4f4;
     margin-bottom: 16px;
+  }
+
+  /* JS-only (enhance.ts): transparent button over the video, leaving the
+     bottom 48px free for the native controls bar. */
+  .media :global(.media__open) {
+    position: absolute;
+    inset: 0 0 48px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: zoom-in;
+  }
+
+  .media :global(.media__open:focus-visible) {
+    outline: 2px solid var(--fg);
+    outline-offset: -4px;
+  }
+
+  /* While the video autoplays (JS adds `media--live`) the Chromium/WebKit
+     controls bar stays hidden until the box is hovered or holds focus.
+     Firefox has no such pseudo-element and keeps its own auto-hiding bar. */
+  .media--live > video::-webkit-media-controls {
+    opacity: 0;
+  }
+
+  .media--live:hover > video::-webkit-media-controls,
+  .media--live:focus-within > video::-webkit-media-controls {
+    opacity: 1;
   }
 
   .media > a {
