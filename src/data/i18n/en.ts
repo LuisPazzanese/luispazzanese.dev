@@ -29,6 +29,7 @@ export const en: Translations = {
     gradLabel: 'graduating',
     details: 'Technical details',
     repoLabel: 'repo',
+    zoom: 'Open full size',
     kind: {
       origin: 'origin',
       education: 'education',

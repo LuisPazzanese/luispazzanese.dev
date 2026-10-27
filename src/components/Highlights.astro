@@ -40,7 +40,9 @@ const t = translations[lang];
                       <source src={m.src} type="video/mp4" />
                     </video>
                   ) : (
-                    <img src={m.src} alt={pick(m.alt, lang)} loading="lazy" decoding="async" />
+                    <a href={m.src} target="_blank" rel="noopener" title={t.ui.zoom}>
+                      <img src={m.src} alt={pick(m.alt, lang)} loading="lazy" decoding="async" />
+                    </a>
                   )}
                 </figure>
               )}
@@ -84,25 +86,39 @@ const t = translations[lang];
     }
   }
 
-  /* 16:10 media box; photos cover, the diagram fits on white. */
+  /* 16:10 media box. Photos cover; the diagram and the (portrait) video fit
+     whole on a neutral background so nothing is cropped. */
   .media {
     aspect-ratio: 16 / 10;
     border: 1px solid var(--line);
     border-radius: 4px;
     overflow: hidden;
-    background: #fff;
+    background: #f4f4f4;
     margin-bottom: 16px;
   }
 
-  .media > img,
+  .media > a {
+    display: block;
+    height: 100%;
+  }
+
+  .media img,
   .media > video {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .media--diagram > img {
+  .media > video,
+  .media--diagram img {
     object-fit: contain;
+  }
+
+  .media--diagram {
+    background: #fff;
+  }
+
+  .media--diagram img {
     padding: 8px;
   }
 

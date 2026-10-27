@@ -32,6 +32,7 @@ export const pt: Translations = {
     gradLabel: 'formatura',
     details: 'Detalhes técnicos',
     repoLabel: 'repositório',
+    zoom: 'Abrir em tamanho real',
     kind: {
       origin: 'origem',
       education: 'formação',

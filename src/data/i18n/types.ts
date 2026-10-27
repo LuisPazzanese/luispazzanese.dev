@@ -38,6 +38,8 @@ export interface Translations {
     details: string;
     /** Prefix before a repository link. */
     repoLabel: string;
+    /** Tooltip on highlight images that open full-size. */
+    zoom: string;
     /** Short lowercase label per NodeKind. */
     kind: {
       origin: string;
