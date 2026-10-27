@@ -27,6 +27,14 @@ export const en: Translations = {
   ui: {
     alsoLabel: 'also',
     gradLabel: 'graduating',
+    kind: {
+      origin: 'origin',
+      education: 'education',
+      club: 'club',
+      work: 'work',
+      project: 'project',
+      now: 'now',
+    },
   },
   contact: {
     emailLabel: 'Email',

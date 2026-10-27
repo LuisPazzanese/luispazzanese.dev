@@ -24,6 +24,8 @@ export interface TimelineNodeStrings {
   summary?: string;
   bullets: string[];
   artifacts: string[];
+  /** alt text per media item, same order as the node's `media` */
+  media: string[];
   /** keyed by repo slug (or project name when there is no repo) */
   projects: Record<string, string>;
   /** [termIndex][courseIndex], same order as the node's `coursework` */
@@ -69,6 +71,7 @@ export function deriveContent(lang: LangCode): ContentStrings {
       summary: n.summary ? pick(n.summary, lang).replace('{semester}', semester) : undefined,
       bullets: n.bullets.map((b) => pick(b, lang)),
       artifacts: n.artifacts.map((a) => pick(a.label, lang)),
+      media: (n.media ?? []).map((m) => pick(m.alt, lang)),
       projects,
       coursework: (n.coursework ?? []).map((term) => term.courses.map((c) => pick(c.name, lang))),
     };

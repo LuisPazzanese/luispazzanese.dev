@@ -25,21 +25,29 @@ const en = translations.en;
 </section>
 
 <style>
+  /* The <dl> is the grid; each row's wrapper is `display: contents`, so the
+     label column is exactly as wide as the longest label in the active
+     language and every value starts on the same vertical line. */
   .skills {
-    margin: 2rem 0 0;
-    padding: 1.5rem;
+    margin: var(--space-heading) 0 0;
+    padding: 1rem 1.5rem;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--bg-elev);
     font-family: var(--font-mono);
-    font-size: 0.9rem;
-    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 1.25rem;
   }
 
   .skills__row {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 1rem;
+    display: contents;
+  }
+
+  .skills__row dt,
+  .skills__row dd {
     padding: 0.35rem 0;
   }
 
@@ -56,13 +64,25 @@ const en = translations.en;
   .skills__row dd {
     margin: 0;
     color: var(--fg);
+    overflow-wrap: anywhere;
   }
 
+  /* Phones: label above value; a hairline between rows keeps them distinct. */
   @media (max-width: 520px) {
-    .skills__row {
+    .skills {
       grid-template-columns: 1fr;
-      gap: 0.1rem;
-      padding: 0.4rem 0;
+      padding: 0.5rem 1.1rem;
+    }
+    .skills__row dt {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      padding: 0.6rem 0 0;
+    }
+    .skills__row dd {
+      padding: 0.1rem 0 0.6rem;
+    }
+    .skills__row + .skills__row dt {
+      border-top: 1px solid var(--line);
     }
   }
 </style>

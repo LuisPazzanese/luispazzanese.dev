@@ -47,6 +47,16 @@ export interface Term {
   courses: Course[];
 }
 
+/** A photo or clip under public/media/ (see public/media/README.md for the expected filenames). */
+export interface Media {
+  /** Path under /media/, e.g. '/media/nuvu-helmet.jpg'. Items whose file is missing at build time are skipped. */
+  src: string;
+  kind: 'image' | 'video';
+  alt: L;
+  /** Still frame shown before a video is played. */
+  poster?: string;
+}
+
 export interface TimelineNode {
   /** Stable id; used as the i18n key prefix `timeline.<id>.*` and as the DOM anchor. */
   id: string;
@@ -69,6 +79,8 @@ export interface TimelineNode {
   coursework?: Term[];
   artifacts: Artifact[];
   tags: string[];
+  /** Photos/clips rendered under the summary. Only files that exist at build time are shown. */
+  media?: Media[];
 }
 
 export function repoHref(slug: string): string {
@@ -102,6 +114,15 @@ export const nodes: TimelineNode[] = [
           'Passou um ano na turma ITA do Poliedro (São José dos Campos) — a trilha de vestibular da escola de engenharia ' +
           'mais seletiva do país — antes de entrar no Insper.',
       },
+    ],
+    media: [
+      {
+        src: '/media/nuvu-helmet.jpg',
+        kind: 'image',
+        alt: { en: 'Retractable acid-rain helmet built at MIT NuVu', pt: 'Capacete retrátil contra chuva ácida feito no MIT NuVu' },
+      },
+      { src: '/media/cats-cambridge.jpg', kind: 'image', alt: { en: 'CATS College Cambridge, 2019', pt: 'CATS College Cambridge, 2019' } },
+      { src: '/media/els-canada.jpg', kind: 'image', alt: { en: 'ELS Language Centers, Canada', pt: 'ELS Language Centers, Canadá' } },
     ],
     artifacts: [],
     tags: [],
@@ -348,6 +369,14 @@ export const nodes: TimelineNode[] = [
         stack: ['C', 'GPIO', 'IRQ'],
       },
     ],
+    media: [
+      {
+        src: '/media/air-mouse.mp4',
+        kind: 'video',
+        poster: '/media/air-mouse-poster.jpg',
+        alt: { en: 'Air Mouse demo — MPU6050 + FreeRTOS on RP2350', pt: 'Demo do Air Mouse — MPU6050 + FreeRTOS no RP2350' },
+      },
+    ],
     artifacts: [{ href: profile.github, label: { en: 'All repositories', pt: 'Todos os repositórios' } }],
     tags: ['C', 'FreeRTOS', 'RP2350', 'I2C', 'SPI', 'ADC'],
   },
@@ -430,6 +459,10 @@ export const nodes: TimelineNode[] = [
           'com expressões faciais e uma máquina de estados que a faz se comportar como uma aranha. Fase inicial.',
       },
     ],
+    media: [
+      { src: '/media/spider-fpga.jpg', kind: 'image', alt: { en: 'Terasic Spider robot on a DE0-Nano-SoC', pt: 'Robô Terasic Spider em uma DE0-Nano-SoC' } },
+      { src: '/media/vhdl-cpu.jpg', kind: 'image', alt: { en: 'MIPS CPU in VHDL on a DE0-CV', pt: 'CPU MIPS em VHDL numa DE0-CV' } },
+    ],
     artifacts: [],
     tags: ['VHDL', 'FPGA', 'OpenStack', 'AWS', 'Terraform', 'Embedded Linux'],
   },
@@ -506,7 +539,7 @@ export function validateTimeline(list: TimelineNode[] = nodes): void {
     if (n.bullets.length > 3) throw new Error(`${where}: max 3 bullets — cut, don't pile`);
     if (n.tags.length > 6) throw new Error(`${where}: max 6 tags`);
 
-    const strings: L[] = [n.role, ...n.bullets, ...n.artifacts.map((a) => a.label)];
+    const strings: L[] = [n.role, ...n.bullets, ...n.artifacts.map((a) => a.label), ...(n.media ?? []).map((m) => m.alt)];
     if (n.summary) strings.push(n.summary);
     if (n.dateLabel) strings.push(n.dateLabel);
     for (const p of n.projects ?? []) {

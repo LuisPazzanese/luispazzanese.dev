@@ -43,11 +43,18 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
 </section>
 
 <style>
+  /* Four cards: 2×2 on anything wider than a phone, stacked below. */
   .contact {
-    margin: 2rem 0 0;
+    margin: var(--space-heading) 0 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 600px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
   }
 
   .contact > div {
@@ -73,7 +80,7 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
   }
 
   .footer {
-    margin-top: 3rem;
+    margin-top: 4rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--line);
     font-family: var(--font-mono);
@@ -86,5 +93,15 @@ const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\
 
   .footer__sep {
     color: var(--line-strong);
+  }
+
+  @media (max-width: 600px) {
+    .footer {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .footer__sep {
+      display: none;
+    }
   }
 </style>

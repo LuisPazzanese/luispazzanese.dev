@@ -19,6 +19,7 @@
   /* Accent — single sutil green/cyan, used sparingly */
   --accent: #7ee7c7;
   --accent-dim: #4fa88d;
+  --accent-soft: rgba(126, 231, 199, 0.12);
 
   /* Type */
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -27,6 +28,11 @@
   /* Layout */
   --max-w: 880px;
   --pad-x: clamp(1.25rem, 4vw, 2rem);
+  /* Vertical rhythm: section padding and the gap between a section's h2 and its content. */
+  --space-section: 6rem;
+  --space-heading: 2.5rem;
+  /* Timeline: width of the date gutter on wide screens. */
+  --gutter: 10rem;
 
   /* Misc */
   --radius: 4px;
@@ -129,7 +135,7 @@ samp {
 
 /* Section spacing */
 section {
-  padding: 5rem 0;
+  padding: var(--space-section) 0;
   border-top: 1px solid var(--line);
 }
 
@@ -138,8 +144,9 @@ section:first-of-type {
 }
 
 @media (max-width: 600px) {
-  section {
-    padding: 3.5rem 0;
+  :root {
+    --space-section: 4rem;
+    --space-heading: 2rem;
   }
 }
 

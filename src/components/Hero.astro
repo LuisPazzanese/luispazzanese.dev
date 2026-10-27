@@ -16,21 +16,23 @@ const en = translations.en;
 
     <h1 class="hero__name">{profile.name}</h1>
 
+    <!-- Thesis: the one line a recruiter reads. Sans, large, full contrast. -->
     <p class="hero__headline" data-i18n="profile.headline">{en.profile.headline}</p>
     <p class="hero__pitch" data-i18n="profile.pitch">{en.profile.pitch}</p>
 
-    <ul class="hero__focus" aria-label="Focus areas">
-      {en.profile.focus.map((f, i) => <li data-i18n={`profile.focus.${i}`}>{f}</li>)}
-    </ul>
+    <!-- Meta bar: degree/semester/graduation on the left, links on the right.
+         (profile.focus is intentionally not rendered here: the headline already
+         names the same three areas; the chips only added a block to scan.) -->
+    <div class="hero__meta">
+      <p class="hero__degree" data-i18n="profile.degreeLine">{en.profile.degreeLine}</p>
 
-    <p class="hero__degree" data-i18n="profile.degreeLine">{en.profile.degreeLine}</p>
-
-    <nav class="hero__links" aria-label={en.nav.primary} data-i18n-aria="nav.primary">
-      <a href={profile.github} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkGithub">{en.hero.linkGithub}</a>
-      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkLinkedin">{en.hero.linkLinkedin}</a>
-      <a href={`mailto:${profile.email}`} data-i18n="hero.linkEmail">{en.hero.linkEmail}</a>
-      <a href={en.profile.resumeHref} target="_blank" rel="noopener noreferrer" data-i18n="profile.resumeHref" data-i18n-attr="href"><span data-i18n="hero.linkCV">{en.hero.linkCV}</span></a>
-    </nav>
+      <nav class="hero__links" aria-label={en.nav.primary} data-i18n-aria="nav.primary">
+        <a href={profile.github} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkGithub">{en.hero.linkGithub}</a>
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkLinkedin">{en.hero.linkLinkedin}</a>
+        <a href={`mailto:${profile.email}`} data-i18n="hero.linkEmail">{en.hero.linkEmail}</a>
+        <a href={en.profile.resumeHref} target="_blank" rel="noopener noreferrer" data-i18n="profile.resumeHref" data-i18n-attr="href"><span data-i18n="hero.linkCV">{en.hero.linkCV}</span></a>
+      </nav>
+    </div>
   </div>
 </header>
 
@@ -47,6 +49,11 @@ const en = translations.en;
     overflow: hidden;
   }
 
+  /* The PCB canvas stays, dimmed so it never competes with the type. */
+  .hero :global(.pcb) {
+    opacity: 0.55;
+  }
+
   .hero__inner {
     position: relative;
     z-index: 1;
@@ -54,9 +61,9 @@ const en = translations.en;
 
   .hero__eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--accent-dim);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .hero__eyebrow::after {
@@ -72,69 +79,74 @@ const en = translations.en;
 
   .hero__name {
     font-family: var(--font-mono);
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
-    font-weight: 500;
+    font-size: clamp(1.9rem, 5.5vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
     color: var(--fg);
-    margin-bottom: 0.75rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    margin-bottom: 1.25rem;
   }
 
   .hero__headline {
-    font-family: var(--font-mono);
-    font-size: clamp(1rem, 2.2vw, 1.15rem);
-    color: var(--accent);
-    max-width: 60ch;
+    font-family: var(--font-sans);
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--fg);
+    max-width: 42ch;
+    text-wrap: pretty;
     margin-bottom: 1rem;
   }
 
   .hero__pitch {
+    font-size: 0.95rem;
     color: var(--fg-muted);
-    max-width: 60ch;
-    margin-bottom: 1.25rem;
+    max-width: 52ch;
+    margin-bottom: 2.5rem;
   }
 
-  .hero__focus {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1rem;
+  .hero__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .hero__focus li {
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-strong);
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--fg-muted);
-    padding: 0.15rem 0.5rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 2px;
+    font-size: 0.85rem;
   }
 
   .hero__degree {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--fg-dim);
-    margin-bottom: 2.5rem;
+    color: var(--fg-muted);
   }
 
   .hero__links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
   }
 
   .hero__links a {
-    border-bottom: 1px solid var(--line-strong);
+    color: var(--fg);
+    border-bottom: 1px solid var(--accent-dim);
     padding-bottom: 2px;
   }
 
   @media (max-width: 600px) {
     .hero {
       min-height: 90vh;
+      min-height: 90svh;
       padding: 5rem 0 3rem;
+    }
+
+    .hero__eyebrow {
+      margin-bottom: 1.5rem;
+    }
+
+    .hero__pitch {
+      margin-bottom: 2rem;
     }
   }
 </style>

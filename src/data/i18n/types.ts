@@ -34,6 +34,15 @@ export interface Translations {
     alsoLabel: string;
     /** Prefix of the expected graduation month in the hero degree line. */
     gradLabel: string;
+    /** Short lowercase label printed in the timeline gutter under the date, one per NodeKind. */
+    kind: {
+      origin: string;
+      education: string;
+      club: string;
+      work: string;
+      project: string;
+      now: string;
+    };
   };
   contact: {
     emailLabel: string;

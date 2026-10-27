@@ -30,6 +30,14 @@ export const pt: Translations = {
   ui: {
     alsoLabel: 'também',
     gradLabel: 'formatura',
+    kind: {
+      origin: 'origem',
+      education: 'formação',
+      club: 'entidade',
+      work: 'trabalho',
+      project: 'projeto',
+      now: 'agora',
+    },
   },
   contact: {
     emailLabel: 'Email',
