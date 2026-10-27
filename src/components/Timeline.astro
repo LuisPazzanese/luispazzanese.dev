@@ -1,0 +1,365 @@
+---
+// Trajectory: one vertical rail, oldest node at the top, "now" at the bottom.
+// Every string comes from src/data/timeline.ts via translations.en; the
+// data-i18n keys mirror the record shape (timeline.<id>.bullets.0, ...).
+// To change content, edit the data file — this component only lays it out.
+import { nodes, archive, repoHref } from '../data/timeline';
+import { translations } from '../data/i18n';
+
+const en = translations.en;
+---
+
+<section id="timeline" class="reveal" aria-labelledby="timeline-heading">
+  <div class="container">
+    <h2 id="timeline-heading" data-i18n="sections.timeline">{en.sections.timeline}</h2>
+
+    <ol class="rail">
+      {
+        nodes.map((node) => {
+          const t = en.timeline[node.id];
+          const featured = (node.projects ?? []).filter((p) => p.featured);
+          const rest = (node.projects ?? []).filter((p) => !p.featured);
+          return (
+            <li class={`node node--${node.kind}`}>
+              <article id={node.id} class="node__body">
+                <header class="node__head">
+                  <h3 class="node__role" data-i18n={`timeline.${node.id}.role`}>{t.role}</h3>
+                  {node.org && (
+                    <span class="node__org">
+                      {node.orgHref ? (
+                        <a href={node.orgHref} target="_blank" rel="noopener noreferrer">{node.org}</a>
+                      ) : (
+                        node.org
+                      )}
+                    </span>
+                  )}
+                  <span class="node__date" data-i18n={`timeline.${node.id}.date`}>{t.date}</span>
+                </header>
+
+                {t.summary && <p class="node__summary" data-i18n={`timeline.${node.id}.summary`}>{t.summary}</p>}
+
+                {t.bullets.length > 0 && (
+                  <ul class="node__bullets">
+                    {t.bullets.map((b, i) => <li data-i18n={`timeline.${node.id}.bullets.${i}`}>{b}</li>)}
+                  </ul>
+                )}
+
+                {featured.length > 0 && (
+                  <ul class="node__projects">
+                    {featured.map((p) => {
+                      const key = p.repo ?? p.name;
+                      return (
+                        <li class="project">
+                          <h4 class="project__name">
+                            {p.repo ? (
+                              <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
+                            ) : (
+                              p.name
+                            )}
+                          </h4>
+                          <p class="project__desc" data-i18n={`timeline.${node.id}.projects.${key}`}>{t.projects[key]}</p>
+                          <ul class="chips" aria-label="Stack">
+                            {p.stack.map((s) => <li>{s}</li>)}
+                          </ul>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+
+                {rest.length > 0 && (
+                  <p class="node__also">
+                    <span class="node__also-label" data-i18n="ui.alsoLabel">{en.ui.alsoLabel}</span>:
+                    {rest.map((p, i) => (
+                      <>
+                        {i > 0 && <span class="sep" aria-hidden="true"> · </span>}
+                        {p.repo ? (
+                          <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
+                        ) : (
+                          <span>{p.name}</span>
+                        )}
+                      </>
+                    ))}
+                  </p>
+                )}
+
+                {node.artifacts.length > 0 && (
+                  <p class="node__artifacts">
+                    {node.artifacts.map((a, i) => (
+                      <a
+                        href={a.href}
+                        target={a.href.startsWith('/') || a.href.startsWith('mailto:') ? undefined : '_blank'}
+                        rel={a.href.startsWith('/') || a.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                        data-i18n={`timeline.${node.id}.artifacts.${i}`}
+                      >
+                        {t.artifacts[i]}
+                      </a>
+                    ))}
+                  </p>
+                )}
+
+                {node.tags.length > 0 && (
+                  <ul class="chips chips--tags" aria-label="Tags">
+                    {node.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )}
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <h3 class="archive__title" data-i18n="sections.archive">{en.sections.archive}</h3>
+    <ul class="archive">
+      {
+        archive.map((p) => {
+          const key = p.repo ?? p.name;
+          return (
+            <li>
+              <span class="archive__name">
+                {p.repo ? (
+                  <a href={repoHref(p.repo)} target="_blank" rel="noopener noreferrer">{p.name}</a>
+                ) : (
+                  p.name
+                )}
+              </span>
+              <span class="archive__desc" data-i18n={`archive.${key}`}>{en.archive[key]}</span>
+              <span class="archive__stack">{p.stack.join(' · ')}</span>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Rail: a 1px vertical line on the left, one dot per node. */
+  .rail {
+    list-style: none;
+    padding: 0;
+    margin: 2.5rem 0 0;
+    position: relative;
+    border-left: 1px solid var(--line);
+  }
+
+  .node {
+    position: relative;
+    padding: 0 0 3rem 2rem;
+  }
+
+  .node:last-child {
+    padding-bottom: 0;
+  }
+
+  .node::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.45rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+  }
+
+  .node--origin::before {
+    border-color: var(--line);
+  }
+
+  .node--now::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(126, 231, 199, 0.15);
+  }
+
+  .node__body {
+    /* Anchor offset so #zagros etc. don't hide under the browser chrome. */
+    scroll-margin-top: 2rem;
+  }
+
+  .node__date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-dim);
+    margin-left: auto;
+  }
+
+  .node__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .node__role {
+    font-size: 1.05rem;
+    color: var(--fg);
+  }
+
+  .node__org {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--accent);
+  }
+
+  .node__org a {
+    color: inherit;
+  }
+
+  .node__summary {
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+    max-width: 65ch;
+    margin-bottom: 0.75rem;
+  }
+
+  .node__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    display: grid;
+    gap: 0.5rem;
+    max-width: 70ch;
+  }
+
+  .node__bullets li {
+    padding-left: 1.25rem;
+    position: relative;
+    font-size: 0.95rem;
+  }
+
+  .node__bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent-dim);
+    font-family: var(--font-mono);
+  }
+
+  .node__projects {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0.75rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .project {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+  }
+
+  .project__name {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+
+  .project__desc {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .chips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .chips li {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--fg-dim);
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+
+  .chips--tags {
+    margin-top: 0.75rem;
+  }
+
+  .node__also,
+  .node__artifacts {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .node__also-label {
+    color: var(--fg-dim);
+  }
+
+  .node__also .sep {
+    color: var(--fg-dim);
+  }
+
+  .node__artifacts a {
+    margin-right: 1.25rem;
+    color: var(--accent);
+  }
+
+  /* Archive: one row per repo, name · description · stack. */
+  .archive__title {
+    margin-top: 3.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--fg-dim);
+    text-transform: lowercase;
+  }
+
+  .archive {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .archive li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    align-items: baseline;
+  }
+
+  .archive__name {
+    font-family: var(--font-mono);
+  }
+
+  .archive__desc {
+    color: var(--fg-muted);
+  }
+
+  .archive__stack {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-dim);
+  }
+
+  @media (max-width: 600px) {
+    .node {
+      padding-left: 1.5rem;
+    }
+
+    /* Date above the role on narrow screens. */
+    .node__date {
+      order: -1;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+</style>

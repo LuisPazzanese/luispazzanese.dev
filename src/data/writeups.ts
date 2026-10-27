@@ -1,5 +1,5 @@
-// CTF writeup data. Empty for now — the section renders a placeholder when this is empty.
-// To add a writeup, push an object with the shape below and the section will render it.
+// CTF writeup data. While this is empty the writeups section is not rendered at all.
+// To add a writeup, push an object with the shape below and the section will appear.
 
 export interface Writeup {
   title: string;

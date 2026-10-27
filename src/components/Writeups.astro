@@ -1,29 +1,16 @@
 ---
+// CTF writeups. Renders nothing while src/data/writeups.ts is empty; the page
+// only mounts this component when there is at least one entry.
 import { writeups } from '../data/writeups';
 import { en } from '../data/i18n';
-
-const hasWriteups = writeups.length > 0;
 ---
 
-<section id="writeups" class="reveal" aria-labelledby="writeups-heading">
-  <div class="container">
-    <h2 id="writeups-heading" data-i18n="sections.writeups">{en.sections.writeups}</h2>
+{
+  writeups.length > 0 && (
+    <section id="writeups" class="reveal" aria-labelledby="writeups-heading">
+      <div class="container">
+        <h2 id="writeups-heading" data-i18n="sections.writeups">{en.sections.writeups}</h2>
 
-    <div class="writeups__intro">
-      <p data-i18n-html="writeups.intro" set:html={en.writeups.intro}></p>
-    </div>
-
-    {
-      !hasWriteups && (
-        <div class="writeups__placeholder">
-          <p class="writeups__placeholder-title" data-i18n="writeups.placeholderTitle">{en.writeups.placeholderTitle}</p>
-          <p class="writeups__placeholder-sub" data-i18n="writeups.placeholderSub">{en.writeups.placeholderSub}</p>
-        </div>
-      )
-    }
-
-    {
-      hasWriteups && (
         <ul class="writeups__list">
           {writeups.map((w) => (
             <li class="writeup">
@@ -39,45 +26,12 @@ const hasWriteups = writeups.length > 0;
             </li>
           ))}
         </ul>
-      )
-    }
-  </div>
-</section>
+      </div>
+    </section>
+  )
+}
 
 <style>
-  .writeups__intro {
-    margin-top: 2rem;
-    max-width: 65ch;
-    color: var(--fg-muted);
-  }
-
-  .writeups__intro :global(.strong) {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.95em;
-  }
-
-  .writeups__placeholder {
-    margin-top: 2rem;
-    padding: 2rem 1.5rem;
-    border: 1px dashed var(--line-strong);
-    border-radius: var(--radius);
-    text-align: center;
-    background: var(--bg-elev);
-  }
-
-  .writeups__placeholder-title {
-    font-family: var(--font-mono);
-    color: var(--fg);
-    margin-bottom: 0.4rem;
-  }
-
-  .writeups__placeholder-sub {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--fg-dim);
-  }
-
   .writeups__list {
     list-style: none;
     padding: 0;

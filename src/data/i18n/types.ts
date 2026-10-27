@@ -1,5 +1,8 @@
 // Shared type for all translation files. Adding a new language is: copy en.ts,
 // translate the strings, register the import in index.ts.
+//
+// Only UI chrome lives here. Content (profile, timeline, skills) is authored
+// per record in src/data/*.ts and derived into strings by index.ts.
 
 export interface Translations {
   meta: {
@@ -13,82 +16,31 @@ export interface Translations {
   };
   hero: {
     eyebrow: string;
-    title: string;
-    subtitle: [string, string, string];
     linkGithub: string;
     linkLinkedin: string;
     linkEmail: string;
     linkCV: string;
-    /** Language-specific resume PDF served from /public. */
-    cvHref: string;
   };
   sections: {
-    about: string;
-    experience: string;
-    education: string;
-    projects: string;
+    timeline: string;
+    archive: string;
     writeups: string;
     skills: string;
     contact: string;
   };
-  about: {
-    /** Rendered as innerHTML — contains an <a href="#education"> link. */
-    body: string;
-    intl: string;
-  };
-  experience: {
-    role: string;
-    when: string;
-    about: string;
-    bullets: [string, string, string, string];
-  };
-  education: {
-    degree: string;
-    when: string;
-    courseworkLabel: string;
-    courseworkBody: string;
-    intlSubheading: string;
-    intlItems: [string, string, string];
-    preUniSubheading: string;
-    preUniItems: [string];
-  };
-  projects: {
-    embeddedTitle: string;
-    embeddedTag: string;
-    otherTitle: string;
-    fullRepoList: string;
-    descriptions: {
-      airMouse: string;
-      stepper: string;
-      rtos: string;
-      adc: string;
-      ultrasonic: string;
-      buzzer: string;
-      ninja: string;
-      retro: string;
-    };
-  };
-  writeups: {
-    /** Rendered as innerHTML — contains a <span class="strong"> highlight. */
-    intro: string;
-    placeholderTitle: string;
-    placeholderSub: string;
-  };
-  skills: {
-    languages: { label: string; value: string };
-    embedded: { label: string; value: string };
-    protocols: { label: string; value: string };
-    web: { label: string; value: string };
-    tools: { label: string; value: string };
-    security: { label: string; value: string };
-    spoken: { label: string; value: string };
+  /** Small chrome words used by the hero / timeline markup. (Not `timeline`:
+      that key is taken by the derived per-node content strings.) */
+  ui: {
+    /** Prefix of the compact non-featured project line: "also: a · b · c". */
+    alsoLabel: string;
+    /** Prefix of the expected graduation month in the hero degree line. */
+    gradLabel: string;
   };
   contact: {
     emailLabel: string;
     linkedinLabel: string;
     githubLabel: string;
     locationLabel: string;
-    locationValue: string;
     footer: string;
   };
   notFound: {

@@ -1,6 +1,11 @@
 ---
+// Hero: everything here comes from src/data/profile.ts (via translations.en
+// for the derived strings). Edit the data file, not this component.
 import PcbBackground from './PcbBackground.astro';
-import { en } from '../data/i18n';
+import { profile } from '../data/profile';
+import { translations } from '../data/i18n';
+
+const en = translations.en;
 ---
 
 <header class="hero">
@@ -9,22 +14,22 @@ import { en } from '../data/i18n';
   <div class="container hero__inner">
     <p class="hero__eyebrow" data-i18n="hero.eyebrow">{en.hero.eyebrow}</p>
 
-    <h1 class="hero__name">Luis Fernando Pazzanese Pinheiro</h1>
+    <h1 class="hero__name">{profile.name}</h1>
 
-    <p class="hero__title" data-i18n="hero.title">{en.hero.title}</p>
-    <p class="hero__subtitle">
-      <span data-i18n="hero.subtitle.0">{en.hero.subtitle[0]}</span>
-      <span class="dot" aria-hidden="true">·</span>
-      <span data-i18n="hero.subtitle.1">{en.hero.subtitle[1]}</span>
-      <span class="dot" aria-hidden="true">·</span>
-      <span data-i18n="hero.subtitle.2">{en.hero.subtitle[2]}</span>
-    </p>
+    <p class="hero__headline" data-i18n="profile.headline">{en.profile.headline}</p>
+    <p class="hero__pitch" data-i18n="profile.pitch">{en.profile.pitch}</p>
+
+    <ul class="hero__focus" aria-label="Focus areas">
+      {en.profile.focus.map((f, i) => <li data-i18n={`profile.focus.${i}`}>{f}</li>)}
+    </ul>
+
+    <p class="hero__degree" data-i18n="profile.degreeLine">{en.profile.degreeLine}</p>
 
     <nav class="hero__links" aria-label={en.nav.primary} data-i18n-aria="nav.primary">
-      <a href="https://github.com/LuisPazzanese" target="_blank" rel="noopener noreferrer" data-i18n="hero.linkGithub">{en.hero.linkGithub}</a>
-      <a href="https://www.linkedin.com/in/luis-pazzanese/" target="_blank" rel="noopener noreferrer" data-i18n="hero.linkLinkedin">{en.hero.linkLinkedin}</a>
-      <a href="mailto:luis@mywispy.com" data-i18n="hero.linkEmail">{en.hero.linkEmail}</a>
-      <a href={en.hero.cvHref} target="_blank" rel="noopener noreferrer" data-i18n="hero.cvHref" data-i18n-attr="href"><span data-i18n="hero.linkCV">{en.hero.linkCV}</span></a>
+      <a href={profile.github} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkGithub">{en.hero.linkGithub}</a>
+      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-i18n="hero.linkLinkedin">{en.hero.linkLinkedin}</a>
+      <a href={`mailto:${profile.email}`} data-i18n="hero.linkEmail">{en.hero.linkEmail}</a>
+      <a href={en.profile.resumeHref} target="_blank" rel="noopener noreferrer" data-i18n="profile.resumeHref" data-i18n-attr="href"><span data-i18n="hero.linkCV">{en.hero.linkCV}</span></a>
     </nav>
   </div>
 </header>
@@ -74,25 +79,43 @@ import { en } from '../data/i18n';
     letter-spacing: -0.02em;
   }
 
-  .hero__title {
+  .hero__headline {
     font-family: var(--font-mono);
     font-size: clamp(1rem, 2.2vw, 1.15rem);
     color: var(--accent);
-    margin-bottom: 0.4rem;
+    max-width: 60ch;
+    margin-bottom: 1rem;
   }
 
-  .hero__subtitle {
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
+  .hero__pitch {
     color: var(--fg-muted);
-    margin-bottom: 2.5rem;
+    max-width: 60ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero__focus {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem 0.6rem;
+    gap: 0.4rem;
   }
 
-  .hero__subtitle .dot {
+  .hero__focus li {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+  }
+
+  .hero__degree {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--fg-dim);
+    margin-bottom: 2.5rem;
   }
 
   .hero__links {

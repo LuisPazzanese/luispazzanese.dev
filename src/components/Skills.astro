@@ -1,16 +1,10 @@
 ---
-import { en } from '../data/i18n';
+// Rows come from src/data/skills.ts; the derived strings live under
+// translations.<lang>.skills.<id>.{label,value}.
+import { skills } from '../data/skills';
+import { translations } from '../data/i18n';
 
-// Order matches CLAUDE.md layout. Key is the i18n path under `skills.<key>`.
-const rows: Array<keyof typeof en.skills> = [
-  'languages',
-  'embedded',
-  'protocols',
-  'web',
-  'tools',
-  'security',
-  'spoken',
-];
+const en = translations.en;
 ---
 
 <section id="skills" class="reveal" aria-labelledby="skills-heading">
@@ -19,10 +13,10 @@ const rows: Array<keyof typeof en.skills> = [
 
     <dl class="skills">
       {
-        rows.map((k) => (
+        skills.map((s) => (
           <div class="skills__row">
-            <dt data-i18n={`skills.${k}.label`}>{en.skills[k].label}</dt>
-            <dd data-i18n={`skills.${k}.value`}>{en.skills[k].value}</dd>
+            <dt data-i18n={`skills.${s.id}.label`}>{en.skills[s.id].label}</dt>
+            <dd data-i18n={`skills.${s.id}.value`}>{en.skills[s.id].value}</dd>
           </div>
         ))
       }

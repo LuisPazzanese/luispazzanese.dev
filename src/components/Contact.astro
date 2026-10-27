@@ -1,7 +1,10 @@
 ---
-import { en } from '../data/i18n';
+import { profile } from '../data/profile';
+import { translations } from '../data/i18n';
 
+const en = translations.en;
 const year = new Date().getFullYear();
+const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 ---
 
 <section id="contact" class="reveal" aria-labelledby="contact-heading">
@@ -11,32 +14,28 @@ const year = new Date().getFullYear();
     <dl class="contact">
       <div>
         <dt data-i18n="contact.emailLabel">{en.contact.emailLabel}</dt>
-        <dd><a href="mailto:luis@mywispy.com">luis@mywispy.com</a></dd>
+        <dd><a href={`mailto:${profile.email}`}>{profile.email}</a></dd>
       </div>
       <div>
         <dt data-i18n="contact.linkedinLabel">{en.contact.linkedinLabel}</dt>
         <dd>
-          <a href="https://www.linkedin.com/in/luis-pazzanese/" target="_blank" rel="noopener noreferrer">
-            linkedin.com/in/luis-pazzanese
-          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{bare(profile.linkedin)}</a>
         </dd>
       </div>
       <div>
         <dt data-i18n="contact.githubLabel">{en.contact.githubLabel}</dt>
         <dd>
-          <a href="https://github.com/LuisPazzanese" target="_blank" rel="noopener noreferrer">
-            github.com/LuisPazzanese
-          </a>
+          <a href={profile.github} target="_blank" rel="noopener noreferrer">{bare(profile.github)}</a>
         </dd>
       </div>
       <div>
         <dt data-i18n="contact.locationLabel">{en.contact.locationLabel}</dt>
-        <dd data-i18n="contact.locationValue">{en.contact.locationValue}</dd>
+        <dd data-i18n="profile.location">{en.profile.location}</dd>
       </div>
     </dl>
 
     <footer class="footer">
-      <span>© {year} Luis Pazzanese</span>
+      <span>© {year} {profile.shortName}</span>
       <span class="footer__sep" aria-hidden="true">·</span>
       <span data-i18n="contact.footer">{en.contact.footer}</span>
       <span class="footer__sep" aria-hidden="true">·</span>
