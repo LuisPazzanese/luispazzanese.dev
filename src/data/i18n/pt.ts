@@ -5,9 +5,9 @@ import type { Translations } from './types';
 
 export const pt: Translations = {
   meta: {
-    title: 'Luis Pazzanese — Estudante de Engenharia da Computação · Embarcados & Cibersegurança',
+    title: 'Luis Pazzanese — Estudante de Engenharia da Computação · Embarcados, FPGA & Nuvem',
     description:
-      'Luis Fernando Pazzanese Pinheiro, estudante de Engenharia da Computação no Insper — sistemas embarcados, cibersegurança e programação de baixo nível. Firmware para microcontroladores ARM, exploração web em CTF, ferramentas de automação.',
+      'Luis Fernando Pazzanese Pinheiro, estudante de Engenharia da Computação no Insper — sistemas embarcados, hardware em FPGA/VHDL e infraestrutura em nuvem. Firmware para microcontroladores ARM, CPU MIPS em VHDL, ferramentas de automação que as pessoas usam.',
     skipLink: 'Pular para o conteúdo',
     langToggleAria: 'Trocar idioma',
   },

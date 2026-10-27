@@ -46,7 +46,7 @@ export const skills: SkillRow[] = [
   {
     id: 'tools',
     label: { en: 'Tools & web', pt: 'Ferramentas & web' },
-    value: 'Git · Linux · Python automation · Streamlit · Astro · WebAssembly · Cloudflare Workers',
+    value: 'Git · Linux · Python automation · Streamlit · FastAPI · Astro · TypeScript · Cloudflare Pages',
   },
   {
     id: 'spoken',

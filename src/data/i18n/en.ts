@@ -2,9 +2,9 @@ import type { Translations } from './types';
 
 export const en: Translations = {
   meta: {
-    title: 'Luis Pazzanese — Computer Engineering student · Embedded Systems & Cybersecurity',
+    title: 'Luis Pazzanese — Computer Engineering student · Embedded, FPGA & Cloud',
     description:
-      'Luis Fernando Pazzanese Pinheiro, Computer Engineering student at Insper — embedded systems, cybersecurity and low-level programming. Firmware for ARM microcontrollers, CTF web exploitation, automation tools.',
+      'Luis Fernando Pazzanese Pinheiro, Computer Engineering student at Insper — embedded systems, FPGA/VHDL hardware design and cloud infrastructure. Firmware for ARM microcontrollers, a MIPS CPU in VHDL, automation tools people use.',
     skipLink: 'Skip to content',
     langToggleAria: 'Switch language',
   },
