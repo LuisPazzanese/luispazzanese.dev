@@ -114,7 +114,7 @@ try {
       '--disable-gpu',
       `--user-data-dir=${profileDir}`,
       '--no-pdf-header-footer',
-      '--virtual-time-budget=5000', // lets the Google Fonts stylesheet + woff2 land before printing
+      '--virtual-time-budget=5000', // lets the self-hosted Plex woff2 files load before printing
       `--print-to-pdf=${out}`,
       url,
     ];

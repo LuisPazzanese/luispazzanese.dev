@@ -1,0 +1,73 @@
+---
+// Work and student organisations: date | role · org, one line, stack.
+// Data in src/data/experience.ts.
+import { experience } from '../data/experience';
+import { pick } from '../data/localized';
+import { formatRange } from '../data/dates';
+import { translations, type LangCode } from '../data/i18n';
+
+interface Props {
+  lang: LangCode;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section class="section container" aria-labelledby="exp-h">
+  <h2 id="exp-h" class="label">{t.sections.experience}</h2>
+  <ol class="entries">
+    {
+      experience.map((e) => (
+        <li class="entry">
+          <span class="label when">{formatRange(e.start, e.end, lang)}</span>
+          <div>
+            <h3>
+              {pick(e.role, lang)} · {e.orgHref ? <a href={e.orgHref}>{e.org}</a> : e.org}
+            </h3>
+            <p class="line">{pick(e.line, lang)}</p>
+            {e.stack.length > 0 && <p class="label stack">{e.stack.join(' · ')}</p>}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .entry {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .entry:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .when {
+    padding-top: 3px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .line {
+    color: var(--muted);
+    max-width: 68ch;
+  }
+
+  .stack {
+    margin-top: 6px;
+  }
+
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

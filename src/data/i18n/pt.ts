@@ -1,62 +1,44 @@
 import type { Translations } from './types';
 
-// Brazilian Portuguese. Technical terms (FreeRTOS, I2C, ARM, RP2350, etc.) and
-// proper nouns (Insper, MIT NuVu, etc.) are intentionally kept in English.
+// Português do Brasil. Termos técnicos (FreeRTOS, FPGA, VHDL) e nomes próprios
+// ficam em inglês.
 
 export const pt: Translations = {
   meta: {
-    title: 'Luis Pazzanese — Estudante de Engenharia da Computação · Embarcados, FPGA & Nuvem',
+    title: 'Luis Pazzanese · Sistemas embarcados e FPGA',
     description:
-      'Luis Fernando Pazzanese Pinheiro, estudante de Engenharia da Computação no Insper — sistemas embarcados, hardware em FPGA/VHDL e infraestrutura em nuvem. Firmware para microcontroladores ARM, CPU MIPS em VHDL, ferramentas de automação que as pessoas usam.',
-    skipLink: 'Pular para o conteúdo',
-  },
-  nav: {
-    primary: 'Principal',
-  },
-  hero: {
-    linkGithub: 'GitHub',
-    linkLinkedin: 'LinkedIn',
-    linkEmail: 'E-mail',
-    linkCV: 'Baixar currículo (PDF)',
-    photoAlt: 'Luis Pazzanese',
+      'Luis Pazzanese, estudante de Engenharia da Computação no Insper: firmware em C com FreeRTOS, CPU MIPS e IP de motor de passo em VHDL, rede neural rodando num microcontrolador.',
+    skipLink: 'Pular para os projetos',
   },
   sections: {
-    highlights: 'Destaques',
-    timeline: 'Trajetória',
-    archive: 'Também no GitHub',
+    projects: 'Projetos',
+    more: 'Mais projetos',
+    experience: 'Experiência',
+    education: 'Formação',
     skills: 'Competências',
-    contact: 'Contato',
+  },
+  rows: {
+    education: 'Formação',
+    seeking: 'Busca',
+    links: 'Links',
+  },
+  links: {
+    resume: 'Currículo (PDF)',
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
+    email: 'E-mail',
   },
   ui: {
-    alsoLabel: 'também',
+    fig: 'FIG.',
     gradLabel: 'formatura',
-    details: 'Detalhes técnicos',
-    repoLabel: 'repositório',
     zoom: 'Abrir em tamanho real',
-    openAll: 'Abrir todos os detalhes técnicos',
-    closeAll: 'Fechar todos',
     close: 'Fechar',
-    kind: {
-      origin: 'origem',
-      education: 'formação',
-      club: 'entidade',
-      work: 'trabalho',
-      project: 'projeto',
-    },
+    otherLang: 'English',
   },
-  contact: {
-    emailLabel: 'Email',
-    linkedinLabel: 'LinkedIn',
-    githubLabel: 'GitHub',
-    locationLabel: 'Localização',
-    footer: 'feito com Astro, sem JavaScript',
-    references: 'Referências sob consulta',
-  },
+  footer: 'Feito com Astro. Código no GitHub.',
   notFound: {
-    code: '404',
     heading: 'Página não encontrada',
-    body: 'A página que você está procurando não existe ou foi movida.',
+    body: 'Este endereço não existe.',
     backHome: 'Voltar ao início',
-    backHomeAria: 'Voltar para a página inicial',
   },
 };

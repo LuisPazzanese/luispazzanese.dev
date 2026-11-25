@@ -1,6 +1,6 @@
-// Who the site is about. Everything the hero, the contact block, the resume
-// PDF and the <meta> tags need to say about Luis lives here. Edit this file,
-// never the components, when a fact changes.
+// Who the site is about: identity, focus, links and the degree facts the
+// masthead and the resume print. Edit this file, never the components, when a
+// fact changes.
 
 import type { L } from './localized';
 import type { YearMonth } from './dates';
@@ -9,27 +9,19 @@ export const profile = {
   name: 'Luis Fernando Pazzanese Pinheiro',
   shortName: 'Luis Pazzanese',
 
-  /** Photo shown on the card. Square, 800×800, in public/media. */
-  photo: '/media/luis.jpg',
+  /** The target role, ≤ 6 words. Printed above the name on the site and under it on the resume. */
+  focus: { en: 'Embedded systems and FPGA', pt: 'Sistemas embarcados e FPGA' } satisfies L,
 
-  /** The one sentence a non-technical recruiter reads first. */
-  headline: {
-    en: 'Computer Engineering student at Insper, graduating in December 2028. I build embedded systems, cloud infrastructure and tools with AI.',
-    pt: 'Estudante de Engenharia da Computação no Insper, formando em dezembro de 2028. Construo sistemas embarcados, infraestrutura em nuvem e ferramentas com IA.',
+  /** What the candidate is looking for, one line. */
+  seeking: {
+    en: 'Internship · 30 h/week · São Paulo or abroad · available now · English C1',
+    pt: 'Estágio · 30 h/semana · São Paulo ou exterior · início imediato · inglês C1',
   } satisfies L,
 
-  /** Facts line under the headline: what, how much, where, when, English. */
-  facts: [
-    { en: 'Internship', pt: 'Estágio' },
-    { en: '30 h/week', pt: '30 h/semana' },
-    { en: 'São Paulo or abroad', pt: 'São Paulo ou exterior' },
-    { en: 'available now', pt: 'início imediato' },
-    { en: 'English C1', pt: 'inglês C1' },
-  ] satisfies L[],
   degree: {
     school: 'Insper',
     schoolHref: 'https://www.insper.edu.br',
-    title: { en: 'BSc in Computer Engineering', pt: 'Bacharelado em Engenharia da Computação' } satisfies L,
+    title: { en: 'BSc in Computer Engineering', pt: 'Engenharia da Computação' } satisfies L,
     /** First month of the first semester (entered Aug 2023). */
     start: '2023-08' as YearMonth,
     /** Known curriculum position: period 6 in 2026.2. Drives the computed "Nth semester". */

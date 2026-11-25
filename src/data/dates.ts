@@ -1,4 +1,4 @@
-// Date helpers for the timeline. All dates in data files are ISO 'YYYY-MM'
+// Date helpers. All dates in data files are ISO 'YYYY-MM'
 // strings so they sort lexicographically and never need a Date object.
 
 import type { LangCode } from './i18n/types';
@@ -26,7 +26,7 @@ export function formatMonth(ym: YearMonth, lang: LangCode): string {
 }
 
 /**
- * Range label. Same-year ranges collapse the first year ('Feb — Jun 2026');
+ * Range label. Same-year ranges collapse the first year ('Feb–Jun 2026');
  * `end === 'present'` renders as 'present' / 'atual'; `end === null` is a
  * point in time and renders only the start.
  */
@@ -36,13 +36,13 @@ export function formatRange(
   lang: LangCode,
 ): string {
   if (end === null) return formatMonth(start, lang);
-  if (end === 'present') return `${formatMonth(start, lang)} — ${PRESENT[lang]}`;
+  if (end === 'present') return `${formatMonth(start, lang)}–${PRESENT[lang]}`;
   const [sy, sm] = start.split('-');
   const [ey] = end.split('-');
   if (sy === ey) {
-    return `${MONTHS[lang][Number(sm) - 1]} — ${formatMonth(end, lang)}`;
+    return `${MONTHS[lang][Number(sm) - 1]}–${formatMonth(end, lang)}`;
   }
-  return `${formatMonth(start, lang)} — ${formatMonth(end, lang)}`;
+  return `${formatMonth(start, lang)}–${formatMonth(end, lang)}`;
 }
 
 /**

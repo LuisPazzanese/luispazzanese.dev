@@ -1,63 +1,27 @@
 ---
-// Rows come from src/data/skills.ts; the derived strings live under
-// translations.<lang>.skills.<id>.{label,value}.
+// Keyword rows: label | value. Data in src/data/skills.ts.
 import { skills } from '../data/skills';
-import { translations } from '../data/i18n';
+import { pick } from '../data/localized';
+import { translations, type LangCode } from '../data/i18n';
 
 interface Props {
-  lang: 'en' | 'pt';
+  lang: LangCode;
 }
 
 const { lang } = Astro.props;
 const t = translations[lang];
 ---
 
-<section id="skills" aria-labelledby="skills-heading">
-  <div class="container">
-    <h2 id="skills-heading">{t.sections.skills}</h2>
-
-    <dl class="skills">
-      {
-        skills.map((s) => (
-          <div class="skills__row">
-            <dt>{t.skills[s.id].label}</dt>
-            <dd>{t.skills[s.id].value}</dd>
-          </div>
-        ))
-      }
-    </dl>
-  </div>
+<section class="section container" aria-labelledby="skills-h">
+  <h2 id="skills-h" class="label">{t.sections.skills}</h2>
+  <dl class="rows">
+    {
+      skills.map((s) => (
+        <>
+          <dt class="label">{pick(s.label, lang)}</dt>
+          <dd>{typeof s.value === 'string' ? s.value : pick(s.value, lang)}</dd>
+        </>
+      ))
+    }
+  </dl>
 </section>
-
-<style>
-  /* The <dl> is the grid; each row's wrapper is `display: contents` so dt/dd
-     land in the label/value columns directly. */
-  .skills {
-    display: grid;
-    grid-template-columns: 136px 1fr;
-    gap: 8px 16px;
-  }
-
-  .skills__row {
-    display: contents;
-  }
-
-  .skills__row dt {
-    font-weight: 700;
-  }
-
-  .skills__row dd {
-    overflow-wrap: anywhere;
-  }
-
-  /* Phones: label above value, 8px between rows only. */
-  @media (max-width: 600px) {
-    .skills {
-      grid-template-columns: 1fr;
-      row-gap: 0;
-    }
-    .skills__row + .skills__row dt {
-      margin-top: 8px;
-    }
-  }
-</style>

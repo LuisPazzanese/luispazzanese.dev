@@ -1,8 +1,6 @@
-// Shared type for all translation files. Adding a new language is: copy en.ts,
-// translate the strings, register the import in index.ts.
-//
-// Only UI chrome lives here. Content (profile, timeline, skills) is authored
-// per record in src/data/*.ts and derived into strings by index.ts.
+// UI chrome strings, one file per language. Content (profile, projects,
+// experience, education, skills) is authored in both languages per record in
+// src/data/*.ts and read with `pick(l, lang)`.
 
 export interface Translations {
   meta: {
@@ -10,66 +8,42 @@ export interface Translations {
     description: string;
     skipLink: string;
   };
-  nav: {
-    primary: string;
-  };
-  hero: {
-    linkGithub: string;
-    linkLinkedin: string;
-    linkEmail: string;
-    linkCV: string;
-    photoAlt: string;
-  };
   sections: {
-    highlights: string;
-    timeline: string;
-    archive: string;
+    projects: string;
+    more: string;
+    experience: string;
+    education: string;
     skills: string;
-    contact: string;
   };
-  /** Small chrome words used by the markup. (Not `timeline`: that key is
-      taken by the derived per-node content strings.) */
+  /** Mono row labels of the masthead. */
+  rows: {
+    education: string;
+    seeking: string;
+    links: string;
+  };
+  links: {
+    resume: string;
+    github: string;
+    linkedin: string;
+    email: string;
+  };
   ui: {
-    /** Prefix of the compact non-featured project line: "also: a · b · c". */
-    alsoLabel: string;
-    /** Prefix of the expected graduation month in the degree line. */
+    /** Figure tag prefix: "FIG." */
+    fig: string;
+    /** Prefix of the expected graduation month. */
     gradLabel: string;
-    /** Summary text of the <details> disclosure under leads and highlights. */
-    details: string;
-    /** Prefix before a repository link. */
-    repoLabel: string;
-    /** Tooltip on highlight images that open full-size. */
+    /** Tooltip on figures that open full size (JS only). */
     zoom: string;
-    /** Label of the JS-only button that opens every timeline <details>. */
-    openAll: string;
-    /** Same button once everything is open. */
-    closeAll: string;
-    /** aria-label of the lightbox close button. */
+    /** aria-label of the lightbox close button (JS only). */
     close: string;
-    /** Short lowercase label per NodeKind. */
-    kind: {
-      origin: string;
-      education: string;
-      club: string;
-      work: string;
-      project: string;
-    };
+    /** Name of the other language, in that language, for the switch link. */
+    otherLang: string;
   };
-  contact: {
-    emailLabel: string;
-    linkedinLabel: string;
-    githubLabel: string;
-    locationLabel: string;
-    footer: string;
-    /** Footer note after the build credit. */
-    references: string;
-  };
+  footer: string;
   notFound: {
-    code: string;
     heading: string;
     body: string;
     backHome: string;
-    backHomeAria: string;
   };
 }
 

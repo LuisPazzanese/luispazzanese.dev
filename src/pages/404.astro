@@ -1,40 +1,35 @@
 ---
 // Not-found page. Served statically by Cloudflare Pages for unknown routes;
-// rendered in Portuguese only, like the root route (no alternates for an error page).
+// rendered in Portuguese only, like the root route.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { translations } from '../data/i18n';
 
 const t = translations.pt.notFound;
 ---
 
-<BaseLayout lang="pt" title="404 — página não encontrada" description="Rota não encontrada." path="/404">
+<BaseLayout lang="pt" title="404 · página não encontrada" description="Rota não encontrada." path="/404">
   <main class="container nf">
-    <p class="mono nf__code" aria-hidden="true">{t.code}</p>
-    <h1 class="nf__heading">{t.heading}</h1>
-    <p class="nf__body">{t.body}</p>
-    <a href="/" aria-label={t.backHomeAria}>← {t.backHome}</a>
+    <p class="label">404</p>
+    <h1>{t.heading}</h1>
+    <p>{t.body}</p>
+    <a href="/">← {t.backHome}</a>
   </main>
 </BaseLayout>
 
 <style>
   .nf {
-    padding-top: 32px;
+    padding-top: 96px;
   }
 
-  .nf__code {
-    color: var(--fg-2);
-    margin-bottom: 8px;
-  }
-
-  .nf__heading {
+  h1 {
+    margin: 8px 0;
     font-size: 32px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.2;
-    margin-bottom: 8px;
   }
 
-  .nf__body {
-    max-width: 60ch;
-    margin-bottom: 16px;
+  p + a {
+    display: inline-block;
+    margin-top: 16px;
   }
 </style>

@@ -1,14 +1,34 @@
-/* Base styles. White, generous, undecorated. Component layout lives in each
-   .astro file; this file owns the palette, the type scale, the column and the
-   shared <details> disclosure. Vertical spacing is on an 8px grid. */
+/* Datasheet look: paper, hairlines, mono labels, one PCB-green accent.
+   Light by default, dark when the OS asks for it. This file owns the tokens,
+   the type scale, the column and the shared label/section pieces; component
+   layout lives in each .astro file. Spacing is on an 8px grid. */
+
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
 
 :root {
-  --fg: #1a1a1a;
-  --fg-2: #555;
-  --line: #ddd;
-  --accent: #1a3d8f;
-  --accent-hover: #102a66;
-  --mono: ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light dark;
+  --paper: #fbfbf9;
+  --fg: #16181a;
+  --muted: #5c6166;
+  --line: #d9dcd6;
+  --accent: #1f7a4d;
+  --accent-hover: #155c39;
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0f1211;
+    --fg: #e5e8e6;
+    --muted: #98a09c;
+    --line: #2b332f;
+    --accent: #4cc38a;
+    --accent-hover: #7ad7a8;
+  }
 }
 
 *,
@@ -18,56 +38,49 @@
 }
 
 html {
-  background: #fff;
+  background: var(--paper);
   color: var(--fg);
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
 }
 
 h1,
 h2,
 h3,
-h4,
 p,
 ul,
+ol,
 dl,
 dd,
 figure {
   margin: 0;
 }
 
-/* Section titles. */
-h2 {
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 16px;
-}
-
-h3,
-h4 {
-  font-size: 17px;
-  font-weight: 700;
+ul,
+ol {
+  padding: 0;
+  list-style: none;
 }
 
 a {
   color: var(--accent);
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 a:hover {
   color: var(--accent-hover);
 }
 
-a:focus-visible,
-summary:focus-visible {
-  outline: 2px solid var(--fg);
+a:focus-visible {
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -77,63 +90,81 @@ video {
   max-width: 100%;
 }
 
-/* Mono is reserved for the year column of the timeline. */
-.mono {
-  font-family: var(--mono);
-  font-size: 15px;
-}
-
-/* The centred column, shared by every section so headings align. */
+/* The column every section aligns to. */
 .container {
-  max-width: 880px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-section {
-  padding-top: 56px;
+/* Mono uppercase label: row labels, section titles, figure tags, stacks. */
+.label {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-/* Native disclosure: summary looks like a link, with a CSS-only ▸/▾ marker.
-   Keyboard works out of the box (summary is focusable and toggles on Enter/Space). */
-details {
-  margin-top: 8px;
+/* Under a section title the hairline is already drawn by the h2. */
+.section > h2 + .rows > dt:first-child,
+.section > h2 + .rows > dd:nth-child(2) {
+  border-top: 0;
 }
 
-summary {
-  display: inline-block;
-  cursor: pointer;
-  font-size: 15px;
-  color: var(--accent);
-  text-decoration: underline;
-  list-style: none;
+/* Section: mono title over a full-width hairline. */
+.section {
+  padding-top: 64px;
 }
 
-summary::-webkit-details-marker {
-  display: none;
+.section > h2 {
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
 }
 
-summary::before {
-  content: "▸ ";
-  text-decoration: none;
-  display: inline-block;
+/* Label | value rows, used by the masthead, education and skills. */
+.rows {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  border-bottom: 1px solid var(--line);
 }
 
-details[open] > summary::before {
-  content: "▾ ";
+.rows > dt,
+.rows > dd {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
 }
 
-summary:hover {
-  color: var(--accent-hover);
+.rows > dt {
+  padding-top: 13px;
 }
 
-details > summary + * {
-  margin-top: 8px;
+@media (max-width: 640px) {
+  .rows {
+    grid-template-columns: 1fr;
+  }
+
+  .rows > dd {
+    border-top: 0;
+    padding-top: 0;
+  }
 }
 
-/* Lightbox (JS-only, built by src/scripts/enhance.ts — styled here because it
-   has no component to be scoped to). Backdrop, centred media, ✕ at the top
-   right, title at the bottom. 120 ms fade, none under reduced motion. */
+/* Inline list separated by middots. */
+.dots > li {
+  display: inline;
+}
+
+.dots > li + li::before {
+  content: ' · ';
+  color: var(--muted);
+}
+
+/* Lightbox (JS-only, built by src/scripts/enhance.ts; styled here because it
+   has no component to be scoped to). */
 .lb {
   position: fixed;
   inset: 0;
@@ -141,7 +172,7 @@ details > summary + * {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(10, 12, 11, 0.88);
   opacity: 0;
   transition: opacity 120ms ease-out;
 }
@@ -150,20 +181,11 @@ details > summary + * {
   opacity: 1;
 }
 
-.lb__media {
-  max-width: 92vw;
-  max-height: 90vh;
-}
-
 .lb__media > img,
 .lb__media > video {
   max-width: 92vw;
-  max-height: 90vh;
-  background: #fff;
-}
-
-.lb__media > video {
-  background: #000;
+  max-height: 88vh;
+  background: var(--paper);
 }
 
 .lb__close {
@@ -173,17 +195,12 @@ details > summary + * {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 6px;
   background: transparent;
   color: #fff;
   font: inherit;
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
-}
-
-.lb__close:hover {
-  background: rgba(255, 255, 255, 0.15);
 }
 
 .lb__close:focus-visible {
@@ -197,7 +214,7 @@ details > summary + * {
   right: 24px;
   bottom: 12px;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
 }
 

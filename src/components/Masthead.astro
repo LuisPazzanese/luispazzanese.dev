@@ -1,0 +1,87 @@
+---
+// Top of the page, the part a recruiter reads in six seconds: revision strip,
+// focus, name, and three label | value rows (degree, what is sought, links).
+import { profile } from '../data/profile';
+import { pick } from '../data/localized';
+import { translations, degreeLine, type LangCode } from '../data/i18n';
+
+interface Props {
+  lang: LangCode;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+
+// Datasheet-style revision mark: the month this build was made.
+const now = new Date();
+const rev = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}`;
+const other = lang === 'pt' ? { href: '/en/', hreflang: 'en' } : { href: '/', hreflang: 'pt-BR' };
+---
+
+<header class="mast container">
+  <div class="strip label">
+    <span>{profile.shortName} · REV {rev}</span>
+    <a href={other.href} hreflang={other.hreflang} lang={other.hreflang}>{t.ui.otherLang}</a>
+  </div>
+
+  <p class="focus label">{pick(profile.focus, lang)}</p>
+  <h1>{profile.shortName}</h1>
+
+  <dl class="rows">
+    <dt class="label">{t.rows.education}</dt>
+    <dd>{degreeLine(lang)}</dd>
+    <dt class="label">{t.rows.seeking}</dt>
+    <dd>{pick(profile.seeking, lang)}</dd>
+    <dt class="label">{t.rows.links}</dt>
+    <dd>
+      <ul class="links">
+        <li><a href={profile.resume[lang]} download>{t.links.resume}</a></li>
+        <li><a href={profile.github} rel="me">{t.links.github}</a></li>
+        <li><a href={profile.linkedin} rel="me">{t.links.linkedin}</a></li>
+        <li><a href={`mailto:${profile.email}`}>{t.links.email}</a></li>
+      </ul>
+    </dd>
+  </dl>
+</header>
+
+<style>
+  .strip {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 0 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .strip a {
+    color: var(--muted);
+  }
+
+  .strip a:hover {
+    color: var(--accent);
+  }
+
+  .focus {
+    margin-top: 56px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  h1 {
+    margin: 8px 0 32px;
+    font-size: clamp(36px, 6vw, 52px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+  }
+
+  .links li:first-child a {
+    font-weight: 600;
+  }
+</style>

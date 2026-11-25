@@ -1,0 +1,89 @@
+---
+// Everything that is not a figure: one line per project, two columns by area.
+// Data in src/data/projects.ts (`moreProjects`).
+import { moreProjects } from '../data/projects';
+import { pick } from '../data/localized';
+import { translations, type LangCode } from '../data/i18n';
+
+interface Props {
+  lang: LangCode;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section class="section container" aria-labelledby="more-h">
+  <h2 id="more-h" class="label">{t.sections.more}</h2>
+  <div class="cols">
+    {
+      moreProjects.map((g) => (
+        <div>
+          <h3 class="label group">{pick(g.label, lang)}</h3>
+          <ul>
+            {g.items.map((p) => (
+              <li>
+                <p class="name">
+                  {p.href ? <a href={p.href}>{pick(p.name, lang)} ↗</a> : pick(p.name, lang)}
+                  {p.status && <span class="label status">{pick(p.status, lang)}</span>}
+                </p>
+                <p class="line">{pick(p.line, lang)}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+  }
+
+  @media (max-width: 760px) {
+    .cols {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  .group {
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+
+  li {
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .name {
+    font-weight: 600;
+  }
+
+  .name a {
+    text-decoration: none;
+  }
+
+  .name a:hover {
+    text-decoration: underline;
+  }
+
+  .status {
+    margin-left: 8px;
+    padding: 0 6px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 10px;
+    vertical-align: 2px;
+  }
+
+  .line {
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+</style>

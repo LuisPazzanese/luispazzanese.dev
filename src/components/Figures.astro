@@ -1,0 +1,153 @@
+---
+// The three proofs, as numbered datasheet figures: framed media with a FIG. n
+// tag, then title, one line with numbers, stack and links. Data in
+// src/data/projects.ts (`figures`). Media that is missing at build time renders
+// an empty frame rather than a broken image.
+import { figures } from '../data/projects';
+import { pick } from '../data/localized';
+import { mediaExists } from '../lib/media';
+import { translations, type LangCode } from '../data/i18n';
+
+interface Props {
+  lang: LangCode;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section id="projects" class="section container" aria-labelledby="projects-h" data-zoom={t.ui.zoom} data-close={t.ui.close}>
+  <h2 id="projects-h" class="label">{t.sections.projects}</h2>
+
+  <ol class="figs">
+    {
+      figures.map((f, i) => (
+        <li class="fig">
+          <figure>
+            <div class="frame" data-lightbox data-title={pick(f.title, lang)}>
+              <span class="tag label">{t.ui.fig} {i + 1}</span>
+              {mediaExists(f.media.src) &&
+                (f.media.kind === 'video' ? (
+                  <video
+                    muted
+                    loop
+                    playsinline
+                    controls
+                    preload="none"
+                    poster={f.media.poster && mediaExists(f.media.poster) ? f.media.poster : undefined}
+                    aria-label={pick(f.media.alt, lang)}
+                    data-autoplay
+                  >
+                    <source src={f.media.src} type="video/mp4" />
+                  </video>
+                ) : (
+                  <a href={f.media.src} class="zoom">
+                    <img src={f.media.src} alt={pick(f.media.alt, lang)} loading="lazy" decoding="async" />
+                  </a>
+                ))}
+            </div>
+            <figcaption>
+              <h3>{pick(f.title, lang)}</h3>
+              <p class="spec">{pick(f.spec, lang)}</p>
+              <p class="label stack">{f.stack.join(' · ')}</p>
+              <p class="go">
+                {f.links.map((l) => (
+                  <a href={l.href}>{pick(l.label, lang)} ↗</a>
+                ))}
+                {f.note && <span class="note">{pick(f.note, lang)}</span>}
+              </p>
+            </figcaption>
+          </figure>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .figs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .figs {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  .frame {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .frame > video,
+  .zoom,
+  .zoom > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .frame > video,
+  .zoom > img {
+    object-fit: contain;
+  }
+
+  .zoom {
+    cursor: zoom-in;
+  }
+
+  .zoom > img {
+    padding: 24px 12px 12px;
+  }
+
+  .tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    padding: 1px 6px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-size: 10.5px;
+  }
+
+  figcaption {
+    padding-top: 14px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .spec {
+    margin-top: 4px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .stack {
+    margin-top: 10px;
+  }
+
+  .go {
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .note {
+    color: var(--muted);
+  }
+</style>

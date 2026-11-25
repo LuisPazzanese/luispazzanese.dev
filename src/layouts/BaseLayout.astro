@@ -1,5 +1,6 @@
 ---
-// Document shell: <head> metadata + <body><slot/>. No scripts, no web fonts.
+// Document shell: <head> metadata + <body><slot/>. Fonts are self-hosted
+// (IBM Plex, imported by global.css); no third-party requests.
 // Every page passes its language and route so canonical/hreflang/OG are static.
 import '../styles/global.css';
 import type { LangCode } from '../data/i18n';
@@ -34,8 +35,9 @@ const alternates = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fbfbf9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1211" media="(prefers-color-scheme: dark)" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -52,7 +54,7 @@ const alternates = [
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Luis Pazzanese — Computer Engineer · luispazzanese.dev" />
+    <meta property="og:image:alt" content="Luis Pazzanese · Embedded systems and FPGA · luispazzanese.dev" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -60,11 +62,11 @@ const alternates = [
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Favicon: tiny inline SVG, monospace 'w' -->
+    <!-- Favicon: PCB-green square with a mono "L" -->
     <link
       rel="icon"
       type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ffffff'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' fill='%23000000' font-family='monospace' font-size='20' font-weight='500'%3Ew%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%231f7a4d'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' fill='%23fbfbf9' font-family='monospace' font-size='20' font-weight='600'%3EL%3C/text%3E%3C/svg%3E"
     />
   </head>
   <body>

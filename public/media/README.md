@@ -1,22 +1,14 @@
-# public/media — fotos e vídeos da trajetória
+# public/media: mídia das figuras
 
-Solte os arquivos aqui com estes nomes; o site referencia por nome a partir de
-`src/data/timeline.ts` (campo `media` de cada nó). Formatos: `.jpg`/`.webp`
-para foto (≤ 1600 px de largura), `.mp4` (H.264) para vídeo, ≤ 10 MB cada.
+Os arquivos são referenciados por nome em `src/data/projects.ts` (`figures[].media`). Arquivo ausente vira moldura vazia, sem quebrar o build.
 
-| Arquivo                     | Nó       | O que é                                              | Status    |
-| --------------------------- | -------- | ---------------------------------------------------- | --------- |
-| `gesture-controller.mp4`        | embedded | Controle por gestos jogando Subway Surfers           | ✔ no ar   |
-| `gesture-controller-poster.jpg` | embedded | Frame do vídeo, usado como capa                      | ✔ no ar   |
-| `spider-fpga.jpg`           | hardware | Terasic Spider                                       | ✔ no ar   |
-| `vhdl-cpu.jpg`              | hardware | CPU em VHDL (placa, waveform ou diagrama)            | pendente  |
-| `nuvu-helmet.jpg`           | origin   | Capacete do MIT NuVu (sem foto encontrada)           | opcional  |
-| `cats-cambridge.jpg`        | origin   | CATS College Cambridge                               | opcional  |
-| `els-canada.jpg`            | origin   | ELS Language Centers, Canadá                         | opcional  |
+| Arquivo | Figura | O que é | Status |
+| --- | --- | --- | --- |
+| `gesture-controller.mp4` | FIG. 1 | Controle por gestos jogando Subway Surfers (H.264, 474×850, 49 s) | ✔ no ar |
+| `gesture-controller-poster.jpg` | FIG. 1 | Frame do vídeo, usado como capa | ✔ no ar |
+| `mips-cpu.svg` | FIG. 2 | Datapath da CPU MIPS, desenhado a partir das entidades VHDL do repo | ✔ no ar |
+| `stepper-ip.svg` | FIG. 3 | Diagrama de blocos do IP de motor de passo | ✔ no ar |
 
-Arquivo ausente = nada renderiza; não há quebra. Se os certificados forem a única
-evidência da origem, mande as fotos e eu monto uma imagem composta única,
-com número de registro e data de nascimento ocultos.
+Os SVGs carregam um `<style>` com variante escura (`prefers-color-scheme`), que também vale quando são carregados como `<img>`. Mantenha as cores iguais aos tokens de `src/styles/global.css`.
 
-Não coloque aqui: certificado do TOEFL (só a nota entra em `skills.ts`),
-documentos com dados pessoais, nada da Zagros.
+Uma foto real da DE0-CV rodando a CPU pode substituir o diagrama da FIG. 2 (`.jpg`, até 1600 px de largura).

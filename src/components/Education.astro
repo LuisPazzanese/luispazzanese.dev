@@ -1,0 +1,68 @@
+---
+// Degree, key courses and the line on what came before. Data in
+// src/data/profile.ts (degree) and src/data/education.ts.
+import { profile } from '../data/profile';
+import { keyCourses, beforeUniversity } from '../data/education';
+import { pick } from '../data/localized';
+import { formatRange } from '../data/dates';
+import { translations, semesterLabel, type LangCode } from '../data/i18n';
+
+interface Props {
+  lang: LangCode;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+const d = profile.degree;
+---
+
+<section class="section container" aria-labelledby="edu-h">
+  <h2 id="edu-h" class="label">{t.sections.education}</h2>
+  <div class="entry">
+    <span class="label when">{formatRange(d.start, d.graduation, lang)}</span>
+    <div>
+      <h3>{pick(d.title, lang)} · <a href={d.schoolHref}>{d.school}</a></h3>
+      <p class="line">{semesterLabel(lang)}</p>
+      <ul class="dots courses">
+        {keyCourses.map((c) => <li>{pick(c, lang)}</li>)}
+      </ul>
+      <p class="line before">{pick(beforeUniversity, lang)}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .entry {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+  }
+
+  .when {
+    padding-top: 3px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .line {
+    color: var(--muted);
+  }
+
+  .courses {
+    margin-top: 8px;
+    font-size: 14.5px;
+  }
+
+  .before {
+    margin-top: 8px;
+    font-size: 14.5px;
+  }
+
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
