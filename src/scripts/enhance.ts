@@ -3,7 +3,7 @@
 // and reads its labels from data-* attributes the components already render.
 //
 //   A. lightbox for the three highlight media ([data-lightbox] figures)
-//   B. muted, looped autoplay of the Air Mouse video while ≥ 50 % visible
+//   B. muted, looped autoplay of the highlight video while ≥ 50 % visible
 //   C. "open all technical details" toggle at the top of the timeline
 //   D. sticky name + resume bar once the card has scrolled out of view
 //

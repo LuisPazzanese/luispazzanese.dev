@@ -14,7 +14,7 @@ export const skills: SkillRow[] = [
   {
     id: 'programming',
     label: { en: 'Programming', pt: 'Programação' },
-    value: 'Python · C · TypeScript · Git · Linux',
+    value: 'Python · C · TypeScript · SQL · Git · Linux',
   },
   {
     id: 'hardware',
@@ -25,8 +25,8 @@ export const skills: SkillRow[] = [
     id: 'cloud',
     label: { en: 'Cloud', pt: 'Nuvem' },
     value: {
-      en: 'AWS (Cloud Practitioner certification — exam by Dec 2026) · OpenStack · Docker · Kubernetes · Terraform',
-      pt: 'AWS (certificação Cloud Practitioner — prova até dez 2026) · OpenStack · Docker · Kubernetes · Terraform',
+      en: 'AWS (EC2, ECS, S3, Lambda; Cloud Practitioner certification — exam by Dec 2026) · OpenStack · Docker · Terraform',
+      pt: 'AWS (EC2, ECS, S3, Lambda; certificação Cloud Practitioner — prova até dez 2026) · OpenStack · Docker · Terraform',
     },
   },
   {

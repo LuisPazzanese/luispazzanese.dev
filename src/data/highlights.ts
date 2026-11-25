@@ -27,32 +27,35 @@ export interface Highlight {
 
 export const highlights: Highlight[] = [
   {
-    id: 'air-mouse',
-    title: { en: 'Air Mouse', pt: 'Air Mouse' },
+    id: 'gesture-controller',
+    title: { en: 'Gesture controller with on-board AI', pt: 'Controle por gestos com IA na placa' },
     blurb: {
-      en: 'Controls a computer with hand gestures, using a motion sensor and a real-time operating system on a microcontroller.',
-      pt: 'Controla o computador com gestos da mão, usando um sensor de movimento e um sistema operacional de tempo real num microcontrolador.',
+      en: 'A hand-held controller that plays Subway Surfers: a neural network on the microcontroller recognises the gesture and sends the move to the computer over Bluetooth.',
+      pt: 'Um controle de mão que joga Subway Surfers: uma rede neural no microcontrolador reconhece o gesto e manda o movimento para o computador por Bluetooth.',
     },
     media: {
-      src: '/media/air-mouse.mp4',
+      src: '/media/gesture-controller.mp4',
       kind: 'video',
-      poster: '/media/air-mouse-poster.jpg',
+      poster: '/media/gesture-controller-poster.jpg',
       alt: {
-        en: 'Air Mouse demo: gestures mapped to keystrokes while playing Subway Surfers',
-        pt: 'Demo do Air Mouse: gestos virando teclas enquanto joga Subway Surfers',
+        en: 'Gesture controller demo: hand gestures become arrow keys while playing Subway Surfers',
+        pt: 'Demo do controle por gestos: gestos da mão viram setas enquanto joga Subway Surfers',
       },
     },
     details: [
       {
-        en: 'MPU6050 IMU sampled at 100 Hz over I2C, fused into orientation with a Madgwick-based AHRS; 4-byte binary protocol to a Python host.',
-        pt: 'IMU MPU6050 amostrada a 100 Hz via I2C, fundida em orientação com um AHRS Madgwick; protocolo binário de 4 bytes para um host Python.',
+        en: 'Edge Impulse classifier on an RP2350 (dual Cortex-M33) reading an MPU6050; framed protocol with XOR checksum over an HC-06 to a Python driver.',
+        pt: 'Classificador Edge Impulse num RP2350 (dual Cortex-M33) lendo uma MPU6050; protocolo com quadros e checksum XOR via HC-06 para um driver Python.',
       },
       {
-        en: 'Four FreeRTOS tasks decoupled by three queues and one semaphore on an RP2350 (dual Cortex-M33); flick gesture with refractory-period debouncing.',
-        pt: 'Quatro tasks FreeRTOS desacopladas por três filas e um semáforo num RP2350 (dual Cortex-M33); gesto de flick com debounce por período refratário.',
+        en: 'Eight FreeRTOS tasks, four queues and a mutex; the PC sends game events back to drive a vibration motor. Built with Felipe Suarez.',
+        pt: 'Oito tasks FreeRTOS, quatro filas e um mutex; o PC manda eventos do jogo de volta para acionar um motor de vibração. Feito com Felipe Suarez.',
       },
     ],
-    link: { href: repoHref('pico-mpu-rtos'), label: { en: 'Code on GitHub', pt: 'Código no GitHub' } },
+    link: {
+      href: 'https://github.com/insper-classroom/26a-emb-aps-2-aps_ninja',
+      label: { en: 'Code on GitHub', pt: 'Código no GitHub' },
+    },
   },
   {
     id: 'stepper-ip',

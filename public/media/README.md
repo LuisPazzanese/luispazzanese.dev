@@ -6,8 +6,8 @@ para foto (≤ 1600 px de largura), `.mp4` (H.264) para vídeo, ≤ 10 MB cada.
 
 | Arquivo                     | Nó       | O que é                                              | Status    |
 | --------------------------- | -------- | ---------------------------------------------------- | --------- |
-| `air-mouse.mp4`             | embedded | Air Mouse funcionando                                | ✔ no ar   |
-| `air-mouse-poster.jpg`      | embedded | Frame do vídeo, usado como capa                      | ✔ no ar   |
+| `gesture-controller.mp4`        | embedded | Controle por gestos jogando Subway Surfers           | ✔ no ar   |
+| `gesture-controller-poster.jpg` | embedded | Frame do vídeo, usado como capa                      | ✔ no ar   |
 | `spider-fpga.jpg`           | hardware | Terasic Spider                                       | ✔ no ar   |
 | `vhdl-cpu.jpg`              | hardware | CPU em VHDL (placa, waveform ou diagrama)            | pendente  |
 | `nuvu-helmet.jpg`           | origin   | Capacete do MIT NuVu (sem foto encontrada)           | opcional  |

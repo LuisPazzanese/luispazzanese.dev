@@ -145,6 +145,112 @@ export const nodes: TimelineNode[] = [
       pt: 'Atualmente no {semester} semestre; formatura prevista para dez 2028.',
     },
     bullets: [],
+    // Course projects worth showing, oldest first. Classroom repos are private,
+    // so most link to a video or a live deploy through `artifacts` instead.
+    projects: [
+      {
+        name: 'Weather station',
+        repo: null,
+        featured: true,
+        description: {
+          en: 'Instrumentation & Measurement (2023), group project: an Arduino UNO reads temperature, humidity and pressure sensors and shows all three on an LCD.',
+          pt: 'Instrumentação e Medição (2023), em grupo: um Arduino UNO lê sensores de temperatura, umidade e pressão e mostra os três num display LCD.',
+        },
+        stack: ['Arduino', 'C++', 'LCD'],
+      },
+      {
+        name: 'Computer from logic gates up',
+        repo: null,
+        featured: true,
+        description: {
+          en:
+            'Elements of Computing Systems (2024), team of six: the Z01 computer — ALU, memory and CPU in VHDL verified in simulation, ' +
+            'Assembly programs, an assembler in Java and a VM translator. Own contribution: 16-bit adder, barrel shifter, 64-bit register, ' +
+            'max/multiply routines in Assembly, and the Scrum board for the assembler sprint.',
+          pt:
+            'Elementos de Sistemas (2024), time de seis: o computador Z01 — ULA, memória e CPU em VHDL verificadas em simulação, ' +
+            'programas em Assembly, um assembler em Java e um tradutor de VM. Contribuição própria: somador de 16 bits, barrel shifter, ' +
+            'registrador de 64 bits, rotinas max/mult em Assembly e o Scrum da sprint do assembler.',
+        },
+        stack: ['VHDL', 'Assembly', 'Java', 'cocotb'],
+      },
+      {
+        name: 'Robot vision on ROS 2',
+        repo: null,
+        featured: true,
+        description: {
+          en:
+            'Computational Robotics (2024): ROS 2 nodes for a TurtleBot — line following by HSV segmentation with proportional control and ' +
+            'counting cans by image segmentation, run on the real robot; the final exam node combines line following, MobileNet ' +
+            'object detection and ArUco markers.',
+          pt:
+            'Robótica Computacional (2024): nós ROS 2 para um TurtleBot — seguidor de linha por segmentação HSV com controle proporcional ' +
+            'e contagem de latinhas por segmentação de imagem, rodando no robô real; o nó da prova final combina seguidor de linha, ' +
+            'detecção de objetos com MobileNet e marcadores ArUco.',
+        },
+        stack: ['Python', 'ROS 2', 'OpenCV', 'MobileNet'],
+      },
+      {
+        name: 'Pokédex web app',
+        repo: null,
+        featured: true,
+        description: {
+          en: 'Web Technologies (2025), pair project with Felipe Suarez: wrote the Django REST backend over the PokeAPI (search, details, personal Pokédex); deployed on Render.',
+          pt: 'Tecnologias Web (2025), em dupla com Felipe Suarez: escreveu o backend em Django REST sobre a PokeAPI (busca, detalhes, Pokédex pessoal); deploy no Render.',
+        },
+        stack: ['Python', 'Django REST', 'Render'],
+      },
+      {
+        name: 'Process supervisor in C',
+        repo: null,
+        featured: true,
+        description: {
+          en:
+            'Hardware-Software Systems (2026): launches hashcat with fork/exec, detects crashes by signal, kills runs that exceed a ' +
+            '5-second timeout and restarts them with a new seed; no leaks under valgrind. The course also covered x86-64 assembly, ' +
+            'reverse engineering with GDB, threads and semaphores.',
+          pt:
+            'Sistemas Hardware-Software (2026): lança o hashcat por fork/exec, detecta falhas por sinal, mata execuções que passam de ' +
+            '5 segundos e as reinicia com nova semente; sem vazamentos no valgrind. A disciplina também cobriu assembly x86-64, ' +
+            'engenharia reversa com GDB, threads e semáforos.',
+        },
+        stack: ['C', 'POSIX', 'GDB', 'valgrind'],
+      },
+      {
+        name: 'Library REST API',
+        repo: 'projeto-sql-megadados',
+        featured: true,
+        description: {
+          en:
+            'Big Data (2026): REST microservice for a library catalogue — FastAPI and SQLModel over MySQL in Docker Compose; full CRUD ' +
+            'with pagination and filters, a 1:N author–book relation, and database integrity errors mapped to HTTP 409/422.',
+          pt:
+            'Megadados (2026): microsserviço REST para o acervo de uma biblioteca — FastAPI e SQLModel sobre MySQL em Docker Compose; ' +
+            'CRUD completo com paginação e filtros, relação 1:N autor–livro e erros de integridade do banco traduzidos em HTTP 409/422.',
+        },
+        stack: ['Python', 'FastAPI', 'MySQL', 'Docker'],
+      },
+      {
+        name: 'Sentiment classifier in PySpark',
+        repo: null,
+        featured: true,
+        description: {
+          en: 'Big Data (2026): Naive Bayes written in functional style on Spark RDDs over 3.6 million Amazon reviews; 85.3% accuracy with Laplace smoothing, scored in parallel with broadcast variables.',
+          pt: 'Megadados (2026): Naive Bayes escrito em estilo funcional sobre RDDs do Spark com 3,6 milhões de reviews da Amazon; 85,3% de acurácia com suavização de Laplace, avaliado em paralelo com variáveis broadcast.',
+        },
+        stack: ['Python', 'PySpark'],
+      },
+      {
+        name: 'Gravity Sort handout',
+        repo: 'desprog-orfalius',
+        featured: false,
+        description: {
+          en: 'Programming Challenges (2026): an interactive handout explaining Gravity Sort, published on GitHub Pages.',
+          pt: 'Desafios de Programação (2026): um handout interativo explicando o Gravity Sort, publicado no GitHub Pages.',
+        },
+        stack: ['Markdown', 'GitHub Pages'],
+      },
+    ],
     // Standard curriculum (Quadro de Disciplinas 2026), one row per semester.
     // `highlight` marks the courses that back the thesis; the resume prints
     // only those, the site shows all of them with the rest dimmed.
@@ -156,14 +262,13 @@ export const nodes: TimelineNode[] = [
           { name: { en: 'Instrumentation & Measurement', pt: 'Instrumentação e Medição' }, highlight: true },
           { name: { en: 'Modelling & Simulation of the Physical World', pt: 'Modelagem e Simulação do Mundo Físico' } },
           { name: { en: 'Product & Service Design', pt: 'Design de Produto e Serviço' } },
-          { name: { en: 'Grand Challenges of Engineering', pt: 'Grandes Desafios da Engenharia' } },
         ],
       },
       {
         term: '2024.2',
         courses: [
           { name: { en: 'Electrical Drives', pt: 'Acionamentos Elétricos' }, highlight: true },
-          { name: { en: 'Data Science', pt: 'Ciência dos Dados' }, highlight: true },
+          { name: { en: 'Data Science', pt: 'Ciência dos Dados' } },
           { name: { en: 'Process Design', pt: 'Design de Processo' } },
           { name: { en: 'Physics of Motion', pt: 'Física do Movimento' } },
           { name: { en: 'Calculus of Variation', pt: 'Matemática da Variação' } },
@@ -182,8 +287,8 @@ export const nodes: TimelineNode[] = [
       {
         term: '2025.2',
         courses: [
-          { name: { en: 'Physical Layer of Computing', pt: 'Camada Física da Computação' }, highlight: true },
-          { name: { en: 'Modelling & Control', pt: 'Modelagem e Controle' }, highlight: true },
+          { name: { en: 'Physical Layer of Computing', pt: 'Camada Física da Computação' } },
+          { name: { en: 'Modelling & Control', pt: 'Modelagem e Controle' } },
           { name: { en: 'Web Technologies', pt: 'Tecnologias Web' }, highlight: true },
           { name: { en: 'Electromagnetism & Waves', pt: 'Eletromagnetismo e Ondulatória' } },
           { name: { en: 'Technology Entrepreneurship', pt: 'Empreendedorismo Tecnológico' } },
@@ -194,7 +299,7 @@ export const nodes: TimelineNode[] = [
         courses: [
           { name: { en: 'Embedded Computing', pt: 'Computação Embarcada' }, highlight: true },
           { name: { en: 'Hardware-Software Systems', pt: 'Sistemas Hardware-Software' }, highlight: true },
-          { name: { en: 'Programming Challenges', pt: 'Desafios de Programação' }, highlight: true },
+          { name: { en: 'Programming Challenges', pt: 'Desafios de Programação' } },
           { name: { en: 'Heat Transfer & Solid Mechanics', pt: 'Transferências de Calor e Mecânica dos Sólidos' } },
           { name: { en: 'Technological & Environmental Chemistry', pt: 'Química Tecnológica e Ambiental' } },
         ],
@@ -205,13 +310,21 @@ export const nodes: TimelineNode[] = [
           { name: { en: 'Computer Design', pt: 'Design de Computadores' }, highlight: true },
           { name: { en: 'Cloud Computing', pt: 'Computação em Nuvem' }, highlight: true },
           { name: { en: 'Embedded Linux and System on Chip (elective)', pt: 'Embedded Linux and System on Chip (eletiva)' }, highlight: true },
-          { name: { en: 'Big Data', pt: 'Megadados' } },
+          { name: { en: 'Big Data', pt: 'Megadados' }, highlight: true },
           { name: { en: 'Social Networks', pt: 'Redes Sociais' } },
         ],
       },
     ],
-    artifacts: [],
-    tags: ['Insper', 'CTF'],
+    artifacts: [
+      { href: 'https://www.youtube.com/watch?v=-af5QyZxMVA', label: { en: 'Weather station (video)', pt: 'Estação meteorológica (vídeo)' } },
+      { href: 'https://youtu.be/UtmjZjQFGzY', label: { en: 'Robot line following (video)', pt: 'Robô seguindo linha (vídeo)' } },
+      { href: 'https://youtu.be/x3d8QAkNblg', label: { en: 'Can counting by vision (video)', pt: 'Contagem de latinhas por visão (vídeo)' } },
+      { href: 'https://youtu.be/Oh7_zvMfh0s', label: { en: 'Line + MobileNet + ArUco (video)', pt: 'Linha + MobileNet + ArUco (vídeo)' } },
+      { href: 'https://projeto-2-frontend-pokeapi-backend-1.onrender.com/', label: { en: 'Pokédex (live)', pt: 'Pokédex (no ar)' } },
+      { href: 'https://youtu.be/n7eKyzl4wQg', label: { en: 'Process supervisor (video)', pt: 'Supervisor de processos (vídeo)' } },
+      { href: 'https://youtu.be/6sJq4Cib0IA', label: { en: 'Library API (video)', pt: 'API da biblioteca (vídeo)' } },
+    ],
+    tags: ['Insper'],
   },
 
   {
@@ -300,19 +413,42 @@ export const nodes: TimelineNode[] = [
     org: 'Insper',
     orgHref: profile.degree.schoolHref,
     role: {
-      en: 'Embedded Systems — six open-source firmware projects',
-      pt: 'Sistemas Embarcados — seis projetos de firmware open source',
+      en: 'Embedded Computing — firmware projects on the RP2350',
+      pt: 'Computação Embarcada — projetos de firmware no RP2350',
     },
     lead: {
-      en: 'Six firmware projects in C with FreeRTOS; the Air Mouse controls a computer by gestures.',
-      pt: 'Seis projetos de firmware em C com FreeRTOS; o Air Mouse controla o computador por gestos.',
+      en: 'Firmware in C with FreeRTOS; a gesture controller with an on-device neural network plays Subway Surfers over Bluetooth.',
+      pt: 'Firmware em C com FreeRTOS; um controle por gestos com rede neural na própria placa joga Subway Surfers via Bluetooth.',
     },
     summary: {
-      en: 'Course projects on the RP2350 (dual Cortex-M33), all in C with the Pico SDK. The three below are the ones worth reading.',
-      pt: 'Projetos da disciplina no RP2350 (dual Cortex-M33), todos em C com o Pico SDK. Os três abaixo são os que valem a leitura.',
+      en: 'Course projects on the RP2350 (dual Cortex-M33), all in C with the Pico SDK. The four below are the ones worth reading.',
+      pt: 'Projetos da disciplina no RP2350 (dual Cortex-M33), todos em C com o Pico SDK. Os quatro abaixo são os que valem a leitura.',
     },
     bullets: [],
     projects: [
+      {
+        // Final course project (APS 2); the repo lives in insper-classroom, linked from `artifacts`.
+        name: 'Gesture controller for Subway Surfers',
+        repo: null,
+        featured: true,
+        brief: {
+          en: 'Edge Impulse gesture classifier on the RP2350 → arrow keys over Bluetooth (HC-06) with a checksummed protocol; 8 FreeRTOS tasks; with Felipe Suarez.',
+          pt: 'Classificador de gestos Edge Impulse no RP2350 → setas via Bluetooth (HC-06) com protocolo com checksum; 8 tasks FreeRTOS; com Felipe Suarez.',
+        },
+        description: {
+          en:
+            'Final project, with Felipe Suarez: a hand-held controller whose MPU6050 readings feed an Edge Impulse neural network running ' +
+            'on the board itself, classifying idle/up/down/left/right. Gestures travel over Bluetooth (HC-06) in framed packets with an ' +
+            'XOR checksum to a Python driver that presses the arrow keys; the PC can send events back to drive a vibration motor. ' +
+            'Eight FreeRTOS tasks, four queues and a mutex guarding the shared state.',
+          pt:
+            'Projeto final, com Felipe Suarez: um controle de mão cuja MPU6050 alimenta uma rede neural Edge Impulse rodando na própria ' +
+            'placa, que classifica parado/cima/baixo/esquerda/direita. Os gestos vão por Bluetooth (HC-06) em pacotes com checksum XOR ' +
+            'para um driver Python que aperta as setas; o PC pode mandar eventos de volta para acionar um motor de vibração. ' +
+            'Oito tasks FreeRTOS, quatro filas e um mutex protegendo o estado compartilhado.',
+        },
+        stack: ['C', 'FreeRTOS', 'Edge Impulse', 'Bluetooth'],
+      },
       {
         name: 'Air Mouse',
         repo: 'pico-mpu-rtos',
@@ -402,16 +538,22 @@ export const nodes: TimelineNode[] = [
     ],
     media: [
       {
-        src: '/media/air-mouse.mp4',
+        src: '/media/gesture-controller.mp4',
         kind: 'video',
-        poster: '/media/air-mouse-poster.jpg',
+        poster: '/media/gesture-controller-poster.jpg',
         alt: {
-          en: 'Air Mouse in action — IMU gestures mapped to keystrokes, playing Subway Surfers (MPU6050 + FreeRTOS on RP2350)',
-          pt: 'Air Mouse em ação — gestos da IMU mapeados em teclas, jogando Subway Surfers (MPU6050 + FreeRTOS no RP2350)',
+          en: 'Gesture controller playing Subway Surfers — on-device neural network on the RP2350, keys sent over Bluetooth',
+          pt: 'Controle por gestos jogando Subway Surfers — rede neural na própria placa (RP2350), teclas enviadas por Bluetooth',
         },
       },
     ],
-    artifacts: [{ href: profile.github, label: { en: 'All repositories', pt: 'Todos os repositórios' } }],
+    artifacts: [
+      {
+        href: 'https://github.com/insper-classroom/26a-emb-aps-2-aps_ninja',
+        label: { en: 'Gesture controller code', pt: 'Código do controle por gestos' },
+      },
+      { href: profile.github, label: { en: 'All repositories', pt: 'Todos os repositórios' } },
+    ],
     tags: ['C', 'FreeRTOS', 'RP2350', 'I2C', 'SPI', 'ADC'],
   },
 
@@ -455,63 +597,63 @@ export const nodes: TimelineNode[] = [
     end: 'present',
     org: 'Insper',
     orgHref: profile.degree.schoolHref,
-    role: { en: 'Hardware design and cloud infrastructure — in progress', pt: 'Projeto de hardware e infraestrutura em nuvem — em andamento' },
+    role: { en: 'Hardware design and cloud infrastructure', pt: 'Projeto de hardware e infraestrutura em nuvem' },
     lead: {
-      en: 'Designing a CPU in VHDL, building a cloud from scratch (OpenStack → AWS) and giving a robot spider a head.',
-      pt: 'Projeta uma CPU em VHDL, monta uma nuvem do zero (OpenStack → AWS) e está dando uma cabeça a um robô-aranha.',
+      en: 'Built a MIPS CPU in VHDL and a cloud from bare metal to AWS; now giving a robot spider a head.',
+      pt: 'Construiu uma CPU MIPS em VHDL e uma nuvem do bare metal à AWS; agora está dando uma cabeça a um robô-aranha.',
     },
     summary: {
-      en: 'What this semester is producing. The stepper IP is done; the CPU and the spider are in progress.',
-      pt: 'O que este semestre está produzindo. O IP do motor de passo está pronto; a CPU e a aranha estão em andamento.',
+      en: 'This semester. The stepper IP and the CPU are done; the spider is the elective’s final project and is in progress.',
+      pt: 'Este semestre. O IP do motor de passo e a CPU estão prontos; a aranha é o projeto final da eletiva e está em andamento.',
     },
     brief: [
       {
         en:
-          'CPU in VHDL on an FPGA (Computer Design); bare-metal-to-AWS cloud course (MAAS, Juju, OpenStack, Kubernetes, ' +
-          'Terraform) with a final project automated through CI/CD.',
+          'MIPS CPU in VHDL running at 25 MHz on a DE0-CV, cocotb tests in CI (Computer Design); cloud from bare metal to AWS ' +
+          '(MAAS, Juju, OpenStack) with a final project on ECS reproduced with Terraform.',
         pt:
-          'CPU em VHDL em FPGA (Design de Computadores); disciplina de nuvem do bare metal à AWS (MAAS, Juju, OpenStack, ' +
-          'Kubernetes, Terraform) com projeto final automatizado via CI/CD.',
+          'CPU MIPS em VHDL a 25 MHz numa DE0-CV, testes cocotb em CI (Design de Computadores); nuvem do bare metal à AWS ' +
+          '(MAAS, Juju, OpenStack) com projeto final em ECS reproduzido com Terraform.',
       },
       {
-        en: 'Terasic Spider hexapod with Felipe Suarez — AI-generated code run with CLAUDE.md rules, ADRs and a knowledge vault; we decide, measure on the bench and review.',
-        pt: 'Hexápode Terasic Spider com Felipe Suarez — código gerado por IA conduzido com regras em CLAUDE.md, ADRs e vault de conhecimento; nós decidimos, medimos na bancada e revisamos.',
+        en: 'Elective final project with Felipe Suarez: Terasic Spider hexapod with a pan/tilt head, face display and an FPGA vision block (385 µs per frame).',
+        pt: 'Projeto final da eletiva com Felipe Suarez: hexápode Terasic Spider com cabeça pan/tilt, display de rosto e bloco de visão na FPGA (385 µs por quadro).',
       },
     ],
     bullets: [
       {
         en:
-          'Building a MIPS CPU in VHDL on a Terasic DE0-CV (Cyclone V) for the Computer Design course, with Lenny Wajcberg — ALU, ' +
-          'register file, control unit, instruction and data memory, R/I/J-type instructions, each block verified with its own ' +
-          'testbench; then writing assembly against it (functions, stack, load/store). Repo goes public when the course ends (Dec 2026).',
+          'Built a single-cycle MIPS CPU in VHDL with Lenny Wajcberg for the Computer Design course, running at 25 MHz on a Terasic ' +
+          'DE0-CV (Cyclone V) — ALU, register file, control unit, instruction and data memory, R/I/J-type instructions and an ' +
+          'assembler, verified with cocotb tests in GitHub Actions. Repo goes public when the course ends (Dec 2026).',
         pt:
-          'Construindo uma CPU MIPS em VHDL numa Terasic DE0-CV (Cyclone V) na disciplina de Design de Computadores, com Lenny ' +
-          'Wajcberg — ULA, banco de registradores, unidade de controle, memórias de instrução e dados, instruções tipo R/I/J, cada ' +
-          'bloco verificado com testbench próprio; depois, assembly rodando nela (funções, pilha, load/store). Repo fica público ao fim da disciplina (dez 2026).',
+          'Construiu uma CPU MIPS single-cycle em VHDL com Lenny Wajcberg na disciplina de Design de Computadores, rodando a 25 MHz ' +
+          'numa Terasic DE0-CV (Cyclone V) — ULA, banco de registradores, unidade de controle, memórias de instrução e dados, ' +
+          'instruções tipo R/I/J e um montador, verificada com testes cocotb no GitHub Actions. Repo fica público ao fim da disciplina (dez 2026).',
       },
       {
         en:
-          'Cloud Computing course, built from bare metal up: MAAS and Juju provisioning, an OpenStack private cloud, ' +
-          'Docker/Kubernetes, and the full AWS Academy track (VPC, EC2, IAM, S3, Lambda); the group final project builds a ' +
-          'scalable infrastructure by hand and then automates it with Terraform and CI/CD.',
+          'Cloud Computing, from bare metal up: MAAS and Juju provisioning, an OpenStack private cloud and AWS (VPC, EC2, IAM, S3, Lambda). ' +
+          'Final project: Grão, an online coffee shop whose AI sales agent searches the catalogue and places orders — Python services ' +
+          'in Docker on ECS over EC2, DynamoDB, SQS with a dead-letter queue, a load balancer and CloudWatch alarms; built by hand in ' +
+          'one AWS region, then reproduced in another with Terraform (89 resources in a single apply).',
         pt:
-          'Disciplina de Computação em Nuvem, do bare metal para cima: provisionamento com MAAS e Juju, nuvem privada OpenStack, ' +
-          'Docker/Kubernetes e a trilha completa da AWS Academy (VPC, EC2, IAM, S3, Lambda); o projeto final em grupo constrói ' +
-          'uma infraestrutura escalável à mão e depois a automatiza com Terraform e CI/CD.',
+          'Computação em Nuvem, do bare metal para cima: provisionamento com MAAS e Juju, nuvem privada OpenStack e AWS (VPC, EC2, IAM, ' +
+          'S3, Lambda). Projeto final: Grão, uma loja de cafés em que um vendedor com IA busca no catálogo e fecha pedidos — serviços ' +
+          'Python em Docker no ECS sobre EC2, DynamoDB, SQS com fila de mensagens mortas, load balancer e alarmes no CloudWatch; montado ' +
+          'à mão numa região da AWS e depois reproduzido em outra com Terraform (89 recursos num único apply).',
       },
       {
         en:
-          'Independent project with Felipe Suarez on a Terasic Spider hexapod (DE0-Nano-SoC, Cyclone V SoC), proposed by the ' +
-          'lab professor: a pan/tilt head with a face display, light/distance/presence sensors and a behaviour policy running on ' +
-          'the ARM HPS. The code is AI-generated on purpose — we run it the way Anthropic documents for Claude Code: a CLAUDE.md ' +
-          'rulebook, architecture decision records and an Obsidian knowledge vault the model reads every session; we decide, ' +
-          'measure on the bench and review. Just started.',
+          'Final project of the Embedded Linux and SoC elective, with Felipe Suarez: a head for a Terasic Spider hexapod ' +
+          '(DE0-Nano-SoC, Cyclone V SoC) — pan/tilt with a face display, vision from a Raspberry Pi 4 with a RealSense camera, and ' +
+          'a recognition block in the FPGA that finds an object’s box, centre and depth in a 160×120 frame in a fixed 385 µs, ' +
+          'tested on the board, driving gaze and a startle reflex. Next: walking on battery and the Pi–FPGA link.',
         pt:
-          'Projeto independente com Felipe Suarez num hexápode Terasic Spider (DE0-Nano-SoC, Cyclone V SoC), proposto pelo ' +
-          'professor do laboratório: cabeça pan/tilt com display de rosto, sensores de luz/distância/presença e uma política de ' +
-          'comportamento rodando no ARM (HPS). O código é gerado por IA de propósito — conduzido do jeito que a Anthropic documenta ' +
-          'para o Claude Code: um CLAUDE.md com as regras, registros de decisão de arquitetura (ADRs) e um vault Obsidian que o ' +
-          'modelo lê a cada sessão; nós decidimos, medimos na bancada e revisamos. Recém-começado.',
+          'Projeto final da eletiva Embedded Linux and SoC, com Felipe Suarez: uma cabeça para o hexápode Terasic Spider ' +
+          '(DE0-Nano-SoC, Cyclone V SoC) — pan/tilt com display de rosto, visão por um Raspberry Pi 4 com câmera RealSense e ' +
+          'um bloco de reconhecimento na FPGA que acha caixa, centro e profundidade de um objeto num quadro 160×120 em 385 µs fixos, ' +
+          'testado na placa, comandando o olhar e um reflexo de susto. Próximos passos: andar com bateria e o enlace Pi–FPGA.',
       },
     ],
     projects: [
@@ -556,8 +698,8 @@ export const archive: ProjectRef[] = [
     repo: 'pygame-ninja',
     featured: false,
     description: {
-      en: 'State-machine card-matching reflex game.',
-      pt: 'Jogo de reflexo de pareamento de cartas baseado em máquina de estados.',
+      en: 'Card-matching reflex game built for the selection test to become a teaching assistant (“Ninja”) in Software Design, 2025.',
+      pt: 'Jogo de reflexo com cartas feito na prova de seleção para Ninja (auxiliar de professor) de Design de Software, 2025.',
     },
     stack: ['Python', 'Pygame'],
   },
